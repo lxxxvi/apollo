@@ -38,7 +38,7 @@ bin/test
 | `custom_id`          | String    |
 | `name`               | String    |
 | `description`        | Text      |
-| `closed_at`          | DateTime  |
+| `email`              | String    |
 | `created_at`         | DateTime  |
 | `updated_at`         | DateTime  |
 
