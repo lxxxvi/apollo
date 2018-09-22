@@ -5,6 +5,25 @@
 
 A poll app.
 
+## Project setup
+
+### Basic setup
+
+Run
+
+```shell
+bin/setup
+```
+
+### Test
+
+Run
+
+```shell
+bin/test
+```
+
+
 ## Tables
 
 * Poll
