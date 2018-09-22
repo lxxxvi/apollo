@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/lxxxvi/apollo.svg?branch=master)](https://travis-ci.org/lxxxvi/apollo)
+[![Maintainability](https://api.codeclimate.com/v1/badges/5b42c2c0ec297d820920/maintainability)](https://codeclimate.com/github/lxxxvi/apollo/maintainability)
+
 # Apollo
 
 A poll app.
