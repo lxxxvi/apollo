@@ -1,0 +1,4 @@
+best_actor:
+  title: 'Best actor'
+  custom_id: 'best-actor-poll'
+  email: 'actor@apollo.test'
