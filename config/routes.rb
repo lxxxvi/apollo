@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
   root to: 'home#show'
   get :home, to: 'home#show'
+
+  resources :polls, except: [:index]
 end
