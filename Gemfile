@@ -18,6 +18,8 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
+gem 'haml-rails'
+
 gem 'bootsnap', '>= 1.1.0', require: false
 
 group :development, :test do
