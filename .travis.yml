@@ -20,7 +20,6 @@ before_script:
   - ./cc-test-reporter before-build
   - sudo chown root /opt/google/chrome/chrome-sandbox
   - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
-  - # google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 script:
   - bin/rails test
   - bin/rails test:system
