@@ -32,7 +32,7 @@ class PollsController < ApplicationController
   private
 
   def set_poll
-    @poll ||= Poll.find(params[:id])
+    @poll = Poll.find(params[:id])
   end
 
   def poll_params

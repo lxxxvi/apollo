@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-#
+
 # Uncomment this and change the path if necessary to include your own
 # components.
 # See https://github.com/plataformatec/simple_form#custom-components to know
@@ -52,64 +52,64 @@ SimpleForm.setup do |config|
 
     ## Inputs
     b.use :label_input
-    b.use :hint,  wrap_with: { tag: :span, class: :hint }
+    b.use :hint, wrap_with: { tag: :span, class: :hint }
     b.use :error, wrap_with: { tag: :span, class: :error }
   end
 
   # Custom Semantic Wrapper
   # Values are similar to the default wrapper above, with different classes
-  config.wrappers :semantic, tag: 'div', class: "field", error_class: 'error', hint_class: 'with_hint' do |b|
+  config.wrappers :semantic, tag: 'div', class: 'field', error_class: 'error', hint_class: 'with_hint' do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
     b.optional :pattern
     b.optional :min_max
     b.use :label_input
-    b.use :hint,  wrap_with: { tag: 'div', class: 'hint' }
+    b.use :hint, wrap_with: { tag: 'div', class: 'hint' }
     b.use :error, wrap_with: { tag: 'div', class: 'ui red pointing above label error' }
   end
 
-  config.wrappers :ui_checkbox, tag: 'div', class: "field", error_class: 'error', hint_class: 'with_hint' do |b|
+  config.wrappers :ui_checkbox, tag: 'div', class: 'field', error_class: 'error', hint_class: 'with_hint' do |b|
     b.use :html5
     b.wrapper tag: 'div', class: 'ui checkbox' do |input|
       input.use :label_input
-      input.use :hint,  wrap_with: { tag: 'div', class: 'hint' }
+      input.use :hint, wrap_with: { tag: 'div', class: 'hint' }
     end
   end
 
-  config.wrappers :ui_slider_checkbox, tag: 'div', class: "field", error_class: 'error', hint_class: 'with_hint' do |b|
+  config.wrappers :ui_slider_checkbox, tag: 'div', class: 'field', error_class: 'error', hint_class: 'with_hint' do |b|
     b.use :html5
     b.wrapper tag: 'div', class: 'ui slider checkbox' do |input|
       input.use :label_input
-      input.use :hint,  wrap_with: { tag: 'div', class: 'hint' }
+      input.use :hint, wrap_with: { tag: 'div', class: 'hint' }
     end
   end
 
-  config.wrappers :ui_toggle_checkbox, tag: 'div', class: "field", error_class: 'error', hint_class: 'with_hint' do |b|
+  config.wrappers :ui_toggle_checkbox, tag: 'div', class: 'field', error_class: 'error', hint_class: 'with_hint' do |b|
     b.use :html5
     b.wrapper tag: 'div', class: 'ui toggle checkbox' do |input|
       input.use :label_input
-      input.use :hint,  wrap_with: { tag: 'div', class: 'hint' }
+      input.use :hint, wrap_with: { tag: 'div', class: 'hint' }
     end
   end
 
-  config.wrappers :ui_left_labled_input, tag: 'div', class: "field", error_class: 'error', hint_class: 'with_hint' do |b|
+  config.wrappers :ui_left_labled_input, tag: 'div', class: 'field', error_class: 'error', hint_class: 'with_hint' do |b|
     b.use :html5
     b.use :label
 
     b.wrapper tag: 'div', class: 'ui left labeled input' do |input|
       input.use :input
-      input.use :hint,  wrap_with: { tag: 'div', class: 'hint' }
+      input.use :hint, wrap_with: { tag: 'div', class: 'hint' }
     end
   end
 
-  config.wrappers :ui_right_labled_input, tag: 'div', class: "field", error_class: 'error', hint_class: 'with_hint' do |b|
+  config.wrappers :ui_right_labled_input, tag: 'div', class: 'field', error_class: 'error', hint_class: 'with_hint' do |b|
     b.use :html5
     b.use :label
 
     b.wrapper tag: 'div', class: 'ui right labeled input' do |input|
       input.use :input
-      input.use :hint,  wrap_with: { tag: 'div', class: 'hint' }
+      input.use :hint, wrap_with: { tag: 'div', class: 'hint' }
     end
   end
 
@@ -162,7 +162,7 @@ SimpleForm.setup do |config|
 
   # How the label text should be generated altogether with the required text.
   # config.label_text = lambda { |label, required, explicit_label| "#{required} #{label}" }
-  config.label_text = lambda { |label, required, explicit_label| "#{label}" }
+  config.label_text = lambda { |label, _required, _explicit_label| label.to_s }
   # Semantic UI has its own astrick
 
   # You can define the class to use on all labels. Default is nil.
@@ -228,4 +228,3 @@ SimpleForm.setup do |config|
   # Defines which i18n scope will be used in Simple Form.
   # config.i18n_scope = 'simple_form'
 end
-

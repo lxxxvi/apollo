@@ -1,7 +1,8 @@
 class Poll < ApplicationRecord
   before_create :create_custom_id
 
-  validates_presence_of :title, :email
+  validates :title, presence: true
+  validates :email, presence: true
 
   private
 

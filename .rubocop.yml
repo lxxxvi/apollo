@@ -8,6 +8,12 @@ Rails:
 
 Metrics/LineLength:
   Max: 120
+  Exclude:
+    - 'config/initializers/simple_form.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/initializers/simple_form.rb'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -16,4 +22,7 @@ Style/Documentation:
   Enabled: false
 
 Style/SymbolArray:
+  Enabled: false
+
+Style/Lambda:
   Enabled: false
