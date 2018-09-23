@@ -9,5 +9,9 @@
     = javascript_include_tag 'application'
   %body
     .ui.container.center.aligned
-      .ui.huge.blue.header= Apollo
+      .logo
+        = image_tag 'apollo768', alt: 'Apollo text logo'
+    .ui.container.left.aligned
       = yield
+    .ui.container.center.aligned
+      .footer

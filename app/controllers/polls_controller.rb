@@ -1,7 +1,7 @@
 class PollsController < ApplicationController
-  def show
-    @poll = Poll.new
-  end
+  before_action :set_poll, only: [:show, :edit]
+
+  def show; end
 
   def new
     @poll = Poll.new
@@ -30,6 +30,10 @@ class PollsController < ApplicationController
   end
 
   private
+
+  def set_poll
+    @poll ||= Poll.find(params[:id])
+  end
 
   def poll_params
     params.require(:poll).permit(:title, :email, :description)

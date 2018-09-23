@@ -17,6 +17,7 @@ gem 'rails', '~> 5.2.1'
 # gem 'redis', '~> 4.0'
 gem 'sass-rails', '~> 5.0'
 gem 'semantic-ui-sass'
+gem 'simple_form'
 gem 'uglifier', '>= 1.3.0'
 
 group :development, :test do
