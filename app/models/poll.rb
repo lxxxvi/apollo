@@ -5,7 +5,7 @@ class Poll < ApplicationRecord
   validates :email, presence: true
 
   def to_param
-    self.custom_id
+    custom_id
   end
 
   private
