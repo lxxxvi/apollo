@@ -4,6 +4,10 @@ class Poll < ApplicationRecord
   validates :title, presence: true
   validates :email, presence: true
 
+  def to_param
+    self.custom_id
+  end
+
   private
 
   def create_custom_id
