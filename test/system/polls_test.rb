@@ -1,11 +1,11 @@
 require 'application_system_test_case'
 
 class PollsTest < ApplicationSystemTestCase
-  test 'visiting the index' do
+  test 'visiting the new form' do
     visit new_poll_path
 
     assert_selector('h1', text: 'New poll')
-    assert_selector('form#new_poll') do
+    assert_selector('form.new_poll') do
       assert_selector('input[type="submit"]')
       assert_selector('a.ui.button', text: 'Cancel')
     end
@@ -14,7 +14,21 @@ class PollsTest < ApplicationSystemTestCase
     find_label_and_textarea_for('poll_description')
   end
 
-  test 'submit empty poll form' do
+  test 'visiting the edit form' do
+    poll = polls(:best_actor)
+    visit edit_poll_path(poll)
+
+    assert_selector('h1', text: 'Edit poll')
+    assert_selector('form.edit_poll') do
+      assert_selector('input[type="submit"]')
+      assert_selector('a.ui.button', text: 'Cancel')
+      assert_equal 2, all('input').count, 'There should be exact 2 input fields'
+    end
+    find_label_and_input_for('poll_title')
+    find_label_and_textarea_for('poll_description')
+  end
+
+  test 'submit empty new poll form' do
     visit new_poll_path
 
     within('form#new_poll') do
@@ -28,7 +42,7 @@ class PollsTest < ApplicationSystemTestCase
     end
   end
 
-  test 'submit complete poll form' do
+  test 'submit complete new poll form' do
     visit new_poll_path
 
     within('form#new_poll') do
@@ -39,6 +53,14 @@ class PollsTest < ApplicationSystemTestCase
     end
 
     assert_selector 'h1', text: 'Best singer'
+  end
+
+  test 'submit empty edit poll form' do
+    assert false
+  end
+
+  test 'submit completed edit poll form' do
+    assert false
   end
 
   private

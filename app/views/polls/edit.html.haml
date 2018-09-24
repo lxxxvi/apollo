@@ -1,2 +1,3 @@
-%h1 Polls#edit
-%p Find me in app/views/polls/edit.html.haml
+%h1 Edit poll
+
+= render 'form', poll: @poll, hide: [:email]
