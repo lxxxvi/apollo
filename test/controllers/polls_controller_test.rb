@@ -27,14 +27,23 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get edit' do
-    skip
-    get edit_poll_path
+    poll = polls(:best_actor)
+    get edit_poll_path(poll)
     assert_response :success
   end
 
   test 'should post update' do
-    skip
-    patch poll_path(nil)
+    poll = polls(:best_actor)
+
+    assert_changes -> { poll.reload.updated_at } do
+      patch poll_path(poll), params: {
+        poll: {
+          title: 'Best Actress',
+          description: 'Another description'
+        }
+      }
+    end
+    follow_redirect!
     assert_response :success
   end
 
