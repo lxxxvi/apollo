@@ -1,6 +1,14 @@
 require 'application_system_test_case'
 
 class PollsTest < ApplicationSystemTestCase
+  # show
+
+  test 'visiting a poll' do
+    skip
+  end
+
+  # new
+
   test 'visiting the new form' do
     visit new_poll_path
 
@@ -14,6 +22,35 @@ class PollsTest < ApplicationSystemTestCase
     find_label_and_textarea_for('poll_description')
   end
 
+  test 'submit empty new poll form' do
+    visit new_poll_path
+
+    within('form.new_poll') do
+      click_on('Create Poll')
+    end
+
+    assert_selector 'h1', text: 'New poll'
+
+    assert_selector('form.new_poll') do
+      assert_equal 2, all('input[aria-invalid="true"]').count
+    end
+  end
+
+  test 'submit complete new poll form' do
+    visit new_poll_path
+
+    within('form.new_poll') do
+      fill_in('Title', with: 'Best singer')
+      fill_in('Email', with: 'best-singer@apollo.test')
+      fill_in('Description', with: 'Lorem ipsum')
+      click_on('Create Poll')
+    end
+
+    assert_selector 'h1', text: 'Best singer'
+  end
+
+  # edit
+
   test 'visiting the edit form' do
     poll = polls(:best_actor)
     visit edit_poll_path(poll)
@@ -26,41 +63,44 @@ class PollsTest < ApplicationSystemTestCase
     end
     find_label_and_input_for('poll_title')
     find_label_and_textarea_for('poll_description')
-  end
-
-  test 'submit empty new poll form' do
-    visit new_poll_path
-
-    within('form#new_poll') do
-      click_on('Create Poll')
-    end
-
-    assert_selector 'h1', text: 'New poll'
-
-    assert_selector('form#new_poll') do
-      assert_equal 2, all('input[aria-invalid="true"]').count
-    end
-  end
-
-  test 'submit complete new poll form' do
-    visit new_poll_path
-
-    within('form#new_poll') do
-      fill_in('Title', with: 'Best singer')
-      fill_in('Email', with: 'best-singer@apollo.test')
-      fill_in('Description', with: 'Lorem ipsum')
-      click_on('Create Poll')
-    end
-
-    assert_selector 'h1', text: 'Best singer'
+    assert_equal 'Best actor', find('input#poll_title').value
+    assert_equal 'Who is he?', find('textarea#poll_description').value
   end
 
   test 'submit empty edit poll form' do
-    assert false
+    poll = polls(:best_actor)
+    visit edit_poll_path(poll)
+
+    within('form.edit_poll') do
+      fill_in('Title', with: '')
+      fill_in('Description', with: '')
+      click_on('Update Poll')
+    end
+
+    assert 'h1', text: 'Edit poll'
+
+    within('form.edit_poll') do
+      assert_equal 1, all('input[aria-invalid="true"]').count
+    end
   end
 
   test 'submit completed edit poll form' do
-    assert false
+    poll = polls(:best_actor)
+    visit edit_poll_path(poll)
+
+    within('form.edit_poll') do
+      fill_in('Title', with: 'Best actress')
+      fill_in('Description', with: 'Who is she?')
+      click_on('Update Poll')
+    end
+
+    assert_selector 'h1', text: 'Best actress'
+  end
+
+  # delete
+
+  test 'delete a poll' do
+    skip
   end
 
   private
