@@ -4,7 +4,14 @@ class PollsTest < ApplicationSystemTestCase
   # show
 
   test 'visiting a poll' do
-    skip
+    poll = polls(:best_actor)
+
+    visit poll_path(poll)
+
+    assert_selector 'h1', text: 'Best actor'
+    assert_selector 'p', text: 'Who is he?'
+    assert_selector 'a.ui.secondary.button[href$="edit"]', text: 'Edit'
+    assert_selector 'a.ui.red.basic.button[data-method="delete"]', text: 'Delete'
   end
 
   # new
