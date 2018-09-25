@@ -1,5 +1,5 @@
 class PollsController < ApplicationController
-  before_action :set_poll, only: [:show, :edit, :update, :delete]
+  before_action :set_poll, only: [:show, :edit, :update, :destroy]
 
   def show; end
 
@@ -27,8 +27,9 @@ class PollsController < ApplicationController
     end
   end
 
-  def delete
-    # TODO
+  def destroy
+    @poll.destroy
+    redirect_to root_path
   end
 
   private
