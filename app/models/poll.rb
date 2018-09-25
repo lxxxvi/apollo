@@ -4,6 +4,8 @@ class Poll < ApplicationRecord
   validates :title, presence: true
   validates :email, presence: true
 
+  scope :ordered, -> { order(created_at: :desc) }
+
   def to_param
     custom_id
   end
