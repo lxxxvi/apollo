@@ -1,5 +1,5 @@
 class PollsController < ApplicationController
-  before_action :set_poll, only: [:show, :edit]
+  before_action :set_poll, only: [:show, :edit, :update, :destroy]
 
   def show; end
 
@@ -8,7 +8,7 @@ class PollsController < ApplicationController
   end
 
   def create
-    @poll = Poll.new(poll_params)
+    @poll = Poll.new(new_poll_params)
 
     if @poll.save
       redirect_to poll_path(@poll)
@@ -17,16 +17,19 @@ class PollsController < ApplicationController
     end
   end
 
-  def edit
-    # TODO
-  end
+  def edit; end
 
   def update
-    # TODO
+    if @poll.update(edit_poll_params)
+      redirect_to poll_path(@poll)
+    else
+      render :edit
+    end
   end
 
-  def delete
-    # TODO
+  def destroy
+    @poll.destroy
+    redirect_to root_path
   end
 
   private
@@ -35,7 +38,11 @@ class PollsController < ApplicationController
     @poll = Poll.find_by!(custom_id: params[:custom_id])
   end
 
-  def poll_params
+  def new_poll_params
     params.require(:poll).permit(:title, :email, :description)
+  end
+
+  def edit_poll_params
+    params.require(:poll).permit(:title, :description)
   end
 end

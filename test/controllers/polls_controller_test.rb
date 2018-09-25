@@ -1,9 +1,14 @@
 require 'test_helper'
 
 class PollsControllerTest < ActionDispatch::IntegrationTest
+  attr_reader :best_actor_poll
+
+  setup do
+    @best_actor_poll = polls(:best_actor)
+  end
+
   test 'show poll' do
-    poll = polls(:best_actor)
-    get poll_path(poll)
+    get poll_path(best_actor_poll)
     assert_response :success
   end
 
@@ -27,20 +32,28 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get edit' do
-    skip
-    get edit_poll_path
+    get edit_poll_path(best_actor_poll)
     assert_response :success
   end
 
   test 'should post update' do
-    skip
-    patch poll_path(nil)
+    assert_changes -> { best_actor_poll.reload.updated_at } do
+      patch poll_path(best_actor_poll), params: {
+        poll: {
+          title: 'Best Actress',
+          description: 'Another description'
+        }
+      }
+    end
+    follow_redirect!
     assert_response :success
   end
 
   test 'should get delete' do
-    skip
-    delete destroy_poll_path(nil)
-    assert_response :success
+    assert_difference -> { Poll.count }, -1 do
+      delete poll_path(best_actor_poll)
+      follow_redirect!
+      assert_response :success
+    end
   end
 end

@@ -1,6 +1,10 @@
+- hide_elements = hide if defined?(hide)
 = simple_form_for poll do |f|
   = f.input :title, required: true
-  = f.input :email, required: true
+
+  - unless hide_elements&.include?(:email)
+    = f.input :email, required: true
+
   = f.input :description, as: :text, required: false, hint: '(Optional)'
   .right.floated
     = f.button :submit, class: 'ui positive button'

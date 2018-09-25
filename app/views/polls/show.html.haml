@@ -1,1 +1,10 @@
-%h1= @poll.title
+%h1.ui.dividing.header= @poll.title
+
+%p= @poll.description
+
+= link_to 'Edit', edit_poll_path(@poll), class: 'ui blue basic secondary button'
+= link_to 'Delete',
+  poll_path(@poll),
+  class: 'ui red basic button',
+  data: { confirm: 'Are you sure?'},
+  method: :delete
