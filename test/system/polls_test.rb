@@ -1,17 +1,19 @@
 require 'application_system_test_case'
 
 class PollsTest < ApplicationSystemTestCase
+  attr_reader :best_actor_poll
+
+  setup do
+    @best_actor_poll = polls(:best_actor)
+  end
+
   # show
 
   test 'visiting a poll' do
-    poll = polls(:best_actor)
-
-    visit poll_path(poll)
+    visit poll_path(best_actor_poll)
 
     assert_selector 'h1', text: 'Best actor'
     assert_selector 'p', text: 'Who is he?'
-    assert_selector 'a.ui.secondary.button[href$="edit"]', text: 'Edit'
-    assert_selector 'a.ui.red.basic.button[data-method="delete"]', text: 'Delete'
   end
 
   # new
@@ -59,8 +61,9 @@ class PollsTest < ApplicationSystemTestCase
   # edit
 
   test 'visiting the edit form' do
-    poll = polls(:best_actor)
-    visit edit_poll_path(poll)
+    visit poll_path(best_actor_poll)
+    assert_selector 'a.ui.secondary.button[href$="edit"]', text: 'Edit'
+    click_on('Edit')
 
     assert_selector('h1', text: 'Edit poll')
     assert_selector('form.edit_poll') do
@@ -75,8 +78,7 @@ class PollsTest < ApplicationSystemTestCase
   end
 
   test 'submit empty edit poll form' do
-    poll = polls(:best_actor)
-    visit edit_poll_path(poll)
+    visit edit_poll_path(best_actor_poll)
 
     within('form.edit_poll') do
       fill_in('Title', with: '')
@@ -92,8 +94,7 @@ class PollsTest < ApplicationSystemTestCase
   end
 
   test 'submit completed edit poll form' do
-    poll = polls(:best_actor)
-    visit edit_poll_path(poll)
+    visit edit_poll_path(best_actor_poll)
 
     within('form.edit_poll') do
       fill_in('Title', with: 'Best actress')
@@ -107,7 +108,12 @@ class PollsTest < ApplicationSystemTestCase
   # delete
 
   test 'delete a poll' do
-    skip
+    visit poll_path(best_actor_poll)
+    assert_selector 'a.ui.red.basic.button[data-method="delete"]', text: 'Delete'
+    click_on('Delete')
+    accept_alert
+
+    assert_selector 'h1', text: 'Home'
   end
 
   private
