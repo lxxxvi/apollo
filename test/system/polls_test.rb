@@ -113,7 +113,7 @@ class PollsTest < ApplicationSystemTestCase
     click_on('Delete')
     accept_alert
 
-    assert_selector 'h1', text: 'Home'
+    assert_selector 'h1', text: 'List of polls'
   end
 
   private
