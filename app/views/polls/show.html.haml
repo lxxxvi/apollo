@@ -2,6 +2,12 @@
 
 %p= @poll.description
 
+= link_to new_poll_nominee_path(@poll) do
+  .ui.circular.icon.green.button= semantic_icon 'plus'
+  Add nominee
+
+.ui.divider
+
 = link_to 'Edit', edit_poll_path(@poll), class: 'ui blue basic secondary button'
 = link_to 'Delete',
   poll_path(@poll),
