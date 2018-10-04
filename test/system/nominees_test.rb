@@ -20,4 +20,20 @@ class NomineesTest < ApplicationSystemTestCase
     find_label_and_input_for('nominee_name')
     find_label_and_textarea_for('nominee_description')
   end
+
+  test 'submit new empty form' do
+    skip
+  end
+
+  test 'submit new complete form' do
+    skip
+  end
+
+  test 'submit edit form' do
+    skip
+  end
+
+  test 'delete nominee' do
+    skip
+  end
 end
