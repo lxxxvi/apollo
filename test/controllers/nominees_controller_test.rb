@@ -13,7 +13,16 @@ class NomineesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create nominee' do
-    skip
+    assert_difference -> { Nominee.count }, 1 do
+      post poll_nominees_path(best_actor_poll), params: {
+        nominee: {
+          name: 'John Malkovich',
+          description: 'Being John Malkovich'
+        }
+      }
+    end
+    follow_redirect!
+    assert_response :success
   end
 
   test 'edit nominee' do
