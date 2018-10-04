@@ -7,7 +7,7 @@ class NomineeTest < ActiveSupport::TestCase
                               name: 'John Malkovich',
                               description: 'Being John Malkovich')
 
-    assert_match /[[:alnum:]]+/, nominee.reload.custom_id
+    assert_match(/[[:alnum:]]+/, nominee.reload.custom_id)
   end
 
   test '#to_param' do
