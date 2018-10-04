@@ -26,7 +26,9 @@ class NomineesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'edit nominee' do
-    skip
+    nominee = nominees(:best_actor_bill_murray)
+    get edit_poll_nominee_path(best_actor_poll, nominee)
+    assert_response :success
   end
 
   test 'update nominee' do
