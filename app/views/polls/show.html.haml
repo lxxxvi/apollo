@@ -2,6 +2,9 @@
 
 %p= @poll.description
 
+- @poll.nominees.each do |nominee|
+  .ui.segment= nominee.name
+
 = link_to new_poll_nominee_path(@poll) do
   .ui.circular.icon.green.button= semantic_icon 'plus'
   Add nominee

@@ -14,6 +14,7 @@ class PollsTest < ApplicationSystemTestCase
 
     assert_selector 'h1', text: 'Best actor'
     assert_selector 'p', text: 'Who is he?'
+    assert_selector 'body', text: 'Bryan Cranston'
   end
 
   # new
