@@ -18,6 +18,16 @@ class NomineesController < ApplicationController
     @nominee = find_nominee
   end
 
+  def update
+    @nominee = find_nominee
+
+    if @nominee.update!(nominee_params)
+      redirect_to @nominee.poll
+    else
+      render :edit
+    end
+  end
+
   private
 
   def nominee_params

@@ -32,7 +32,21 @@ class NomineesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'update nominee' do
-    skip
+    nominee = nominees(:best_actor_bill_murray)
+
+    assert_changes -> { nominee.name } do
+      assert_changes -> { nominee.description } do
+        patch poll_nominee_path(best_actor_poll, nominee), params: {
+          nominee: {
+            name: 'Bill Ghost-Bustin Murray',
+            description: 'He aint afraid of no ghost'
+          }
+        }
+        nominee.reload
+      end
+    end
+    follow_redirect!
+    assert_response :success
   end
 
   test 'delete nominee' do
