@@ -14,6 +14,7 @@ class PollsTest < ApplicationSystemTestCase
 
     assert_selector 'h1', text: 'Best actor'
     assert_selector 'p', text: 'Who is he?'
+    assert_selector 'body', text: 'Bryan Cranston'
   end
 
   # new
@@ -62,8 +63,9 @@ class PollsTest < ApplicationSystemTestCase
 
   test 'visiting the edit form' do
     visit poll_path(best_actor_poll)
-    assert_selector 'a.ui.secondary.button[href$="edit"]', text: 'Edit'
-    click_on('Edit')
+    assert_selector 'a[href$="edit"]', text: 'Edit'
+
+    click_on('Edit poll')
 
     assert_selector('h1', text: 'Edit poll')
     assert_selector('form.edit_poll') do
@@ -110,25 +112,9 @@ class PollsTest < ApplicationSystemTestCase
   test 'delete a poll' do
     visit poll_path(best_actor_poll)
     assert_selector 'a.ui.red.basic.button[data-method="delete"]', text: 'Delete'
-    click_on('Delete')
+    click_on('Delete poll')
     accept_alert
 
     assert_selector 'h1', text: 'List of polls'
-  end
-
-  private
-
-  def find_label_and_input_for(html_id)
-    find_label_for html_id
-    assert_selector "input##{html_id}"
-  end
-
-  def find_label_and_textarea_for(html_id)
-    find_label_for html_id
-    assert_selector "textarea##{html_id}"
-  end
-
-  def find_label_for(html_id)
-    assert_selector "label[for='#{html_id}']"
   end
 end

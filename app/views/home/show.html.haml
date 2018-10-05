@@ -1,9 +1,11 @@
 %h1.ui.horizontal.divider.header List of polls
 
-- @polls.each do |poll|
-  .ui.segment
-    %h3= link_to poll.title, poll, class: 'header'
-    .meta= poll.description
+.polls
+  - @polls.each do |poll|
+    .poll
+      .ui.segment
+        %h3= link_to poll.title, poll, class: 'header'
+        %p= poll.description
 
 
 = link_to 'Create poll', new_poll_path, class: 'ui primary button'

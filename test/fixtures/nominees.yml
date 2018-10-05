@@ -1,0 +1,17 @@
+best_actor_bill_murray:
+  custom_id: "best-actor-nominee-bill"
+  poll: best_actor
+  name: "Bill Murray"
+  description: "Bill kills it"
+
+best_actor_edward_norton:
+  custom_id: "best-actor-nominee-edward"
+  poll: best_actor
+  name: "Edward Norton"
+  description: "Edi is the best"
+
+best_actor_bryan_cranston:
+  custom_id: "best-actor-nominee-bryan"
+  poll: best_actor
+  name: "Bryan Cranston"
+  description: "You don't mess with Walter White"

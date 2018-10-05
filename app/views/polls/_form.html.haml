@@ -6,7 +6,6 @@
     = f.input :email, required: true
 
   = f.input :description, as: :text, required: false, hint: '(Optional)'
-  .right.floated
-    = f.button :submit, class: 'ui primary button'
-    = link_to 'Cancel', root_path, class: 'ui basic button'
+  = f.button :submit, class: 'ui primary button'
+  = link_to 'Cancel', root_path, class: 'ui basic button'
 
