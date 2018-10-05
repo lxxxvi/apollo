@@ -2,4 +2,4 @@
   = f.input :name, required: true
   = f.input :description, as: :text, required: false, hint: '(Optional)'
   = f.button :submit, class: 'ui primary button'
-  = link_to 'Cancel', root_path, class: 'ui basic button'
+  = link_to 'Cancel', nominee.poll, class: 'ui basic button'
