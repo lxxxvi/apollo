@@ -1,11 +1,16 @@
-%h1.ui.horizontal.divider.header List of polls
+%h1.ui.horizontal.divider.header All polls
 
-.polls
-  - @polls.each do |poll|
-    .poll
-      .ui.segment
-        %h3= link_to poll.title, poll, class: 'header'
-        %p= poll.description
+.ui.container.center.aligned.medium.vertical-space
+  .polls
+    - @polls.each do |poll|
+      .poll
+        .ui.stacked.segments
+          .ui.segment
+            %h2= link_to poll.title, poll, class: 'header'
+          .ui.segment
+            %p= poll.description
 
-
-= link_to 'Create poll', new_poll_path, class: 'ui primary button'
+    .medium.vertical-space
+      = link_to new_poll_path do
+        .ui.circular.icon.green.button= semantic_icon 'plus'
+        New poll

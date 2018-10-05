@@ -1,17 +1,20 @@
 %h1.ui.horizontal.divider.header= @poll.title
 
 .ui.container.center.aligned
-  %p
-    %i= @poll.description
+  %p.medium.vertical-space
+    %i.grey-text= @poll.description
 
+%h2.ui.horizontal.divider.header Nominees
+
+.ui.container.center.aligned.medium.vertical-space
   .nominees
     - @poll.nominees.each do |nominee|
-      .nominee
+      .nominee.small.vertical-space
         .ui.stacked.segments
           .ui.segment
-            %h2= nominee.name
+            %h3= nominee.name
           .ui.segment.left.aligned
-            = nominee.description
+            %p= nominee.description
           .ui.segment
             = link_to 'Edit',
               edit_poll_nominee_path(@poll, nominee),
@@ -26,7 +29,7 @@
     .ui.circular.icon.green.button= semantic_icon 'plus'
     Add nominee
 
-  .ui.divider
+  .ui.divider.medium.vertical-space
 
   = link_to 'Edit poll', edit_poll_path(@poll), class: 'ui basic secondary button'
   = link_to 'Delete poll',

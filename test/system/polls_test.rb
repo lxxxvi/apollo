@@ -115,6 +115,6 @@ class PollsTest < ApplicationSystemTestCase
     click_on('Delete poll')
     accept_alert
 
-    assert_selector 'h1', text: 'List of polls'
+    assert_selector 'h1', text: 'All polls'
   end
 end
