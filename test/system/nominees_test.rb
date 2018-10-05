@@ -3,6 +3,7 @@ require 'application_system_test_case'
 class NomineesTest < ApplicationSystemTestCase
   setup do
     @best_actor_poll = polls(:best_actor)
+    @best_actor_bill_murray = nominees(:best_actor_bill_murray)
   end
 
   test 'visiting the nominee form' do
@@ -47,8 +48,25 @@ class NomineesTest < ApplicationSystemTestCase
     assert_selector('body', text: 'John Malkovich')
   end
 
-  test 'submit edit form' do
-    skip
+  test 'edit an nominee' do
+    visit poll_path(@best_actor_poll)
+
+    within('.apollo.nominee:first-child') do
+      click_on 'Edit'
+    end
+
+    assert_selector('h1', text: 'Edit nominee')
+
+    within('form.edit_nominee') do
+      fill_in('Name', with: 'Bill Ghost-Bustin Murray')
+      fill_in('Description', with: 'Aint afraid of no ghost')
+    end
+
+    click_on('Update Nominee')
+
+    assert_selector('h1', text: 'Best actor')
+    assert_selector('body', text: 'Ghost-Bustin')
+    assert_selector('body', text: 'afraid')
   end
 
   test 'delete nominee' do

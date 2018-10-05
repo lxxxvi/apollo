@@ -1,19 +1,31 @@
 %h1.ui.horizontal.divider.header= @poll.title
 
-%p= @poll.description
+.ui.container.center.aligned
+  %p
+    %i= @poll.description
 
-- @poll.nominees.each do |nominee|
-  .ui.segment= nominee.name
+  .apollo.nominees
+    - @poll.nominees.each do |nominee|
+      .apollo.nominee
+        .ui.stacked.segments
+          .ui.segment
+            %h2= nominee.name
+          .ui.segment.left.aligned
+            = nominee.description
+          .ui.segment
+            = link_to 'Edit',
+              edit_poll_nominee_path(@poll, nominee),
+              class: 'ui mini basic blue button'
 
-= link_to new_poll_nominee_path(@poll) do
-  .ui.circular.icon.green.button= semantic_icon 'plus'
-  Add nominee
+  = link_to new_poll_nominee_path(@poll) do
+    .ui.circular.icon.green.button= semantic_icon 'plus'
+    Add nominee
 
-.ui.divider
+  .ui.divider
 
-= link_to 'Edit', edit_poll_path(@poll), class: 'ui blue basic secondary button'
-= link_to 'Delete',
-  poll_path(@poll),
-  class: 'ui red basic button',
-  data: { confirm: 'Are you sure?'},
-  method: :delete
+  = link_to 'Edit poll', edit_poll_path(@poll), class: 'ui basic secondary button'
+  = link_to 'Delete poll',
+    poll_path(@poll),
+    class: 'ui red basic button',
+    data: { confirm: 'Are you sure?'},
+    method: :delete

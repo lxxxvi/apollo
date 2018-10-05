@@ -64,7 +64,8 @@ class PollsTest < ApplicationSystemTestCase
   test 'visiting the edit form' do
     visit poll_path(best_actor_poll)
     assert_selector 'a[href$="edit"]', text: 'Edit'
-    click_on('Edit')
+
+    click_on('Edit poll')
 
     assert_selector('h1', text: 'Edit poll')
     assert_selector('form.edit_poll') do
@@ -111,7 +112,7 @@ class PollsTest < ApplicationSystemTestCase
   test 'delete a poll' do
     visit poll_path(best_actor_poll)
     assert_selector 'a.ui.red.basic.button[data-method="delete"]', text: 'Delete'
-    click_on('Delete')
+    click_on('Delete poll')
     accept_alert
 
     assert_selector 'h1', text: 'List of polls'
