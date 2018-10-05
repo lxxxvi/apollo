@@ -4,9 +4,9 @@
   %p
     %i= @poll.description
 
-  .apollo.nominees
+  .nominees
     - @poll.nominees.each do |nominee|
-      .apollo.nominee
+      .nominee
         .ui.stacked.segments
           .ui.segment
             %h2= nominee.name
@@ -16,6 +16,11 @@
             = link_to 'Edit',
               edit_poll_nominee_path(@poll, nominee),
               class: 'ui mini basic blue button'
+            = link_to 'Delete',
+              poll_nominee_path(@poll, nominee),
+              method: :delete,
+              data: { confirm: 'Are you sure?' },
+              class: 'ui mini basic red button'
 
   = link_to new_poll_nominee_path(@poll) do
     .ui.circular.icon.green.button= semantic_icon 'plus'
@@ -26,6 +31,7 @@
   = link_to 'Edit poll', edit_poll_path(@poll), class: 'ui basic secondary button'
   = link_to 'Delete poll',
     poll_path(@poll),
-    class: 'ui red basic button',
-    data: { confirm: 'Are you sure?'},
-    method: :delete
+    method: :delete,
+    data: { confirm: 'Are you sure?' },
+    class: 'ui red basic button'
+

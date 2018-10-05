@@ -51,7 +51,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'edit an nominee' do
     visit poll_path(@best_actor_poll)
 
-    within('.apollo.nominee:first-child') do
+    within('.nominee:first-child') do
       click_on 'Edit'
     end
 
@@ -70,6 +70,13 @@ class NomineesTest < ApplicationSystemTestCase
   end
 
   test 'delete nominee' do
-    skip
+    visit poll_path(@best_actor_poll)
+
+    assert_difference -> { all('.nominee').count }, -1 do
+      within('.nominee:first-child') do
+        click_on('Delete')
+        accept_alert
+      end
+    end
   end
 end
