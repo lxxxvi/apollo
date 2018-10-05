@@ -28,6 +28,12 @@ class NomineesController < ApplicationController
     end
   end
 
+  def destroy
+    @nominee = find_nominee
+    @nominee.destroy
+    redirect_to @nominee.poll
+  end
+
   private
 
   def nominee_params
