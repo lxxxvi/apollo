@@ -3,6 +3,6 @@ Rails.application.routes.draw do
   get :home, to: 'home#show'
 
   resources :polls, except: [:index], param: :custom_id do
-    resources :nominees, except: [:index], param: :custom_id
+    resources :nominees, except: [:index, :show], param: :custom_id
   end
 end
