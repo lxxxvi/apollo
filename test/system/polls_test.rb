@@ -63,9 +63,12 @@ class PollsTest < ApplicationSystemTestCase
 
   test 'visiting the edit form' do
     visit poll_path(best_actor_poll)
-    assert_selector 'a[href$="edit"]', text: 'Edit'
 
-    click_on('Edit poll')
+    edit_poll_button = find('.poll-actions a[href$="edit"]')
+    assert_equal 'Edit poll', edit_poll_button['aria-label']
+    assert_equal 'Edit poll', edit_poll_button['title']
+
+    edit_poll_button.click
 
     assert_selector('h1', text: 'Edit poll')
     assert_selector('form.edit_poll') do
@@ -73,6 +76,7 @@ class PollsTest < ApplicationSystemTestCase
       assert_selector('a.ui.button', text: 'Cancel')
       assert_equal 2, all('input').count, 'There should be exact 2 input fields'
     end
+
     find_label_and_input_for('poll_title')
     find_label_and_textarea_for('poll_description')
     assert_equal 'Best actor', find('input#poll_title').value
@@ -111,8 +115,12 @@ class PollsTest < ApplicationSystemTestCase
 
   test 'delete a poll' do
     visit poll_path(best_actor_poll)
-    assert_selector 'a.ui.red.basic.button[data-method="delete"]', text: 'Delete'
-    click_on('Delete poll')
+    delete_poll_button = find('.poll-actions a[data-method="delete"]')
+
+    assert_equal 'Delete poll', delete_poll_button['aria-label']
+    assert_equal 'Delete poll', delete_poll_button['title']
+
+    delete_poll_button.click
     accept_alert
 
     assert_selector 'h1', text: 'All polls'

@@ -1,3 +1,17 @@
+.poll-actions
+  .ui.container.right.aligned.large.vertical-space
+    = link_to edit_poll_path(@poll),
+      aria: { label: 'Edit poll' },
+      title: 'Edit poll' do
+      .ui.circular.icon.basic.primary.button= semantic_icon 'edit'
+
+    = link_to poll_path(@poll),
+      method: :delete,
+      aria: { label: 'Delete poll' },
+      data: { confirm: 'Are you sure?' },
+      title: 'Delete poll' do
+      .ui.circular.icon.basic.red.button= semantic_icon 'delete'
+
 %h1.ui.horizontal.divider.header= @poll.title
 
 .ui.container.center.aligned
@@ -16,25 +30,19 @@
           .ui.segment.left.aligned
             %p= nominee.description
           .ui.segment
-            = link_to 'Edit',
-              edit_poll_nominee_path(@poll, nominee),
-              class: 'ui mini basic blue button'
-            = link_to 'Delete',
-              poll_nominee_path(@poll, nominee),
+            = link_to edit_poll_nominee_path(@poll, nominee),
+              aria: { label: 'Edit nominee' },
+              title: 'Edit nominee' do
+              .ui.mini.circular.icon.basic.blue.button= semantic_icon 'edit'
+            = link_to poll_nominee_path(@poll, nominee),
               method: :delete,
+              aria: { label: 'Delete nominee' },
               data: { confirm: 'Are you sure?' },
-              class: 'ui mini basic red button'
+              title: 'Delete nominee' do
+              .ui.mini.circular.icon.basic.red.button= semantic_icon 'delete'
 
-  = link_to new_poll_nominee_path(@poll) do
-    .ui.circular.icon.green.button= semantic_icon 'plus'
-    Add nominee
-
-  .ui.divider.medium.vertical-space
-
-  = link_to 'Edit poll', edit_poll_path(@poll), class: 'ui basic secondary button'
-  = link_to 'Delete poll',
-    poll_path(@poll),
-    method: :delete,
-    data: { confirm: 'Are you sure?' },
-    class: 'ui red basic button'
+  = link_to new_poll_nominee_path(@poll),
+    aria: { label: 'Add nominee' },
+    title: 'Add nominee' do
+    .ui.big.circular.icon.green.button= semantic_icon 'plus'
 

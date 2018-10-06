@@ -5,6 +5,9 @@ class HomeTest < ApplicationSystemTestCase
     visit root_path
 
     assert_selector 'h1', text: 'All polls'
-    assert_selector 'a[href$="polls/new"]', text: 'New poll'
+
+    new_poll_button = find('a[href$="polls/new"]')
+    assert_equal 'New poll', new_poll_button['aria-label']
+    assert_equal 'New poll', new_poll_button['title']
   end
 end

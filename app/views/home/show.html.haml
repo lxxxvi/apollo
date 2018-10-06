@@ -11,6 +11,7 @@
             %p= poll.description
 
     .medium.vertical-space
-      = link_to new_poll_path do
-        .ui.circular.icon.green.button= semantic_icon 'plus'
-        New poll
+      = link_to new_poll_path,
+        aria: { label: 'New poll' },
+        title: 'New poll' do
+        .ui.big.circular.icon.green.button= semantic_icon 'plus'
