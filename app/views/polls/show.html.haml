@@ -1,5 +1,5 @@
-.poll-actions
-  .ui.container.right.aligned.large.vertical-space
+.large.vertical-space
+  .poll-actions
     = link_to edit_poll_path(@poll),
       aria: { label: 'Edit poll' },
       title: 'Edit poll' do
@@ -10,7 +10,7 @@
       aria: { label: 'Delete poll' },
       data: { confirm: 'Are you sure?' },
       title: 'Delete poll' do
-      .ui.circular.icon.basic.red.button= semantic_icon 'delete'
+      .ui.circular.icon.basic.red.button= semantic_icon 'trash'
 
 %h1.ui.horizontal.divider.header= @poll.title
 
@@ -20,7 +20,7 @@
 
 %h2.ui.horizontal.divider.header Nominees
 
-.ui.container.center.aligned.medium.vertical-space
+.ui.container.center.aligned
   .nominees
     - @poll.nominees.each do |nominee|
       .nominee.small.vertical-space
@@ -39,7 +39,7 @@
               aria: { label: 'Delete nominee' },
               data: { confirm: 'Are you sure?' },
               title: 'Delete nominee' do
-              .ui.mini.circular.icon.basic.red.button= semantic_icon 'delete'
+              .ui.mini.circular.icon.basic.red.button= semantic_icon 'trash'
 
   = link_to new_poll_nominee_path(@poll),
     aria: { label: 'Add nominee' },
