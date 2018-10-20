@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_02_131151) do
+ActiveRecord::Schema.define(version: 2018_10_20_082601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,4 +36,17 @@ ActiveRecord::Schema.define(version: 2018_10_02_131151) do
     t.index ["custom_id"], name: "ak_polls_custom_id", unique: true
   end
 
+  create_table "tokens", force: :cascade do |t|
+    t.string "value", null: false
+    t.bigint "poll_id", null: false
+    t.bigint "nominee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nominee_id"], name: "index_tokens_on_nominee_id"
+    t.index ["poll_id", "value"], name: "ak_tokens_poll_id_value", unique: true
+    t.index ["poll_id"], name: "index_tokens_on_poll_id"
+  end
+
+  add_foreign_key "tokens", "nominees"
+  add_foreign_key "tokens", "polls"
 end

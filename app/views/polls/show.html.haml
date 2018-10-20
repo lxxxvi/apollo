@@ -46,3 +46,15 @@
     title: 'Add nominee' do
     .ui.big.circular.icon.green.button= semantic_icon 'plus'
 
+%h2.ui.horizontal.divider.header Tokens
+
+.ui.container.center.aligned
+  .tokens
+    - @poll.tokens.each do |token|
+      .token.small.vertical-space
+        .ui.stacked.segments
+          .ui.segment
+            = token.value
+
+  .medium.vertical-space
+    = render 'tokens/form', token: @poll.tokens.new
