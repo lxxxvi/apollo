@@ -1,7 +1,8 @@
 class Nominee < ApplicationRecord
-  before_create :create_custom_id
+  before_validation :create_custom_id
 
   validates :name, presence: true
+  validates :custom_id, presence: true
 
   belongs_to :poll
 
