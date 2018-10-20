@@ -21,6 +21,20 @@ class TokenTest < ApplicationSystemTestCase
     end
   end
 
+  test 'delete token' do
+    visit poll_path(@best_actor_poll)
+
+    delete_token_button = find(".token:first-child a[data-method='delete']")
+
+    assert_equal 'Delete token', delete_token_button['aria-label']
+    assert_equal 'Delete token', delete_token_button['title']
+
+    assert_difference -> { token_items.count }, -1 do
+      delete_token_button.click
+      accept_alert
+    end
+  end
+
   private
 
   def token_items

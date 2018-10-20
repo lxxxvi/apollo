@@ -55,6 +55,13 @@
         .ui.stacked.segments
           .ui.segment
             = token.value
+          .ui.segment
+            = link_to poll_token_path(@poll, token),
+              method: :delete,
+              aria: { label: 'Delete token' },
+              data: { confirm: 'Ara you sure?' },
+              title: 'Delete token' do
+              .ui.mini.circular.icon.basic.red.button= semantic_icon 'trash'
 
   .medium.vertical-space
     = render 'tokens/form', token: @poll.tokens.new

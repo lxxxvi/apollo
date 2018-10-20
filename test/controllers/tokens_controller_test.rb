@@ -1,10 +1,11 @@
 require 'test_helper'
 
 class TokensControllerTest < ActionDispatch::IntegrationTest
-  attr_reader :best_actor_poll
+  attr_reader :best_actor_poll, :best_actor_token_one
 
   setup do
     @best_actor_poll = polls(:best_actor)
+    @best_actor_token_one = tokens(:best_actor_token_1)
   end
 
   test 'does not get new token' do
@@ -16,6 +17,15 @@ class TokensControllerTest < ActionDispatch::IntegrationTest
   test 'create token' do
     assert_difference -> { best_actor_poll.tokens.count }, 1 do
       post poll_tokens_path(best_actor_poll)
+      best_actor_poll.reload
+    end
+    follow_redirect!
+    assert_response :success
+  end
+
+  test 'delete token' do
+    assert_difference -> { best_actor_poll.tokens.count }, -1 do
+      delete poll_token_path(best_actor_poll, best_actor_token_one)
       best_actor_poll.reload
     end
     follow_redirect!
