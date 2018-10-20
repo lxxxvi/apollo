@@ -12,6 +12,6 @@ class NomineeTest < ActiveSupport::TestCase
 
   test '#to_param' do
     nominee = nominees(:best_actor_bill_murray)
-    assert_not_equal nominee.id, nominee.to_param, '#id should not be used as param'
+    assert_not_equal nominee.id, nominee.to_param.to_i, '#id should not be used as param'
   end
 end

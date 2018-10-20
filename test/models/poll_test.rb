@@ -9,6 +9,6 @@ class PollTest < ActiveSupport::TestCase
 
   test '#to_param' do
     poll = polls(:best_actor)
-    assert_not_equal poll.id, poll.to_param, '#id should not be used as param'
+    assert_not_equal poll.id, poll.to_param.to_i, '#id should not be used as param'
   end
 end
