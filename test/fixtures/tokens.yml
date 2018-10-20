@@ -1,0 +1,5 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+best_actor_token_1:
+  value: BEST-ACTOR-TOKEN-1
+  poll: best_actor

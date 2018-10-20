@@ -5,6 +5,7 @@ class Poll < ApplicationRecord
   validates :email, presence: true
 
   has_many :nominees, dependent: :destroy
+  has_many :tokens, dependent: :destroy
 
   scope :ordered, -> { order(created_at: :desc) }
 
