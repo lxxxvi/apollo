@@ -21,8 +21,7 @@ before_script:
   - sudo chown root /opt/google/chrome/chrome-sandbox
   - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
 script:
-  - bin/rails test
-  - bin/rails test:system
+  - "bin/test"
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 

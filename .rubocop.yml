@@ -3,8 +3,9 @@ require:
 
 AllCops:
   Exclude:
-    - 'bin/*'
+    - 'bin/**/*'
     - 'db/schema.rb'
+    - 'vendor/**/*'
 
 Rails:
   Enabled: true

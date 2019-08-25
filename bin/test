@@ -10,7 +10,7 @@ end
 
 chdir APP_ROOT do
   puts "\n== Run rubocop =="
-  system! 'rubocop'
+  system! 'bundle exec rubocop'
 
   puts "\n== Run tests =="
   system! 'bin/rails test'
