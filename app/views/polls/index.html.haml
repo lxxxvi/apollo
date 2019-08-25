@@ -1,0 +1,11 @@
+%h1 All polls
+
+.polls
+  - @polls.each do |poll|
+    .poll
+      %h2= link_to poll.title, poll
+      %p= poll.description
+  = link_to 'New poll',
+    new_poll_path,
+    aria: { label: 'New poll' },
+    title: 'New poll'

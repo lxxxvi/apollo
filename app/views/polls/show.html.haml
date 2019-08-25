@@ -1,67 +1,56 @@
-.large.vertical-space
-  .poll-actions
-    = link_to edit_poll_path(@poll),
-      aria: { label: 'Edit poll' },
-      title: 'Edit poll' do
-      .ui.circular.icon.basic.primary.button= semantic_icon 'edit'
+.poll-actions
+  = link_to 'Edit',
+    edit_poll_path(@poll),
+    aria: { label: 'Edit poll' },
+    title: 'Edit poll'
 
-    = link_to poll_path(@poll),
-      method: :delete,
-      aria: { label: 'Delete poll' },
-      data: { confirm: 'Are you sure?' },
-      title: 'Delete poll' do
-      .ui.circular.icon.basic.red.button= semantic_icon 'trash'
+  = link_to 'Delete',
+    poll_path(@poll),
+    method: :delete,
+    aria: { label: 'Delete poll' },
+    data: { confirm: 'Are you sure?' },
+    title: 'Delete poll'
 
-%h1.ui.horizontal.divider.header= @poll.title
+%h1= @poll.title
 
-.ui.container.center.aligned
-  %p.medium.vertical-space
-    %i.grey-text= @poll.description
+%p= @poll.description
 
-%h2.ui.horizontal.divider.header Nominees
+%h2 Nominees
 
-.ui.container.center.aligned
-  .nominees
+.nominees
+  %ul
     - @poll.nominees.each do |nominee|
-      .nominee.small.vertical-space
-        .ui.stacked.segments
-          .ui.segment
-            %h3= nominee.name
-          .ui.segment.left.aligned
-            %p= nominee.description
-          .ui.segment
-            = link_to edit_poll_nominee_path(@poll, nominee),
-              aria: { label: 'Edit nominee' },
-              title: 'Edit nominee' do
-              .ui.mini.circular.icon.basic.blue.button= semantic_icon 'edit'
-            = link_to poll_nominee_path(@poll, nominee),
-              method: :delete,
-              aria: { label: 'Delete nominee' },
-              data: { confirm: 'Are you sure?' },
-              title: 'Delete nominee' do
-              .ui.mini.circular.icon.basic.red.button= semantic_icon 'trash'
+      %li.nominee
+        %h3= nominee.name
+        %p= nominee.description
+        = link_to 'Edit',
+          edit_poll_nominee_path(@poll, nominee),
+          aria: { label: 'Edit nominee' },
+          title: 'Edit nominee'
+        = link_to 'Delete',
+          poll_nominee_path(@poll, nominee),
+          method: :delete,
+          aria: { label: 'Delete nominee' },
+          data: { confirm: 'Are you sure?' },
+          title: 'Delete nominee'
 
-  = link_to new_poll_nominee_path(@poll),
-    aria: { label: 'Add nominee' },
-    title: 'Add nominee' do
-    .ui.big.circular.icon.green.button= semantic_icon 'plus'
+    = link_to 'Add nominee',
+      new_poll_nominee_path(@poll),
+      aria: { label: 'Add nominee' },
+      title: 'Add nominee'
 
-%h2.ui.horizontal.divider.header Tokens
+%h2 Tokens
 
-.ui.container.center.aligned
-  .tokens
+.tokens
+  %ul
     - @poll.tokens.each do |token|
-      .token.small.vertical-space
-        .ui.stacked.segments
-          .ui.segment
-            = token.value
-          .ui.segment
-            = link_to poll_token_path(@poll, token),
-              method: :delete,
-              aria: { label: 'Delete token' },
-              data: { confirm: 'Ara you sure?' },
-              title: 'Delete token' do
-              .ui.mini.circular.icon.basic.red.button= semantic_icon 'trash'
+      %li.token
+        %pre= token.value
+        = link_to 'Delete',
+          poll_token_path(@poll, token),
+          method: :delete,
+          aria: { label: 'Delete token' },
+          data: { confirm: 'Are you sure?' },
+          title: 'Delete token'
 
-  .medium.vertical-space
-    = render 'tokens/form', token: @poll.tokens.new
+  = render 'tokens/form', token: @poll.tokens.new

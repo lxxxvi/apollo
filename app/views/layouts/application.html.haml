@@ -8,10 +8,7 @@
     = stylesheet_link_tag    'application', media: 'all'
     = javascript_include_tag 'application'
   %body
-    .ui.text.container.center.aligned
-      .massive.vertical-space
-        .logo
-          = link_to root_path, title: 'Go to the home page' do
-            = image_tag 'apollo-logo.svg', alt: 'Apollo logo'
-      = yield
-      .footer
+    .logo
+      = link_to root_path, title: 'Go to the home page' do
+        = image_tag 'apollo-logo.svg', alt: 'Apollo logo'
+    = yield

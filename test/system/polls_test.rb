@@ -25,7 +25,7 @@ class PollsTest < ApplicationSystemTestCase
     assert_selector('h1', text: 'New poll')
     assert_selector('form.new_poll') do
       assert_selector('input[type="submit"]')
-      assert_selector('a.ui.button', text: 'Cancel')
+      assert_selector('a', text: 'Cancel')
     end
     find_label_and_input_for('poll_title')
     find_label_and_input_for('poll_email')
@@ -73,7 +73,7 @@ class PollsTest < ApplicationSystemTestCase
     assert_selector('h1', text: 'Edit poll')
     assert_selector('form.edit_poll') do
       assert_selector('input[type="submit"]')
-      assert_selector('a.ui.button', text: 'Cancel')
+      assert_selector('a', text: 'Cancel')
       assert_equal 2, all('input').count, 'There should be exact 2 input fields'
     end
 
@@ -117,11 +117,11 @@ class PollsTest < ApplicationSystemTestCase
     visit poll_path(best_actor_poll)
     delete_poll_button = find('.poll-actions a[data-method="delete"]')
 
+    assert_equal 'Delete', delete_poll_button.text
     assert_equal 'Delete poll', delete_poll_button['aria-label']
     assert_equal 'Delete poll', delete_poll_button['title']
 
-    delete_poll_button.click
-    accept_alert
+    click_with_delete(delete_poll_button)
 
     assert_selector 'h1', text: 'All polls'
   end

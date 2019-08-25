@@ -1,10 +1,12 @@
 require 'test_helper'
 
-class HomeControllerTest < ActionDispatch::IntegrationTest
-  test '#show' do
+class ApplicationControllerTest < ActionDispatch::IntegrationTest
+  test '#home_path' do
     get home_path
     assert_response :success
+  end
 
+  test '#root_path' do
     get root_path
     assert_response :success
   end
