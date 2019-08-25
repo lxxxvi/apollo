@@ -5,13 +5,13 @@ ruby '2.6.3'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', require: false
 gem 'haml-rails'
 gem 'jbuilder', '~> 2.5'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 3.11'
+gem 'pg'
+gem 'puma'
 gem 'rails', '~> 5.2.3'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
