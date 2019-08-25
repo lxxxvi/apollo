@@ -7,18 +7,19 @@ ruby '2.6.3'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', require: false
 gem 'haml-rails'
-gem 'jbuilder', '~> 2.5'
+gem 'jbuilder'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 gem 'pg'
 gem 'puma'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 6.0'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 6.0'
 gem 'semantic-ui-sass'
 gem 'simple_form'
 gem 'uglifier', '>= 1.3.0'
+gem 'webpacker'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
