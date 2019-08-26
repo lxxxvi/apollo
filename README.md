@@ -15,6 +15,22 @@ Run
 bin/setup
 ```
 
+### Development
+
+Run
+
+```shell
+bin/webpack-dev-server
+```
+
+... and ...
+
+```shell
+bin/rails server
+```
+
+... in separate shells.
+
 ### Test
 
 Run
