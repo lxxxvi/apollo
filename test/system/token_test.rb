@@ -11,8 +11,9 @@ class TokenTest < ApplicationSystemTestCase
     assert_selector 'h2', text: 'Tokens'
     assert_equal 1, token_items.count
 
-    add_token_button = find("form[action$='/tokens'] button[type='submit']")
+    add_token_button = find("form[action$='/tokens'] input[type='submit']")
 
+    assert_equal 'Add token', add_token_button.value
     assert_equal 'Add token', add_token_button['aria-label']
     assert_equal 'Add token', add_token_button['title']
 
@@ -24,20 +25,20 @@ class TokenTest < ApplicationSystemTestCase
   test 'delete token' do
     visit poll_path(@best_actor_poll)
 
-    delete_token_button = find(".token:first-child a[data-method='delete']")
+    delete_token_link = find(".tokens a[data-method='delete']", match: :first)
 
-    assert_equal 'Delete token', delete_token_button['aria-label']
-    assert_equal 'Delete token', delete_token_button['title']
+    assert_equal 'Delete', delete_token_link.text
+    assert_equal 'Delete token', delete_token_link['aria-label']
+    assert_equal 'Delete token', delete_token_link['title']
 
     assert_difference -> { token_items.count }, -1 do
-      delete_token_button.click
-      accept_alert
+      click_with_delete(delete_token_link)
     end
   end
 
   private
 
   def token_items
-    find_all('.tokens .token')
+    find_all('.tokens li.token')
   end
 end

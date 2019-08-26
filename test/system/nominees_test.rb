@@ -9,16 +9,16 @@ class NomineesTest < ApplicationSystemTestCase
   test 'visiting the nominee form' do
     visit poll_path(@best_actor_poll)
 
-    add_nominee_button = find('a[href$="nominees/new"]')
-    assert_equal 'Add nominee', add_nominee_button['aria-label']
-    assert_equal 'Add nominee', add_nominee_button['title']
-
-    add_nominee_button.click
+    assert_selector 'a', text: 'Add nominee' do |add_nominee_link|
+      assert_equal 'Add nominee', add_nominee_link['aria-label']
+      assert_equal 'Add nominee', add_nominee_link['title']
+      add_nominee_link.click
+    end
 
     assert_selector('h1', text: 'Add nominee')
     assert_selector('form.new_nominee') do
       assert_selector('input[type="submit"]')
-      assert_selector('a.ui.button', text: 'Cancel')
+      assert_selector('a', text: 'Cancel')
     end
 
     find_label_and_input_for('nominee_name')
@@ -75,13 +75,13 @@ class NomineesTest < ApplicationSystemTestCase
   test 'delete nominee' do
     visit poll_path(@best_actor_poll)
 
-    delete_nominee_button = find('.nominee:first-child a[data-method="delete"]')
-    assert_equal 'Delete nominee', delete_nominee_button['aria-label']
-    assert_equal 'Delete nominee', delete_nominee_button['title']
+    delete_nominee_link = find('.nominees a[data-method="delete"]', match: :first)
+    assert_equal 'Delete', delete_nominee_link.text
+    assert_equal 'Delete nominee', delete_nominee_link['aria-label']
+    assert_equal 'Delete nominee', delete_nominee_link['title']
 
-    assert_difference -> { all('.nominee').count }, -1 do
-      delete_nominee_button.click
-      accept_alert
+    assert_difference -> { all('.nominees li.nominee').count }, -1 do
+      click_with_delete(delete_nominee_link)
     end
   end
 end

@@ -2,12 +2,12 @@
 - cancel_path = poll.new_record? ? root_path : poll_path(poll)
 
 = simple_form_for poll do |f|
-  .small.vertical-space= f.input :title, required: true
+  = f.input :title, required: true
 
   - unless hide_elements&.include?(:email)
-    .small.vertical-space= f.input :email, required: true
+    = f.input :email, required: true
 
-  .small.vertical-space= f.input :description, as: :text, required: false, hint: '(Optional)'
-  = f.button :submit, class: 'ui positive button'
-  = link_to 'Cancel', cancel_path, class: 'ui basic button'
+  = f.input :description, as: :text, required: false, hint: '(Optional)'
+  = f.button :submit
+  = link_to 'Cancel', cancel_path
 

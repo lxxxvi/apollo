@@ -20,6 +20,7 @@ before_script:
   - ./cc-test-reporter before-build
   - sudo chown root /opt/google/chrome/chrome-sandbox
   - sudo chmod 4755 /opt/google/chrome/chrome-sandbox
+  - "bin/yarn"
 script:
   - "bin/test"
 after_script:

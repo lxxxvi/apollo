@@ -1,5 +1,5 @@
 = simple_form_for nominee, url: [nominee.poll, nominee] do |f|
-  .small.vertical-space= f.input :name, required: true
-  .small.vertical-space= f.input :description, as: :text, required: false, hint: '(Optional)'
-  = f.button :submit, class: 'ui primary button'
-  = link_to 'Cancel', nominee.poll, class: 'ui basic button'
+  = f.input :name, required: true
+  = f.input :description, as: :text, required: false, hint: '(Optional)'
+  = f.button :submit
+  = link_to 'Cancel', nominee.poll
