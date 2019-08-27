@@ -2,7 +2,10 @@ env:
   global:
     - CC_TEST_REPORTER_ID=43e9fdf4ba622920860481ee6074963200787075d4ba876ea760cfb95f203480
 language: ruby
-cache: bundler
+cache:
+  bundler: true
+  yarn: true
+  npm: true
 rvm:
   - 2.6.3
 services:
