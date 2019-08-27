@@ -15,24 +15,25 @@ $black: #1b1c1d;
 */
 
 @tailwind base;
-
 @tailwind components;
 
-body {
-  @apply bg-green-100;
-}
 
 a {
-  @apply text-green-500;
+  @apply text-apollo-pink-500;
 }
 
 a:hover {
-  @apply text-green-700;
+  @apply text-apollo-pink-200;
 }
 
 input {
-  @apply bg-green-900 text-white;
+  @apply text-apollo-pink-500 py-2 px-4 border-b-2 border-apollo-pink-500 bg-transparent;
 }
+
+input:hover {
+  @apply cursor-pointer border-apollo-pink-300 text-apollo-pink-300;
+}
+
 
 .logo {
   img {
