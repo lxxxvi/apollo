@@ -1,56 +1,85 @@
-.poll-actions
-  = link_to 'Edit',
-    edit_poll_path(@poll),
-    aria: { label: 'Edit poll' },
-    title: 'Edit poll'
+.flex
+  %div{ class: 'w-1/2' }
+    %h1= @poll.title
+  %div{ class: 'w-1/2' }
+    .h-full.relative
+      .absolute.bottom-0.right-0
+        .poll-actions
+          = link_to 'Edit',
+            edit_poll_path(@poll),
+            aria: { label: 'Edit poll' },
+            title: 'Edit poll',
+            class: 'shy-link'
 
-  = link_to 'Delete',
-    poll_path(@poll),
-    method: :delete,
-    aria: { label: 'Delete poll' },
-    data: { confirm: 'Are you sure?' },
-    title: 'Delete poll'
+          = link_to 'Delete',
+            poll_path(@poll),
+            method: :delete,
+            aria: { label: 'Delete poll' },
+            data: { confirm: 'Are you sure?' },
+            title: 'Delete poll',
+            class: 'dangerous-link'
 
-%h1= @poll.title
+.flex.mt-5.mb-10
+  .w-full.shadow-inner.bg-gray-100.py-3.px-2
+    %p= @poll.description
 
-%p= @poll.description
-
-%h2 Nominees
+.flex.mb-5
+  %div{ class: 'w-1/2' }
+    %h2 Nominees
+  %div{ class: 'w-1/2' }
+    .h-full.relative
+      .absolute.bottom-0.right-0
+        = link_to 'Add nominee',
+          new_poll_nominee_path(@poll),
+          aria: { label: 'Add nominee' },
+          title: 'Add nominee'
 
 .nominees
   %ul
     - @poll.nominees.each do |nominee|
-      %li.nominee
-        %h3= nominee.name
-        %p= nominee.description
-        = link_to 'Edit',
-          edit_poll_nominee_path(@poll, nominee),
-          aria: { label: 'Edit nominee' },
-          title: 'Edit nominee'
-        = link_to 'Delete',
-          poll_nominee_path(@poll, nominee),
-          method: :delete,
-          aria: { label: 'Delete nominee' },
-          data: { confirm: 'Are you sure?' },
-          title: 'Delete nominee'
+      %li.nominee.card.mb-10
+        .flex
+          %div{ class: 'w-1/3' }
+          %div{ class: 'w-2/3 py-2 px-3' }
+            .flex
+              .w-full
+                %h3= nominee.name
+                %p= nominee.description
+            .flex
+              .w-full.text-right
+                = link_to 'Edit',
+                  edit_poll_nominee_path(@poll, nominee),
+                  aria: { label: 'Edit nominee' },
+                  title: 'Edit nominee',
+                  class: 'shy-link'
+                = link_to 'Delete',
+                  poll_nominee_path(@poll, nominee),
+                  method: :delete,
+                  aria: { label: 'Delete nominee' },
+                  data: { confirm: 'Are you sure?' },
+                  title: 'Delete nominee',
+                  class: 'dangerous-link'
 
-    = link_to 'Add nominee',
-      new_poll_nominee_path(@poll),
-      aria: { label: 'Add nominee' },
-      title: 'Add nominee'
+.flex.mb-5
+  %div{ class: 'w-1/2' }
+    %h2 Tokens
+  %div{ class: 'w-1/2' }
+    .h-full.relative
+      .absolute.bottom-0.right-0
+        = render 'tokens/form', poll: @poll
 
-%h2 Tokens
-
-.tokens
-  %ul
+.tokens.card.mb-5
+  %ul.py-4.px-3
     - @poll.tokens.each do |token|
-      %li.token
-        %pre= token.value
-        = link_to 'Delete',
-          poll_token_path(@poll, token),
-          method: :delete,
-          aria: { label: 'Delete token' },
-          data: { confirm: 'Are you sure?' },
-          title: 'Delete token'
-
-  = render 'tokens/form', token: @poll.tokens.new
+      %li.token.py-1
+        .flex
+          %div{ class: 'w-1/2' }
+            %pre= token.value
+          %div{ class: 'w-1/2 text-right' }
+            = link_to 'Delete',
+              poll_token_path(@poll, token),
+              method: :delete,
+              aria: { label: 'Delete token' },
+              data: { confirm: 'Are you sure?' },
+              title: 'Delete token',
+              class: 'dangerous-link'

@@ -17,6 +17,18 @@ $black: #1b1c1d;
 @tailwind base;
 @tailwind components;
 
+h1 {
+  @apply text-2xl;
+}
+
+h2 {
+  @apply text-xl;
+}
+
+h3 {
+  @apply text-lg text-apollo-pink-300;
+}
+
 
 a {
   @apply text-apollo-pink-500;
@@ -27,19 +39,44 @@ a:hover {
 }
 
 input {
-  @apply text-apollo-pink-500 py-2 px-4 border-b-2 border-apollo-pink-500 bg-transparent;
+  @apply text-apollo-pink-500 bg-transparent;
 }
 
 input:hover {
-  @apply cursor-pointer border-apollo-pink-300 text-apollo-pink-300;
+  @apply cursor-pointer text-apollo-pink-300;
 }
 
+.shy-link {
+  @apply text-gray-400;
+}
+
+.shy-link:hover {
+  @apply text-apollo-pink-500;
+}
+
+.dangerous-link {
+  @apply text-gray-400;
+}
+
+.dangerous-link:hover {
+  @apply text-red-700;
+}
 
 .logo {
+  @apply mt-8 mb-16;
+
   img {
     width: 100%;
     max-width: 100%;
   }
+}
+
+.card {
+  @apply rounded border border-gray-200 shadow-lg;
+}
+
+.footer {
+  @apply my-16 py-10 text-gray-300 text-center;
 }
 
 @tailwind utilities;
