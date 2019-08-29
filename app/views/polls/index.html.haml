@@ -1,11 +1,20 @@
-%h1 All polls
+.flex.my-5
+  %div{ class: 'w-1/2' }
+    %h1.text-gray-500 All polls
+  %div{ class: 'w-1/2' }
+    .h-full.relative
+      = link_to 'New poll',
+        new_poll_path,
+        aria: { label: 'New poll' },
+        title: 'New poll',
+        class: 'absolute bottom-0 right-0'
 
 .polls
-  - @polls.each do |poll|
-    .poll
-      %h2= link_to poll.title, poll
-      %p= poll.description
-  = link_to 'New poll',
-    new_poll_path,
-    aria: { label: 'New poll' },
-    title: 'New poll'
+  %ul
+    - @polls.each do |poll|
+      %li.poll.card.my-3
+        .flex
+          %div{ class: 'w-1/3' }
+          %div{ class: 'w-2/3 py-5 px-3' }
+            %h2= link_to poll.title, poll
+            %p= poll.description

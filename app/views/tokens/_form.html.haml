@@ -1,4 +1,4 @@
-= simple_form_for [token.poll, token] do |f|
+= simple_form_for [poll, Token.new] do |f|
   = f.submit 'Add token',
     aria: { label: 'Add token' },
     title: 'Add token'
