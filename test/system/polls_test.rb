@@ -15,6 +15,8 @@ class PollsTest < ApplicationSystemTestCase
     assert_selector 'h1', text: 'Best actor'
     assert_selector 'p', text: 'Who is he?'
     assert_selector 'body', text: 'Bryan Cranston'
+    assert_selector 'a', text: 'Back to overview', &:click
+    assert_selector 'h1', text: 'All polls'
   end
 
   # new
