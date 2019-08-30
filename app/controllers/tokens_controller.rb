@@ -1,9 +1,20 @@
 class TokensController < ApplicationController
+  def new
+    poll = find_poll
+
+    @form = TokenForm.new(poll)
+  end
+
   def create
     poll = find_poll
 
-    poll.tokens.create
-    redirect_to poll
+    @form = TokenForm.new(poll, poll_token_params)
+
+    if @form.save
+      redirect_to poll
+    else
+      render :new
+    end
   end
 
   def destroy
@@ -13,6 +24,10 @@ class TokensController < ApplicationController
   end
 
   private
+
+  def poll_token_params
+    params.require(:poll_token).permit(:amount)
+  end
 
   def find_poll
     Poll.find_by!(custom_id: params[:poll_custom_id])

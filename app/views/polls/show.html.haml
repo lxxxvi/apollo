@@ -70,7 +70,7 @@
   %div{ class: 'w-1/2' }
     .h-full.relative
       .absolute.bottom-0.right-0
-        = render 'tokens/form', poll: @poll
+        = link_to 'Add tokens', new_poll_token_path(@poll)
 
 .tokens.card.mb-5
   %ul.py-4.px-3

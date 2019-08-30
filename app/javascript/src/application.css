@@ -29,7 +29,6 @@ h3 {
   @apply text-lg text-apollo-pink-300;
 }
 
-
 a {
   @apply text-apollo-pink-500;
 }
@@ -38,12 +37,27 @@ a:hover {
   @apply text-apollo-pink-200;
 }
 
-input {
+label {
+  @apply text-gray-500 text-sm;
+}
+input[type=text], input[type=number] {
+  @apply inline-block text-2xl py-3 px-2 bg-gray-200;
+}
+
+input[type=submit] {
   @apply text-apollo-pink-500 bg-transparent;
 }
 
-input:hover {
+input[type=submit]:hover {
   @apply cursor-pointer text-apollo-pink-300;
+}
+
+.apollo-pink-button {
+  @apply rounded border border-apollo-pink-500 py-1 px-4;
+}
+
+.apollo-pink-button:hover {
+  @apply border-apollo-pink-200;
 }
 
 .shy-link {
@@ -63,8 +77,6 @@ input:hover {
 }
 
 .logo {
-  @apply mt-8 mb-16;
-
   img {
     width: 100%;
     max-width: 100%;
@@ -78,5 +90,6 @@ input:hover {
 .footer {
   @apply my-16 py-10 text-gray-300 text-center;
 }
+
 
 @tailwind utilities;

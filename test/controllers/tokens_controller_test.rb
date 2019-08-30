@@ -8,16 +8,16 @@ class TokensControllerTest < ActionDispatch::IntegrationTest
     @best_actor_token_one = tokens(:best_actor_token_1)
   end
 
-  test 'does not get new token' do
-    assert_raise NoMethodError do
-      get new_poll_token_path(best_actor_poll)
-    end
+  test 'get new token' do
+    get new_poll_token_path(best_actor_poll)
+    assert_response :success
   end
 
   test 'create token' do
     assert_difference -> { best_actor_poll.tokens.count }, 1 do
-      post poll_tokens_path(best_actor_poll)
-      best_actor_poll.reload
+      post poll_tokens_path(best_actor_poll), params: {
+        poll_token: { amount: 1 }
+      }
     end
     follow_redirect!
     assert_response :success
@@ -26,7 +26,6 @@ class TokensControllerTest < ActionDispatch::IntegrationTest
   test 'delete token' do
     assert_difference -> { best_actor_poll.tokens.count }, -1 do
       delete poll_token_path(best_actor_poll, best_actor_token_one)
-      best_actor_poll.reload
     end
     follow_redirect!
     assert_response :success

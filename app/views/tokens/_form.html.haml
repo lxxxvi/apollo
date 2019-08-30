@@ -1,4 +1,21 @@
-= simple_form_for [poll, Token.new] do |f|
-  = f.submit 'Add token',
-    aria: { label: 'Add token' },
-    title: 'Add token'
+= simple_form_for @form do |f|
+  .my-8
+    - if @form.errors.key?(:base)
+      .my-3
+        .bg-orange-200.shadow-inner.py-3.px-3.text-orange-600
+          .error-messages
+            %ul
+              - @form.errors.full_messages_for(:base).each do |full_error_message|
+                %li= full_error_message
+
+    .my-3
+      = f.input :amount,
+        as: :integer,
+        input_html: { min: @form.class::MINIMUM_AMOUNT, max: @form.class::MAXIMUM_AMOUNT, class: 'w-full'},
+        label: 'How many tokens would you like to add?'
+    .my-1.text-gray-500.text-xs
+      Minimum 1, Maximum 1000
+
+  .my-8
+    = f.submit 'Add tokens', class: 'apollo-pink-button'
+    = link_to 'Cancel', @form.poll, class: 'shy-link ml-2'
