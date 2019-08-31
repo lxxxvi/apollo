@@ -12,6 +12,7 @@ gem 'jbuilder'
 # gem 'mini_magick', '~> 4.8'
 gem 'pg'
 gem 'puma'
+gem 'pundit'
 gem 'rails', '~> 6.0'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

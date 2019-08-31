@@ -2,17 +2,23 @@ class PollsController < ApplicationController
   before_action :set_poll, only: [:show, :edit, :update, :destroy]
 
   def index
+    authorize Poll
+
     @polls = Poll.ordered
   end
 
-  def show; end
+  def show
+    authorize @poll
+  end
 
   def new
     @poll = Poll.new
+    authorize @poll
   end
 
   def create
     @poll = Poll.new(new_poll_params)
+    authorize @poll
 
     if @poll.save
       redirect_to poll_path(@poll)
@@ -21,9 +27,13 @@ class PollsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    authorize @poll
+  end
 
   def update
+    authorize @poll
+
     if @poll.update(edit_poll_params)
       redirect_to poll_path(@poll)
     else
@@ -32,6 +42,8 @@ class PollsController < ApplicationController
   end
 
   def destroy
+    authorize @poll
+
     @poll.destroy
     redirect_to root_path
   end
