@@ -5,7 +5,7 @@ class Token < ApplicationRecord
   belongs_to :nominee, optional: true
 
   validates :value, presence: true
-  validates :value, uniqueness: { scope: :poll }
+  # validates :value, uniqueness: { scope: :poll } TODO: make me fast
 
   def to_param
     value
@@ -14,6 +14,6 @@ class Token < ApplicationRecord
   private
 
   def create_value
-    self.value ||= SecureRandom.alphanumeric(12)
+    self.value ||= TokenValuesGenerator.generate_values.first
   end
 end

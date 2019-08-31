@@ -9,10 +9,12 @@
     = javascript_pack_tag 'application'
   %body
     .flex
-      %div{ class: 'w-1/2 mx-auto' }
-        .logo
+      %div{ class: 'w-full lg:w-1/2 lg:mx-auto' }
+        .logo.mx-3.my-5
           = link_to root_path, title: 'Go to the home page' do
             = image_tag 'apollo-logo.svg', alt: 'Apollo logo'
-        = yield
+        .my-16
+          .mx-3
+            = yield
         .footer
           Apollo - A poll app
