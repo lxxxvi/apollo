@@ -17,7 +17,7 @@ class TokenFormTest < ActiveSupport::TestCase
 
     form.errors.to_a.tap do |errors|
       assert_includes errors, 'Amount must be less than or equal to 1000'
-      assert_includes errors, 'Total number of tokens may not exceed 1000'
+      assert_includes errors, 'Amount is too high, total number of tokens may not exceed 1000'
     end
   end
 
