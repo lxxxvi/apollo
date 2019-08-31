@@ -86,7 +86,7 @@ class PollsTest < ApplicationSystemTestCase
   test 'submit empty edit poll form' do
     visit edit_poll_path(best_actor_poll)
 
-    within('form.edit_poll') do
+    within('form') do
       fill_in('Title', with: '')
       fill_in('Description', with: '')
       click_on('Update Poll')
@@ -94,7 +94,7 @@ class PollsTest < ApplicationSystemTestCase
 
     assert 'h1', text: 'Edit poll'
 
-    within('form.edit_poll') do
+    within('form') do
       assert_equal 1, all('input[aria-invalid="true"]').count
     end
   end
@@ -102,7 +102,7 @@ class PollsTest < ApplicationSystemTestCase
   test 'submit completed edit poll form' do
     visit edit_poll_path(best_actor_poll)
 
-    within('form.edit_poll') do
+    within('form') do
       fill_in('Title', with: 'Best actress')
       fill_in('Description', with: 'Who is she?')
       click_on('Update Poll')

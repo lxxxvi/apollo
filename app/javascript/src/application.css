@@ -40,7 +40,7 @@ a:hover {
 label {
   @apply text-gray-500 text-sm;
 }
-input[type=text], input[type=number] {
+input[type=text], input[type=number], textarea {
   @apply inline-block text-2xl py-3 px-2 bg-gray-200;
 }
 
@@ -52,8 +52,12 @@ input[type=submit]:hover {
   @apply cursor-pointer text-apollo-pink-300;
 }
 
+.hint {
+  @apply text-xs text-gray-500;
+}
+
 .apollo-pink-button {
-  @apply rounded border border-apollo-pink-500 py-1 px-4;
+  @apply rounded border border-apollo-pink-500 py-1 px-4 mr-2;
 }
 
 .apollo-pink-button:hover {

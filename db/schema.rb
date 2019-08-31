@@ -30,10 +30,11 @@ ActiveRecord::Schema.define(version: 2019_08_25_121817) do
     t.string "custom_id", null: false
     t.string "title", null: false
     t.text "description"
-    t.string "email", null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["custom_id"], name: "ak_polls_custom_id", unique: true
+    t.index ["user_id"], name: "index_polls_on_user_id"
   end
 
   create_table "tokens", force: :cascade do |t|
@@ -47,6 +48,16 @@ ActiveRecord::Schema.define(version: 2019_08_25_121817) do
     t.index ["poll_id"], name: "index_tokens_on_poll_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", null: false
+    t.datetime "email_verified_at"
+    t.string "authentication_token", null: false
+    t.datetime "authentication_token_expires_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  add_foreign_key "polls", "users"
   add_foreign_key "tokens", "nominees"
   add_foreign_key "tokens", "polls"
 end
