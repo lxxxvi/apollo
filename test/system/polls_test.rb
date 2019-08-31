@@ -67,8 +67,6 @@ class PollsTest < ApplicationSystemTestCase
     visit poll_path(best_actor_poll)
 
     edit_poll_button = find('.poll-actions a[href$="edit"]')
-    assert_equal 'Edit poll', edit_poll_button['aria-label']
-    assert_equal 'Edit poll', edit_poll_button['title']
 
     edit_poll_button.click
 
@@ -120,8 +118,6 @@ class PollsTest < ApplicationSystemTestCase
     delete_poll_button = find('.poll-actions a[data-method="delete"]')
 
     assert_equal 'Delete', delete_poll_button.text
-    assert_equal 'Delete poll', delete_poll_button['aria-label']
-    assert_equal 'Delete poll', delete_poll_button['title']
 
     click_with_delete(delete_poll_button)
 

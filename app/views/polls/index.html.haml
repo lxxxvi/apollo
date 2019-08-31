@@ -3,11 +3,7 @@
     %h1.text-gray-500 All polls
   %div{ class: 'w-1/2' }
     .h-full.relative
-      = link_to 'New poll',
-        new_poll_path,
-        aria: { label: 'New poll' },
-        title: 'New poll',
-        class: 'absolute bottom-0 right-0'
+      = link_to 'New poll', new_poll_path, class: 'absolute bottom-0 right-0'
 
 .polls
   %ul
