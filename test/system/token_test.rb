@@ -37,7 +37,7 @@ class TokenTest < ApplicationSystemTestCase
     find("input[type='submit']").click
 
     assert_selector 'h1', text: 'Add tokens'
-    assert_selector '.error-messages', text: 'Total number of tokens may not exceed 1000'
+    assert_selector 'input[aria-invalid="true"]', count: 1
   end
 
   test 'delete token' do
@@ -46,8 +46,6 @@ class TokenTest < ApplicationSystemTestCase
     delete_token_link = find(".tokens a[data-method='delete']", match: :first)
 
     assert_equal 'Delete', delete_token_link.text
-    assert_equal 'Delete token', delete_token_link['aria-label']
-    assert_equal 'Delete token', delete_token_link['title']
 
     assert_difference -> { token_items.count }, -1 do
       click_with_delete(delete_token_link)

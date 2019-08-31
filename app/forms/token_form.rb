@@ -40,7 +40,11 @@ class TokenForm
   end
 
   def maximum_tokens_not_reached
-    errors.add(:base, "Total number of tokens may not exceed #{MAXIMUM_AMOUNT}") if new_token_count > MAXIMUM_AMOUNT
+    errors.add(:amount, maximum_tokens_reached_message) if new_token_count > MAXIMUM_AMOUNT
+  end
+
+  def maximum_tokens_reached_message
+    "is too high, total number of tokens may not exceed #{MAXIMUM_AMOUNT}"
   end
 
   def new_token_count

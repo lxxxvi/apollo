@@ -9,18 +9,11 @@
     .h-full.relative
       .absolute.bottom-0.right-0
         .poll-actions
-          = link_to 'Edit',
-            edit_poll_path(@poll),
-            aria: { label: 'Edit poll' },
-            title: 'Edit poll',
-            class: 'shy-link'
-
+          = link_to 'Edit', edit_poll_path(@poll), class: 'shy-link'
           = link_to 'Delete',
             poll_path(@poll),
             method: :delete,
-            aria: { label: 'Delete poll' },
             data: { confirm: 'Are you sure?' },
-            title: 'Delete poll',
             class: 'dangerous-link'
 
 .flex.mt-5.mb-10
@@ -33,10 +26,7 @@
   %div{ class: 'w-1/2' }
     .h-full.relative
       .absolute.bottom-0.right-0
-        = link_to 'Add nominee',
-          new_poll_nominee_path(@poll),
-          aria: { label: 'Add nominee' },
-          title: 'Add nominee'
+        = link_to 'Add nominee', new_poll_nominee_path(@poll)
 
 .nominees
   %ul
@@ -53,15 +43,11 @@
               .w-full.text-right
                 = link_to 'Edit',
                   edit_poll_nominee_path(@poll, nominee),
-                  aria: { label: 'Edit nominee' },
-                  title: 'Edit nominee',
                   class: 'shy-link'
                 = link_to 'Delete',
                   poll_nominee_path(@poll, nominee),
                   method: :delete,
-                  aria: { label: 'Delete nominee' },
                   data: { confirm: 'Are you sure?' },
-                  title: 'Delete nominee',
                   class: 'dangerous-link'
 
 .flex.mb-5
@@ -83,7 +69,5 @@
             = link_to 'Delete',
               poll_token_path(@poll, token),
               method: :delete,
-              aria: { label: 'Delete token' },
               data: { confirm: 'Are you sure?' },
-              title: 'Delete token',
               class: 'dangerous-link'
