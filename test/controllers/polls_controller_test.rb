@@ -34,11 +34,15 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get edit' do
+    sign_in_as(:julia_roberts)
+
     get edit_poll_path(best_actor_poll)
     assert_response :success
   end
 
   test 'should post update' do
+    sign_in_as(:julia_roberts)
+
     assert_changes -> { best_actor_poll.reload.updated_at } do
       patch poll_path(best_actor_poll), params: {
         poll: {
@@ -52,10 +56,20 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get delete' do
+    sign_in_as(:julia_roberts)
+
     assert_difference -> { Poll.count }, -1 do
       delete poll_path(best_actor_poll)
       follow_redirect!
       assert_response :success
     end
+  end
+
+  test 'unauthorized actions' do
+    sign_in_as(:tina_fey)
+
+    assert_raise(Pundit::NotAuthorizedError) { get edit_poll_path(best_actor_poll) }
+    assert_raise(Pundit::NotAuthorizedError) { patch poll_path(best_actor_poll) }
+    assert_raise(Pundit::NotAuthorizedError) { delete poll_path(best_actor_poll) }
   end
 end

@@ -20,10 +20,14 @@ class PollPolicy < ApplicationPolicy
   end
 
   def update?
-    true
+    manage?
   end
 
   def destroy?
     update?
+  end
+
+  def manage?
+    record.user == user
   end
 end

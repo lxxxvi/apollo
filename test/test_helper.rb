@@ -8,6 +8,10 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
+    def sign_in_as(user_fixture_name)
+      user = users(user_fixture_name)
+      get sign_in_path(user.authentication_token)
+    end
 
     # Pundit helpers
     def assert_permit(user, record, action)

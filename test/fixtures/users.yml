@@ -1,8 +1,13 @@
 DEFAULTS: &DEFAULTS
-  email_verified_at: 2020-01-01 00:01:00
-  authentication_token_expires_at: 2020-01-02 00:02:00
+  email_verified_at: 2000-01-01 00:01:00
+  authentication_token_expires_at: 2222-02-02 00:02:00
 
 julia_roberts:
   email: 'julia@apollo.test'
   authentication_token: 'JULIAS-AUTHENTICATION-TOKEN'
+  <<: *DEFAULTS
+
+tina_fey:
+  email: 'tina@apollo.test'
+  authentication_token: 'TINAS-AUTHENTICATION-TOKEN'
   <<: *DEFAULTS

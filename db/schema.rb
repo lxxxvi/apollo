@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 2019_08_25_121817) do
     t.datetime "authentication_token_expires_at", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["authentication_token"], name: "ak_users_authentication_token", unique: true
+    t.index ["email"], name: "ak_users_email", unique: true
   end
 
   add_foreign_key "polls", "users"

@@ -13,8 +13,17 @@
         .logo.mx-3.my-5
           = link_to root_path, title: 'Go to the home page' do
             = image_tag 'apollo-logo.svg', alt: 'Apollo logo'
+        - flash.each do |level, message|
+          .my-8
+            %div{ class: "flash #{level}" }
+              = message
         .my-16
           .mx-3
             = yield
         .footer
-          Apollo - A poll app
+          .my-3
+            - if @current_user.present?
+              = link_to 'Sign out', sign_out_path, class: 'shy-link'
+            - else
+              = link_to 'Sign in', request_token_path, class: 'shy-link'
+          .my-3 Apollo - A poll app
