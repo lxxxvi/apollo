@@ -12,16 +12,20 @@ class PollsController < ApplicationController
   end
 
   def new
-    @poll = Poll.new
-    authorize @poll
+    poll = Poll.new
+    authorize poll
+
+    @form = PollForm.new(poll)
   end
 
   def create
-    @poll = Poll.new(new_poll_params)
-    authorize @poll
+    poll = Poll.new
+    authorize poll
 
-    if @poll.save
-      redirect_to poll_path(@poll)
+    @form = PollForm.new(poll, new_poll_params)
+
+    if @form.save
+      redirect_to poll_path(@form.poll)
     else
       render :new
     end
@@ -29,13 +33,16 @@ class PollsController < ApplicationController
 
   def edit
     authorize @poll
+
+    @form = PollForm.new(@poll, @poll.slice(:title, :description))
   end
 
   def update
     authorize @poll
+    @form = PollForm.new(@poll, edit_poll_params)
 
-    if @poll.update(edit_poll_params)
-      redirect_to poll_path(@poll)
+    if @form.save
+      redirect_to poll_path(@form.poll)
     else
       render :edit
     end

@@ -1,13 +1,15 @@
-- hide_elements = hide if defined?(hide)
-- cancel_path = poll.new_record? ? root_path : poll_path(poll)
+- cancel_path = form.poll.new_record? ? root_path : poll_path(form.poll)
 
-= simple_form_for poll do |f|
-  = f.input :title, required: true
+= simple_form_for form do |f|
+  .my-8
+    .my-3= f.input :title, required: true
 
-  - unless hide_elements&.include?(:email)
-    = f.input :email, required: true
+    - if form.poll.new_record?
+      .my-3= f.input :email, required: true
 
-  = f.input :description, as: :text, required: false, hint: '(Optional)'
-  = f.button :submit
-  = link_to 'Cancel', cancel_path
+    .my-3= f.input :description, as: :text, required: false, hint: '(Optional)'
+
+  .my-8
+    = f.button :submit, class: 'apollo-pink-button'
+    = link_to 'Cancel', cancel_path, class: 'shy-link'
 

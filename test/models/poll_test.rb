@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PollTest < ActiveSupport::TestCase
   test 'generates custom_id' do
-    new_poll = Poll.create(title: 'Apollo', email: 'email@apollo.test')
+    new_poll = Poll.create(title: 'Apollo', user: users(:julia_roberts))
 
     assert_match(/[[:alnum:]]{12}/, new_poll.custom_id)
   end

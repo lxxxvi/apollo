@@ -18,14 +18,16 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create poll' do
-    assert_difference -> { Poll.count }, 1 do
-      post polls_path, params: {
-        poll: {
-          title: 'The poll name',
-          email: 'email@apollo.test',
-          description: 'A description'
+    assert_difference -> { User.count }, 1 do
+      assert_difference -> { Poll.count }, 1 do
+        post polls_path, params: {
+          poll: {
+            title: 'The poll name',
+            email: 'email@apollo.test',
+            description: 'A description'
+          }
         }
-      }
+      end
     end
     follow_redirect!
     assert_response :success

@@ -4,7 +4,8 @@ class CreatePolls < ActiveRecord::Migration[5.2]
       t.string :custom_id, null: false
       t.string :title, null: false
       t.text   :description, null: true
-      t.string :email, null: false
+      t.references :user, foreign_key: true, index: true
+      t.index [:custom_id], unique: true, name: :ak_polls_custom_id
 
       t.timestamps
     end
