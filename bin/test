@@ -9,12 +9,12 @@ def system!(*args)
 end
 
 chdir APP_ROOT do
-  puts "\n== Run rubocop =="
-  system! 'bundle exec rubocop'
-
   puts "\n== Run tests =="
   system! 'bin/rails test'
 
   puts "\n== Run system tests"
   system! 'bin/rails test:system'
+
+  puts "\n== Run rubocop =="
+  system! 'bundle exec rubocop'
 end

@@ -20,6 +20,10 @@ Metrics/BlockLength:
   Exclude:
     - 'config/initializers/simple_form.rb'
 
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*_test.rb'
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 

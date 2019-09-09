@@ -40,8 +40,11 @@ a:hover {
 label {
   @apply text-gray-500 text-sm;
 }
-input[type=text], input[type=number], textarea {
-  @apply inline-block text-2xl py-3 px-2 bg-gray-200;
+input[type=text],
+input[type=number],
+input[type=email],
+textarea {
+  @apply block text-2xl py-3 px-2 bg-gray-200 w-full;
 }
 
 input[type=submit] {

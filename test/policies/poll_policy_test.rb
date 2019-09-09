@@ -1,10 +1,13 @@
 require 'test_helper'
 
 class PollPolicyTest < ActiveSupport::TestCase
-  attr_reader :guest
+  attr_reader :guest, :poll, :poll_admin, :another_admin
 
   setup do
     @guest = '_guest'
+    @poll = polls(:best_actor)
+    @poll_admin = @poll.user
+    @another_admin = users(:tina_fey)
   end
 
   test '#index?' do
@@ -24,17 +27,20 @@ class PollPolicyTest < ActiveSupport::TestCase
   end
 
   test '#edit?' do
-    skip
-    refute_permit guest, Poll, :edit?
+    refute_permit guest, poll, :edit?
+    refute_permit another_admin, poll, :edit?
+    assert_permit poll_admin, poll, :edit?
   end
 
   test '#update?' do
-    skip
-    refute_permit guest, Poll, :update?
+    refute_permit guest, poll, :update?
+    refute_permit another_admin, poll, :update?
+    assert_permit poll_admin, poll, :update?
   end
 
   test '#destroy?' do
-    skip
-    refute_permit guest, Poll, :destroy?
+    refute_permit guest, poll, :destroy?
+    refute_permit another_admin, poll, :destroy?
+    assert_permit poll_admin, poll, :destroy?
   end
 end

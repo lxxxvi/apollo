@@ -3,6 +3,10 @@ require 'application_system_test_case'
 class PollsTest < ApplicationSystemTestCase
   attr_reader :best_actor_poll
 
+  NEW_POLL_TEXT = 'New poll'.freeze
+  EDIT_POLL_TEXT = 'Edit'.freeze
+  DELETE_POLL_TEXT = 'Delete'.freeze
+
   setup do
     @best_actor_poll = polls(:best_actor)
   end
@@ -24,7 +28,7 @@ class PollsTest < ApplicationSystemTestCase
   test 'visiting the new form' do
     visit new_poll_path
 
-    assert_selector('h1', text: 'New poll')
+    assert_selector('h1', text: NEW_POLL_TEXT)
     assert_selector('form.new_poll') do
       assert_selector('input[type="submit"]')
       assert_selector('a', text: 'Cancel')
@@ -41,7 +45,7 @@ class PollsTest < ApplicationSystemTestCase
       click_on('Create Poll')
     end
 
-    assert_selector 'h1', text: 'New poll'
+    assert_selector 'h1', text: NEW_POLL_TEXT
 
     assert_selector('form.new_poll') do
       assert_equal 2, all('input[aria-invalid="true"]').count
@@ -64,13 +68,13 @@ class PollsTest < ApplicationSystemTestCase
   # edit
 
   test 'visiting the edit form' do
-    visit poll_path(best_actor_poll)
+    sign_in_as(:julia_roberts)
 
-    edit_poll_button = find('.poll-actions a[href$="edit"]')
+    visit poll_path(best_actor_poll)
 
     edit_poll_button.click
 
-    assert_selector('h1', text: 'Edit poll')
+    assert_selector('h1', text: EDIT_POLL_TEXT)
     assert_selector('form.edit_poll') do
       assert_selector('input[type="submit"]')
       assert_selector('a', text: 'Cancel')
@@ -84,6 +88,8 @@ class PollsTest < ApplicationSystemTestCase
   end
 
   test 'submit empty edit poll form' do
+    sign_in_as(:julia_roberts)
+
     visit edit_poll_path(best_actor_poll)
 
     within('form') do
@@ -92,7 +98,7 @@ class PollsTest < ApplicationSystemTestCase
       click_on('Update Poll')
     end
 
-    assert 'h1', text: 'Edit poll'
+    assert 'h1', text: EDIT_POLL_TEXT
 
     within('form') do
       assert_equal 1, all('input[aria-invalid="true"]').count
@@ -100,6 +106,8 @@ class PollsTest < ApplicationSystemTestCase
   end
 
   test 'submit completed edit poll form' do
+    sign_in_as(:julia_roberts)
+
     visit edit_poll_path(best_actor_poll)
 
     within('form') do
@@ -114,13 +122,36 @@ class PollsTest < ApplicationSystemTestCase
   # delete
 
   test 'delete a poll' do
-    visit poll_path(best_actor_poll)
-    delete_poll_button = find('.poll-actions a[data-method="delete"]')
+    sign_in_as(:julia_roberts)
 
-    assert_equal 'Delete', delete_poll_button.text
+    visit poll_path(best_actor_poll)
 
     click_with_delete(delete_poll_button)
 
     assert_selector 'h1', text: 'All polls'
+  end
+
+  test 'non-admin does not see edit button' do
+    sign_in_as(:tina_fey)
+    visit poll_path(best_actor_poll)
+
+    assert_raise(Capybara::ElementNotFound) { edit_poll_button }
+  end
+
+  test 'non-admin does not see delete button' do
+    sign_in_as(:tina_fey)
+    visit poll_path(best_actor_poll)
+
+    assert_raise(Capybara::ElementNotFound) { delete_poll_button }
+  end
+
+  private
+
+  def edit_poll_button
+    find '.poll-actions a', text: EDIT_POLL_TEXT
+  end
+
+  def delete_poll_button
+    find '.poll-actions a', text: DELETE_POLL_TEXT
   end
 end

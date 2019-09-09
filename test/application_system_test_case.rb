@@ -5,6 +5,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   private
 
+  def sign_in_as(user_fixture_name)
+    user = users(user_fixture_name)
+    visit sign_in_url(user.authentication_token)
+  end
+
   def find_label_and_input_for(html_id)
     find_label_for html_id
     assert_selector "input##{html_id}"

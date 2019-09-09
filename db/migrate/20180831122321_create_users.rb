@@ -7,6 +7,7 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.datetime :authentication_token_expires_at, null: false
 
       t.index [:email], unique: true, name: :ak_users_email
+      t.index [:authentication_token], unique: true, name: :ak_users_authentication_token
 
       t.timestamps
     end

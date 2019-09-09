@@ -1,0 +1,10 @@
+%h1 Request a new token
+
+= simple_form_for @form do |f|
+  .my-8
+    = f.input :email, as: :email
+
+  .my-4
+    = f.submit 'Send me a new token', class: 'apollo-pink-button'
+    = link_to 'Cancel', home_path, class: 'shy-link'
+

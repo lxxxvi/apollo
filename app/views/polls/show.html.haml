@@ -6,15 +6,16 @@
   %div{ class: 'w-1/2' }
     %h1= @poll.title
   %div{ class: 'w-1/2' }
-    .h-full.relative
-      .absolute.bottom-0.right-0
-        .poll-actions
-          = link_to 'Edit', edit_poll_path(@poll), class: 'shy-link'
-          = link_to 'Delete',
-            poll_path(@poll),
-            method: :delete,
-            data: { confirm: 'Are you sure?' },
-            class: 'dangerous-link'
+    - if policy(@poll).manage?
+      .h-full.relative
+        .absolute.bottom-0.right-0
+          .poll-actions
+            = link_to 'Edit', edit_poll_path(@poll), class: 'shy-link'
+            = link_to 'Delete',
+              poll_path(@poll),
+              method: :delete,
+              data: { confirm: 'Are you sure?' },
+              class: 'dangerous-link'
 
 .flex.mt-5.mb-10
   .w-full.shadow-inner.bg-gray-100.py-3.px-2
@@ -24,9 +25,10 @@
   %div{ class: 'w-1/2' }
     %h2 Nominees
   %div{ class: 'w-1/2' }
-    .h-full.relative
-      .absolute.bottom-0.right-0
-        = link_to 'Add nominee', new_poll_nominee_path(@poll)
+    - if policy(@poll).manage?
+      .h-full.relative
+        .absolute.bottom-0.right-0
+          = link_to 'Add nominee', new_poll_nominee_path(@poll)
 
 .nominees
   %ul
@@ -39,24 +41,26 @@
               .w-full
                 %h3= nominee.name
                 %p= nominee.description
-            .flex
-              .w-full.text-right
-                = link_to 'Edit',
-                  edit_poll_nominee_path(@poll, nominee),
-                  class: 'shy-link'
-                = link_to 'Delete',
-                  poll_nominee_path(@poll, nominee),
-                  method: :delete,
-                  data: { confirm: 'Are you sure?' },
-                  class: 'dangerous-link'
+            - if policy(@poll).manage?
+              .flex
+                .w-full.text-right
+                  = link_to 'Edit',
+                    edit_poll_nominee_path(@poll, nominee),
+                    class: 'shy-link'
+                  = link_to 'Delete',
+                    poll_nominee_path(@poll, nominee),
+                    method: :delete,
+                    data: { confirm: 'Are you sure?' },
+                    class: 'dangerous-link'
 
 .flex.mb-5
   %div{ class: 'w-1/2' }
     %h2 Tokens
   %div{ class: 'w-1/2' }
-    .h-full.relative
-      .absolute.bottom-0.right-0
-        = link_to 'Add tokens', new_poll_token_path(@poll)
+    - if policy(@poll).manage?
+      .h-full.relative
+        .absolute.bottom-0.right-0
+          = link_to 'Add tokens', new_poll_token_path(@poll)
 
 .tokens.card.mb-5
   %ul.py-4.px-3
@@ -66,8 +70,9 @@
           %div{ class: 'w-1/2' }
             %pre= token.value
           %div{ class: 'w-1/2 text-right' }
-            = link_to 'Delete',
-              poll_token_path(@poll, token),
-              method: :delete,
-              data: { confirm: 'Are you sure?' },
-              class: 'dangerous-link'
+            - if policy(@poll).manage?
+              = link_to 'Delete',
+                poll_token_path(@poll, token),
+                method: :delete,
+                data: { confirm: 'Are you sure?' },
+                class: 'dangerous-link'

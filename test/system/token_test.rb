@@ -1,21 +1,26 @@
 require 'application_system_test_case'
 
 class TokenTest < ApplicationSystemTestCase
+  NEW_TOKENS_TEXT = 'Add tokens'.freeze
+  DELETE_TOKEN_TEXT = 'Delete'.freeze
+
   setup do
     @best_actor_poll = polls(:best_actor)
   end
 
   test 'create tokens' do
+    sign_in_as(:julia_roberts)
+
     visit poll_path(@best_actor_poll)
 
     assert_selector 'h2', text: 'Tokens'
     assert_equal 1, token_items.count
 
     assert_difference -> { token_items.count }, 3 do
-      assert_selector 'a', text: 'Add tokens', &:click
+      add_tokens_link.click
       assert_selector 'a', text: 'Cancel', &:click
-      assert_selector 'a', text: 'Add tokens', &:click
-      assert_selector 'h1', text: 'Add tokens'
+      add_tokens_link.click
+      assert_selector 'h1', text: NEW_TOKENS_TEXT
 
       find_label_and_input_for('poll_token_amount')
       fill_in 'How many tokens would you like to add?', with: '3'
@@ -29,9 +34,11 @@ class TokenTest < ApplicationSystemTestCase
   end
 
   test 'create too many tokens' do
+    sign_in_as(:julia_roberts)
+
     visit new_poll_token_path(@best_actor_poll)
 
-    assert_selector 'h1', text: 'Add tokens'
+    assert_selector 'h1', text: NEW_TOKENS_TEXT
 
     fill_in 'How many tokens would you like to add?', with: '1000'
     find("input[type='submit']").click
@@ -41,20 +48,44 @@ class TokenTest < ApplicationSystemTestCase
   end
 
   test 'delete token' do
+    sign_in_as(:julia_roberts)
+
     visit poll_path(@best_actor_poll)
 
-    delete_token_link = find(".tokens a[data-method='delete']", match: :first)
-
-    assert_equal 'Delete', delete_token_link.text
-
     assert_difference -> { token_items.count }, -1 do
-      click_with_delete(delete_token_link)
+      within '.token:first-child' do
+        click_with_delete(delete_token_link)
+      end
     end
+  end
+
+  test 'non-admin does not see "Add token" button' do
+    sign_in_as(:tina_fey)
+
+    visit poll_path(@best_actor_poll)
+
+    assert_raises(Capybara::ElementNotFound) { add_tokens_link }
+  end
+
+  test 'non-admin does not see token action buttons' do
+    sign_in_as(:tina_fey)
+
+    visit poll_path(@best_actor_poll)
+
+    assert_raises(Capybara::ElementNotFound) { delete_token_link }
   end
 
   private
 
   def token_items
     find_all('.tokens li.token')
+  end
+
+  def add_tokens_link
+    find 'a', text: NEW_TOKENS_TEXT
+  end
+
+  def delete_token_link
+    find 'a', text: DELETE_TOKEN_TEXT
   end
 end
