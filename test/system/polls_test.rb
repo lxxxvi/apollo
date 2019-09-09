@@ -6,6 +6,7 @@ class PollsTest < ApplicationSystemTestCase
   NEW_POLL_TEXT = 'New poll'.freeze
   EDIT_POLL_TEXT = 'Edit'.freeze
   DELETE_POLL_TEXT = 'Delete'.freeze
+  PUBLISH_POLL_TEXT = 'Publish poll'.freeze
 
   setup do
     @best_actor_poll = polls(:best_actor)
@@ -117,6 +118,29 @@ class PollsTest < ApplicationSystemTestCase
     end
 
     assert_selector 'h1', text: 'Best actress'
+  end
+
+  test 'admin cannot publish a poll if the email is not verified' do
+    sign_in_as(:julia_roberts)
+
+    user = users(:julia_roberts)
+    user.update_column(:email_verified_at, nil)
+
+    visit poll_path(best_actor_poll)
+
+    assert_selector '.poll-status', text: 'Draft'
+
+    assert_selector 'a', text: PUBLISH_POLL_TEXT, disabled: true
+  end
+
+  test 'admin publishes a poll' do
+    sign_in_as(:julia_roberts)
+
+    visit poll_path(best_actor_poll)
+
+    click_on PUBLISH_POLL_TEXT
+
+    assert_selector '.poll-stats', text: 'Published'
   end
 
   # delete
