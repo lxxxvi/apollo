@@ -16,6 +16,10 @@ class User < ApplicationRecord
             authentication_token_expires_at: new_authentication_token_expires_at)
   end
 
+  def verified?
+    email_verified_at.present?
+  end
+
   private
 
   def initialize_authentication_token

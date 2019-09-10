@@ -6,6 +6,7 @@ class PollsTest < ApplicationSystemTestCase
   NEW_POLL_TEXT = 'New poll'.freeze
   EDIT_POLL_TEXT = 'Edit'.freeze
   DELETE_POLL_TEXT = 'Delete'.freeze
+  PUBLISH_POLL_TEXT = 'Publish poll'.freeze
 
   setup do
     @best_actor_poll = polls(:best_actor)
@@ -119,6 +120,31 @@ class PollsTest < ApplicationSystemTestCase
     assert_selector 'h1', text: 'Best actress'
   end
 
+  test 'admin cannot publish a poll if the email is not verified' do
+    sign_in_as(:julia_roberts)
+
+    user = users(:julia_roberts)
+    user.update!(email_verified_at: nil)
+
+    visit poll_path(best_actor_poll)
+
+    assert_selector '.poll-state', text: 'Draft'
+
+    assert_text 'In order to publish this poll you need to verify your email first.'
+
+    assert_raise(Capybara::ElementNotFound) { publish_poll_button }
+  end
+
+  test 'admin publishes a poll' do
+    sign_in_as(:julia_roberts)
+
+    visit poll_path(best_actor_poll)
+
+    publish_poll_button.click
+
+    assert_selector '.poll-state', text: 'Published'
+  end
+
   # delete
 
   test 'delete a poll' do
@@ -153,5 +179,9 @@ class PollsTest < ApplicationSystemTestCase
 
   def delete_poll_button
     find '.poll-actions a', text: DELETE_POLL_TEXT
+  end
+
+  def publish_poll_button
+    find ".poll-state-actions input[value='#{PUBLISH_POLL_TEXT}']"
   end
 end

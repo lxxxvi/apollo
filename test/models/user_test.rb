@@ -31,6 +31,16 @@ class UserTest < ActiveSupport::TestCase
     assert before_count > after_count, 'Count should decrease 1 second later'
   end
 
+  test '#verified?' do
+    user = users(:julia_roberts)
+
+    user.email_verified_at = nil
+
+    assert_changes 'user.verified?', to: true do
+      user.email_verified_at = Time.zone.now
+    end
+  end
+
   private
 
   def with_valid_authentication_tokens_count_at(time)

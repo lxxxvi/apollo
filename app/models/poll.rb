@@ -1,4 +1,6 @@
 class Poll < ApplicationRecord
+  include Poll::States
+
   before_validation :create_custom_id
 
   validates :title, presence: true

@@ -24,6 +24,9 @@ Metrics/ClassLength:
   Exclude:
     - 'test/**/*_test.rb'
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: false
 
