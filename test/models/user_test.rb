@@ -34,11 +34,10 @@ class UserTest < ActiveSupport::TestCase
   test '#verified?' do
     user = users(:julia_roberts)
 
-    user.update_column(:email_verified_at, nil)
+    user.email_verified_at = nil
 
     assert_changes 'user.verified?', to: true do
-      user.update_column(:email_verified_at, Time.zone.now)
-      user.reload
+      user.email_verified_at = Time.zone.now
     end
   end
 

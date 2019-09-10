@@ -124,13 +124,15 @@ class PollsTest < ApplicationSystemTestCase
     sign_in_as(:julia_roberts)
 
     user = users(:julia_roberts)
-    user.update_column(:email_verified_at, nil)
+    user.update!(email_verified_at: nil)
 
     visit poll_path(best_actor_poll)
 
-    assert_selector '.poll-status', text: 'Draft'
+    assert_selector '.poll-state', text: 'Draft'
 
-    assert_selector 'a', text: PUBLISH_POLL_TEXT, disabled: true
+    assert_text 'In order to publish this poll you need to verify your email first.'
+
+    assert_raise(Capybara::ElementNotFound) { publish_poll_button }
   end
 
   test 'admin publishes a poll' do
@@ -138,9 +140,9 @@ class PollsTest < ApplicationSystemTestCase
 
     visit poll_path(best_actor_poll)
 
-    click_on PUBLISH_POLL_TEXT
+    publish_poll_button.click
 
-    assert_selector '.poll-stats', text: 'Published'
+    assert_selector '.poll-state', text: 'Published'
   end
 
   # delete
@@ -177,5 +179,9 @@ class PollsTest < ApplicationSystemTestCase
 
   def delete_poll_button
     find '.poll-actions a', text: DELETE_POLL_TEXT
+  end
+
+  def publish_poll_button
+    find ".poll-state-actions input[value='#{PUBLISH_POLL_TEXT}']"
   end
 end

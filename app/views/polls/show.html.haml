@@ -21,6 +21,25 @@
   .w-full.shadow-inner.bg-gray-100.py-3.px-2
     %p= @poll.description
 
+.flex.mt-5
+  .w-full
+    %h2 State
+
+- if policy(@poll).manage?
+  .poll-state-actions
+    .flex.my-5.text-gray-500
+      .w-full
+        - if !@poll.user.verified?
+          In order to publish this poll you need to verify your email first.
+        - elsif @poll.publishable?
+          = render 'polls/publishment/form', form: PollPublishmentForm.new(@poll)
+
+.flex.mb-10
+  .w-full
+    .poll-state.tracking-widest.uppercase= @poll.state.to_s.capitalize
+
+
+
 .flex.mb-5
   %div{ class: 'w-1/2' }
     %h2 Nominees

@@ -98,5 +98,4 @@ input[type=submit]:hover {
   @apply my-16 py-10 text-gray-300 text-center;
 }
 
-
 @tailwind utilities;
