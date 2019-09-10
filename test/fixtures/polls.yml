@@ -1,5 +1,12 @@
-best_actor:
+best_actress_draft:
+  title: 'Best actress'
+  custom_id: 'best-actress-poll'
+  user: julia_roberts
+  description: 'Who is she?'
+
+best_actor_published:
   title: 'Best actor'
   custom_id: 'best-actor-poll'
   user: julia_roberts
   description: 'Who is he?'
+  published_at: 2000-01-01 01:01:01

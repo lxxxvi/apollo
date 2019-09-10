@@ -5,7 +5,7 @@ class PollPolicyTest < ActiveSupport::TestCase
 
   setup do
     @guest = '_guest'
-    @poll = polls(:best_actor)
+    @poll = polls(:best_actor_published)
     @poll_admin = @poll.user
     @another_admin = users(:tina_fey)
   end

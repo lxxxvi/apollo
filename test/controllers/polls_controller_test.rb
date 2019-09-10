@@ -1,14 +1,14 @@
 require 'test_helper'
 
 class PollsControllerTest < ActionDispatch::IntegrationTest
-  attr_reader :best_actor_poll
+  attr_reader :poll
 
   setup do
-    @best_actor_poll = polls(:best_actor)
+    @poll = polls(:best_actor_published)
   end
 
   test 'show poll' do
-    get poll_path(best_actor_poll)
+    get poll_path(poll)
     assert_response :success
   end
 
@@ -36,15 +36,15 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   test 'should get edit' do
     sign_in_as(:julia_roberts)
 
-    get edit_poll_path(best_actor_poll)
+    get edit_poll_path(poll)
     assert_response :success
   end
 
   test 'should post update' do
     sign_in_as(:julia_roberts)
 
-    assert_changes -> { best_actor_poll.reload.updated_at } do
-      patch poll_path(best_actor_poll), params: {
+    assert_changes -> { poll.reload.updated_at } do
+      patch poll_path(poll), params: {
         poll: {
           title: 'Best Actress',
           description: 'Another description'
@@ -59,7 +59,7 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(:julia_roberts)
 
     assert_difference -> { Poll.count }, -1 do
-      delete poll_path(best_actor_poll)
+      delete poll_path(poll)
       follow_redirect!
       assert_response :success
     end
@@ -68,8 +68,8 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   test 'unauthorized actions' do
     sign_in_as(:tina_fey)
 
-    assert_raise(Pundit::NotAuthorizedError) { get edit_poll_path(best_actor_poll) }
-    assert_raise(Pundit::NotAuthorizedError) { patch poll_path(best_actor_poll) }
-    assert_raise(Pundit::NotAuthorizedError) { delete poll_path(best_actor_poll) }
+    assert_raise(ActiveRecord::RecordNotFound) { get edit_poll_path(poll) }
+    assert_raise(ActiveRecord::RecordNotFound) { patch poll_path(poll) }
+    assert_raise(ActiveRecord::RecordNotFound) { delete poll_path(poll) }
   end
 end

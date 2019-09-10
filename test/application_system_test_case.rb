@@ -10,6 +10,10 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     visit sign_in_url(user.authentication_token)
   end
 
+  def sign_out
+    visit sign_out_path
+  end
+
   def find_label_and_input_for(html_id)
     find_label_for html_id
     assert_selector "input##{html_id}"

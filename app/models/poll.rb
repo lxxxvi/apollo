@@ -1,5 +1,5 @@
 class Poll < ApplicationRecord
-  include Poll::States
+  include Statable
 
   before_validation :create_custom_id
 
@@ -12,6 +12,8 @@ class Poll < ApplicationRecord
   has_many :tokens, dependent: :destroy
 
   scope :ordered, -> { order(created_at: :desc) }
+  scope :listed, -> { published }
+  scope :of_user, ->(user) { where(user: user) }
 
   def to_param
     custom_id
