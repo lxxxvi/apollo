@@ -1,4 +1,4 @@
-class TokensController < ApplicationController
+class Polls::TokensController < ApplicationController
   before_action :set_poll
 
   def new
