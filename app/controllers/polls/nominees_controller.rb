@@ -1,4 +1,4 @@
-class NomineesController < ApplicationController
+class Polls::NomineesController < ApplicationController
   before_action :set_poll
 
   def new

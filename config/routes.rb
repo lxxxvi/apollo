@@ -10,9 +10,8 @@ Rails.application.routes.draw do
   get 'sign_out', to: 'sessions#destroy', as: :sign_out
 
   resources :polls, param: :custom_id do
-    resources :nominees, except: [:index, :show], param: :custom_id
-    resources :tokens, only: %i[new create destroy], param: :value
-
+    resources :nominees, except: %i[index show], param: :custom_id, module: :polls
+    resources :tokens, only: %i[new create destroy], param: :value, module: :polls
     resource :publishment, only: %i[create], module: :polls
   end
 end
