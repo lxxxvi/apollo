@@ -94,6 +94,16 @@ class PollsManagementTest < ApplicationSystemTestCase
     assert_selector '.poll-state', text: 'Published'
   end
 
+  test 'admin starts a published poll' do
+    sign_in_as(:julia_roberts)
+
+    visit poll_path(published_poll)
+    assert_selector '.poll-state', text: 'Published'
+
+    click_on 'Start poll'
+    assert_selector '.poll-state', text: 'Started'
+  end
+
   # delete
 
   test 'deletes an unstarted poll' do
