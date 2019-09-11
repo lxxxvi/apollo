@@ -5,13 +5,13 @@ class TokenTest < ApplicationSystemTestCase
   DELETE_TOKEN_TEXT = 'Delete'.freeze
 
   setup do
-    @best_actor_poll = polls(:best_actor)
+    @poll = polls(:best_actor_published)
   end
 
   test 'create tokens' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@best_actor_poll)
+    visit poll_path(@poll)
 
     assert_selector 'h2', text: 'Tokens'
     assert_equal 1, token_items.count
@@ -36,7 +36,7 @@ class TokenTest < ApplicationSystemTestCase
   test 'create too many tokens' do
     sign_in_as(:julia_roberts)
 
-    visit new_poll_token_path(@best_actor_poll)
+    visit new_poll_token_path(@poll)
 
     assert_selector 'h1', text: NEW_TOKENS_TEXT
 
@@ -50,7 +50,7 @@ class TokenTest < ApplicationSystemTestCase
   test 'delete token' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@best_actor_poll)
+    visit poll_path(@poll)
 
     assert_difference -> { token_items.count }, -1 do
       within '.token:first-child' do
@@ -59,19 +59,15 @@ class TokenTest < ApplicationSystemTestCase
     end
   end
 
-  test 'non-admin does not see "Add token" button' do
-    sign_in_as(:tina_fey)
-
-    visit poll_path(@best_actor_poll)
-
+  test 'guest does not see "Add token" button' do
+    sign_out
+    visit poll_path(@poll)
     assert_raises(Capybara::ElementNotFound) { add_tokens_link }
   end
 
-  test 'non-admin does not see token action buttons' do
-    sign_in_as(:tina_fey)
-
-    visit poll_path(@best_actor_poll)
-
+  test 'guest does not see token action buttons' do
+    sign_out
+    visit poll_path(@poll)
     assert_raises(Capybara::ElementNotFound) { delete_token_link }
   end
 

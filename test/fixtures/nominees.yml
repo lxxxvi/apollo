@@ -1,17 +1,29 @@
+best_actress_julia_roberts:
+  custom_id: "best-actreess-julia"
+  poll: best_actress_draft
+  name: "Julia Roberts"
+  description: 'Pretty woman'
+
+best_actress_meryl_streep:
+  custom_id: "best-actress-meryl-streep"
+  poll: best_actress_draft
+  name: "Meryl Streep"
+  description: "What is she wearing?"
+
 best_actor_bill_murray:
   custom_id: "best-actor-nominee-bill"
-  poll: best_actor
+  poll: best_actor_published
   name: "Bill Murray"
   description: "Bill kills it"
 
 best_actor_edward_norton:
   custom_id: "best-actor-nominee-edward"
-  poll: best_actor
+  poll: best_actor_published
   name: "Edward Norton"
   description: "Edi is the best"
 
 best_actor_bryan_cranston:
   custom_id: "best-actor-nominee-bryan"
-  poll: best_actor
+  poll: best_actor_published
   name: "Bryan Cranston"
   description: "You don't mess with Walter White"

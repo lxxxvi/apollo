@@ -25,6 +25,7 @@ class PollsController < ApplicationController
     @form = PollForm.new(poll, new_poll_params)
 
     if @form.save
+      sign_in @form.poll.user
       redirect_to poll_path(@form.poll)
     else
       render :new
@@ -58,7 +59,7 @@ class PollsController < ApplicationController
   private
 
   def set_poll
-    @poll = Poll.find_by!(custom_id: params[:custom_id])
+    @poll = policy_scope(Poll).find_by!(custom_id: params[:custom_id])
   end
 
   def new_poll_params

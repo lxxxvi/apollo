@@ -30,4 +30,14 @@ class PollPolicy < ApplicationPolicy
   def manage?
     record.user == user
   end
+
+  class Scope < Scope
+    def resolve
+      if user.present?
+        scope.of_user(user)
+      else
+        scope.listed
+      end
+    end
+  end
 end

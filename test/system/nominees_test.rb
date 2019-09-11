@@ -6,14 +6,13 @@ class NomineesTest < ApplicationSystemTestCase
   DELETE_NOMINEE_TEXT = 'Delete'.freeze
 
   setup do
-    @best_actor_poll = polls(:best_actor)
-    @best_actor_bill_murray = nominees(:best_actor_bill_murray)
+    @poll = polls(:best_actor_published)
   end
 
   test 'visiting the nominee form' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@best_actor_poll)
+    visit poll_path(@poll)
 
     new_nominee_button.click
 
@@ -30,7 +29,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'submit new nominee form empty' do
     sign_in_as(:julia_roberts)
 
-    visit new_poll_nominee_path(@best_actor_poll)
+    visit new_poll_nominee_path(@poll)
 
     assert_selector('h1', text: 'Add nominee')
     click_on('Create Nominee')
@@ -42,7 +41,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'submit new nominee form complete' do
     sign_in_as(:julia_roberts)
 
-    visit new_poll_nominee_path(@best_actor_poll)
+    visit new_poll_nominee_path(@poll)
 
     assert_selector('h1', text: 'Add nominee')
 
@@ -60,7 +59,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'edit an nominee' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@best_actor_poll)
+    visit poll_path(@poll)
 
     within('.nominee:first-child') do
       edit_nominee_button.click
@@ -83,7 +82,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'delete nominee' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@best_actor_poll)
+    visit poll_path(@poll)
 
     assert_difference -> { all('.nominees li.nominee').count }, -1 do
       within('.nominee:first-child') do
@@ -92,16 +91,16 @@ class NomineesTest < ApplicationSystemTestCase
     end
   end
 
-  test 'non-admin does not see "Add nominee" button' do
-    sign_in_as(:tina_fey)
-    visit poll_path(@best_actor_poll)
+  test 'guest does not see "Add nominee" button' do
+    sign_out
+    visit poll_path(@poll)
 
     assert_raise(Capybara::ElementNotFound) { edit_nominee_button }
   end
 
-  test 'non-admin does not see any action buttons for nominee' do
-    sign_in_as(:tina_fey)
-    visit poll_path(@best_actor_poll)
+  test 'guest does not see any action buttons for nominee' do
+    sign_out
+    visit poll_path(@poll)
 
     assert_raise(Capybara::ElementNotFound) { delete_nominee_button }
   end

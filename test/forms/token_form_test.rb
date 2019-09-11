@@ -4,7 +4,7 @@ class TokenFormTest < ActiveSupport::TestCase
   attr_reader :poll
 
   setup do
-    @poll = polls(:best_actor)
+    @poll = polls(:best_actor_published)
   end
 
   test 'invalid minimum amount' do

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class NomineeTest < ActiveSupport::TestCase
   test 'creates a custom id' do
-    poll = polls(:best_actor)
+    poll = polls(:best_actor_published)
     nominee = Nominee.create!(poll: poll,
                               name: 'John Malkovich',
                               description: 'Being John Malkovich')
