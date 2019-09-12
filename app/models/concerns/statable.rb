@@ -34,7 +34,7 @@ module Statable
     end
 
     def startable?
-      published?
+      published? && !started?
     end
 
     # actions

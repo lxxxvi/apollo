@@ -5,3 +5,7 @@ best_actress_token_1:
 best_actor_token_1:
   value: BEST-ACTOR-TOKEN-1
   poll: best_actor_published
+
+best_singer_token_1:
+  value: BEST-SINGER-TOKEN-1
+  poll: best_singer_started
