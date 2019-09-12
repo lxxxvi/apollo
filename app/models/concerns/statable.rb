@@ -1,6 +1,7 @@
 module Statable
   extend ActiveSupport::Concern
 
+  # rubocop:disable Metrics/BlockLength
   included do
     scope :drafted, -> { where(published_at: nil) }
     scope :published, -> { where.not(published_at: nil) }
@@ -51,4 +52,5 @@ module Statable
       update!(started_at: Time.zone.now)
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end

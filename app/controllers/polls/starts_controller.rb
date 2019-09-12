@@ -7,9 +7,10 @@ class Polls::StartsController < ApplicationController
     form = PollStartForm.new(poll)
 
     if form.save!
-      redirect_to poll
+      redirect_to poll, notice: 'Poll started'
     else
-      redirect_to poll, error: form.errors.join
+      flash[:error] = form.errors.full_messages.join
+      redirect_to poll
     end
   end
 end
