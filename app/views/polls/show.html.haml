@@ -33,6 +33,8 @@
           In order to publish this poll you need to verify your email first.
         - elsif @poll.publishable?
           = render 'polls/publishment/form', form: PollPublishmentForm.new(@poll)
+        - elsif @poll.startable?
+          = render 'polls/start/form', form: PollStartForm.new(@poll)
 
 .flex.mb-10
   .w-full

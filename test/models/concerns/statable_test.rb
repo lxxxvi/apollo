@@ -12,14 +12,6 @@ class StatableTest < ActiveSupport::TestCase
     assert_equal :draft, poll.state
   end
 
-  test 'transition Draft to Published' do
-    poll.save!
-
-    assert_changes 'poll.state', from: :draft, to: :published do
-      poll.publish!
-    end
-  end
-
   test '#publishable?' do
     poll.published_at = nil
     poll.user.email_verified_at = nil
@@ -32,12 +24,14 @@ class StatableTest < ActiveSupport::TestCase
     assert_not poll.publishable?, 'Should not be publishable, because it already is published'
   end
 
-  test '#publish!' do
+  test 'scope, state, state check for publish!' do
     poll.published_at = nil
 
     assert_difference 'Poll.published.count', 1 do
       assert_changes 'poll.published?', to: true do
-        poll.publish!
+        assert_changes 'poll.state', from: :draft, to: :published do
+          poll.publish!
+        end
       end
     end
   end
@@ -46,5 +40,17 @@ class StatableTest < ActiveSupport::TestCase
     poll.published_at = Time.zone.now
 
     assert_raises(Error::PollStateChangeError) { poll.publish! }
+  end
+
+  test '#startable?' do
+    assert false, 'implement me'
+  end
+
+  test 'scope, state, state check for start!' do
+    assert false, 'implement me'
+  end
+
+  test '#start! not startable' do
+    assert false, 'implement me'
   end
 end
