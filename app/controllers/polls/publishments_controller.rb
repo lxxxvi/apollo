@@ -9,7 +9,7 @@ class Polls::PublishmentsController < ApplicationController
     if form.save!
       redirect_to poll
     else
-      redirect_to poll, error: form.errors.join
+      redirect_to poll, error: form.errors.full_messages.join
     end
   end
 end

@@ -13,6 +13,10 @@ module ActiveSupport
       get sign_in_path(user.authentication_token)
     end
 
+    def sign_out
+      get sign_out_path
+    end
+
     # Pundit helpers
     def assert_permit(user, record, action)
       msg = "User #{user.inspect} should be permitted to #{action} #{record}, but isn't permitted"

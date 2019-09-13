@@ -27,3 +27,16 @@ best_actor_bryan_cranston:
   poll: best_actor_published
   name: "Bryan Cranston"
   description: "You don't mess with Walter White"
+
+best_singer_barbra_streisand:
+  custom_id: 'best-singer-barbra-streisand'
+  poll: best_singer_started
+  name: 'Barbra Streisand'
+  description: 'Barbra Streisand!'
+
+best_singer_adele:
+  custom_id: 'best-singer-adele'
+  poll: best_singer_started
+  name: 'Adele'
+  description: 'Rolling in the deep'
+
