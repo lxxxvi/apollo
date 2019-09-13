@@ -1,11 +1,12 @@
 require 'application_system_test_case'
 
 class PollsManagementTest < ApplicationSystemTestCase
-  attr_reader :draft_poll, :published_poll
+  attr_reader :draft_poll, :published_poll, :started_poll
 
   setup do
     @draft_poll = polls(:best_actress_draft)
     @published_poll = polls(:best_actor_published)
+    @started_poll = polls(:best_singer_started)
   end
 
   test 'create a new poll' do
@@ -102,6 +103,17 @@ class PollsManagementTest < ApplicationSystemTestCase
 
     click_on 'Start poll'
     assert_selector '.poll-state', text: 'Started'
+  end
+
+  test 'admin closes a started poll' do
+    sign_in_as(:julia_roberts)
+
+    visit poll_path(started_poll)
+
+    assert_selector '.poll-state', text: 'Started'
+
+    click_on 'Close poll'
+    assert_selector '.poll-state', text: 'Closed'
   end
 
   # delete

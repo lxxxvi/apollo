@@ -6,8 +6,10 @@ module Statable
     scope :drafted, -> { where(published_at: nil) }
     scope :published, -> { where.not(published_at: nil) }
     scope :started, -> { where.not(started_at: nil) }
+    scope :closed, -> { where.not(closed_at: nil) }
 
     def state
+      return :closed if closed?
       return :started if started?
       return :published if published?
 
@@ -28,6 +30,10 @@ module Statable
       started_at.present?
     end
 
+    def closed?
+      closed_at.present?
+    end
+
     # abilities
 
     def publishable?
@@ -36,6 +42,10 @@ module Statable
 
     def startable?
       published? && !started?
+    end
+
+    def closable?
+      started? && !closed?
     end
 
     # actions
@@ -50,6 +60,12 @@ module Statable
       raise Error::PollStateChangeError, 'Cannot start poll' unless startable?
 
       update!(started_at: Time.zone.now)
+    end
+
+    def close!
+      raise Error::PollStateChangeError, 'Cannot close poll' unless closable?
+
+      update!(closed_at: Time.zone.now)
     end
   end
   # rubocop:enable Metrics/BlockLength

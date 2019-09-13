@@ -24,6 +24,10 @@ Metrics/ClassLength:
   Exclude:
     - 'test/**/*_test.rb'
 
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+
 Style/ClassAndModuleChildren:
   Enabled: false
 
