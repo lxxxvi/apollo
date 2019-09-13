@@ -15,10 +15,11 @@ class Polls::PublishmentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_changes -> { poll.state }, from: :draft, to: :published do
       post poll_publishment_path(poll)
-      follow_redirect!
-      assert_response :success
       poll.reload
     end
+
+    follow_redirect!
+    assert_response :success
 
     assert_equal 'Poll published', flash[:notice]
   end
@@ -30,10 +31,11 @@ class Polls::PublishmentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_changes -> { poll.state } do
       post poll_publishment_path(poll)
-      follow_redirect!
-      assert_response :success
       poll.reload
     end
+
+    follow_redirect!
+    assert_response :success
 
     assert_equal 'Poll is not publishable', flash[:error]
   end
@@ -45,6 +47,7 @@ class Polls::PublishmentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_changes -> { poll.state } do
       assert_raise(Pundit::NotAuthorizedError) { post poll_publishment_path(poll) }
+      poll.reload
     end
   end
 
@@ -53,6 +56,7 @@ class Polls::PublishmentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_changes -> { poll.state } do
       assert_raise(Pundit::NotAuthorizedError) { post poll_publishment_path(poll) }
+      poll.reload
     end
   end
 end
