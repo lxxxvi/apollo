@@ -7,9 +7,10 @@ class Polls::PublishmentsController < ApplicationController
     form = PollPublishmentForm.new(poll)
 
     if form.save!
-      redirect_to poll
+      redirect_to poll, notice: 'Poll published'
     else
-      redirect_to poll, error: form.errors.full_messages.join
+      flash[:error] = form.errors.full_messages.join
+      redirect_to poll
     end
   end
 end
