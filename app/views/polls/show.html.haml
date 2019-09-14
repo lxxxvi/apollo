@@ -37,6 +37,8 @@
           = render 'polls/start/form', form: PollStartForm.new(@poll)
         - elsif @poll.closable?
           = render 'polls/closing/form', form: PollClosingForm.new(@poll)
+        - elsif @poll.archivable?
+          = render 'polls/archiving/form', form: PollArchivingForm.new(@poll)
 
 .flex.mb-10
   .w-full

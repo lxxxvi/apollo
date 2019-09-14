@@ -27,3 +27,13 @@ best_movie_closed:
   published_at: 2000-01-01 01:01:01
   started_at: 2000-01-01 01:01:02
   closed_at: 2000-01-01 01:01:03
+
+best_song_archived:
+  title: 'Best song'
+  custom_id: 'best-song-archived'
+  user: julia_roberts
+  description: 'There has to be one answer'
+  published_at: 2000-01-01 01:01:01
+  started_at: 2000-01-01 01:01:02
+  closed_at: 2000-01-01 01:01:03
+  archived_at: 2000-01-01 01:01:04

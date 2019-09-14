@@ -2,7 +2,7 @@ require 'test_helper'
 
 class StatableTest < ActiveSupport::TestCase
   attr_reader :user, :draft_poll, :published_poll,
-              :started_poll, :closed_poll
+              :started_poll, :closed_poll, :archived_poll
 
   setup do
     @user = users(:julia_roberts)
@@ -10,6 +10,7 @@ class StatableTest < ActiveSupport::TestCase
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
+    @archived_poll = polls(:best_song_archived)
   end
 
   test 'initial state' do
@@ -44,6 +45,7 @@ class StatableTest < ActiveSupport::TestCase
     assert_raises(Error::PollStateChangeError) { published_poll.publish! }
     assert_raises(Error::PollStateChangeError) { started_poll.publish! }
     assert_raises(Error::PollStateChangeError) { closed_poll.publish! }
+    assert_raises(Error::PollStateChangeError) { archived_poll.publish! }
   end
 
   test '#startable?' do
@@ -66,6 +68,7 @@ class StatableTest < ActiveSupport::TestCase
     assert_raises(Error::PollStateChangeError) { draft_poll.start! }
     assert_raises(Error::PollStateChangeError) { started_poll.start! }
     assert_raises(Error::PollStateChangeError) { closed_poll.start! }
+    assert_raises(Error::PollStateChangeError) { archived_poll.start! }
   end
 
   test 'closable?' do
@@ -88,5 +91,29 @@ class StatableTest < ActiveSupport::TestCase
     assert_raises(Error::PollStateChangeError) { draft_poll.close! }
     assert_raises(Error::PollStateChangeError) { published_poll.close! }
     assert_raises(Error::PollStateChangeError) { closed_poll.close! }
+    assert_raises(Error::PollStateChangeError) { archived_poll.close! }
+  end
+
+  test 'archivable?' do
+    assert closed_poll.archivable?
+  end
+
+  test 'scope, state, state check for archive!' do
+    poll = closed_poll
+
+    assert_difference 'Poll.archived.count', 1 do
+      assert_changes 'poll.archived?', to: true do
+        assert_changes 'poll.state', from: :closed, to: :archived do
+          poll.archive!
+        end
+      end
+    end
+  end
+
+  test '#archive! not archivable' do
+    assert_raises(Error::PollStateChangeError) { draft_poll.archive! }
+    assert_raises(Error::PollStateChangeError) { published_poll.archive! }
+    assert_raises(Error::PollStateChangeError) { started_poll.archive! }
+    assert_raises(Error::PollStateChangeError) { archived_poll.archive! }
   end
 end

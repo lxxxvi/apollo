@@ -51,3 +51,15 @@ best_movie_fargo:
   poll: best_movie_closed
   name: 'Fargo'
   description: 'Jeeez!'
+
+best_song_beatles_yesterday:
+  custom_id: 'best-song-beatles-yesterday'
+  poll: best_song_archived
+  name: 'Beatles - Yesterday'
+  description: 'All my troubles seemed so far away'
+
+best_song_rolling_stones_satisfaction:
+  custom_id: 'best-song-rolling-stones-satisfaction'
+  poll: best_song_archived
+  name: "The Rolling Stones - (I Can't Get No) Satisfaction"
+  description: 'No words'

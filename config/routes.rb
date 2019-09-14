@@ -15,5 +15,6 @@ Rails.application.routes.draw do
     resource :publishment, only: %i[create], module: :polls
     resource :start, only: %i[create], module: :polls
     resource :closing, only: %i[create], module: :polls
+    resource :archiving, only: %i[create], module: :polls
   end
 end
