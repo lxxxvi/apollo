@@ -135,8 +135,9 @@ class PollsManagementTest < ApplicationSystemTestCase
 
     visit poll_path(published_poll)
 
-    button = find('.poll-actions a', text: 'Delete')
-    click_with_delete(button)
+    within '.poll-actions' do
+      click_on 'Delete'
+    end
 
     assert_selector 'h1', text: 'All polls'
   end
