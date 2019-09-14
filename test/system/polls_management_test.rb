@@ -116,6 +116,17 @@ class PollsManagementTest < ApplicationSystemTestCase
     assert_selector '.poll-state', text: 'Closed'
   end
 
+  test 'admin archives a closed poll' do
+    sign_in_as(:julia_roberts)
+
+    visit poll_path(ended_poll)
+
+    assert_selector '.poll-state', text: 'Closed'
+
+    click_on 'Archive poll'
+    assert_selector '.poll-state', text: 'Archived'
+  end
+
   # delete
 
   test 'deletes an unstarted poll' do
