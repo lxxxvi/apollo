@@ -63,3 +63,9 @@ best_song_rolling_stones_satisfaction:
   poll: best_song_archived
   name: "The Rolling Stones - (I Can't Get No) Satisfaction"
   description: 'No words'
+
+best_book_harry_potter:
+  custom_id: 'best-book-harry-potter'
+  poll: best_book_deleted
+  name: "Harry Potter and the Philosopher's Stone"
+  description: 'Avada Kedavra'

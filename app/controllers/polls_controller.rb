@@ -1,5 +1,5 @@
 class PollsController < ApplicationController
-  before_action :set_poll, only: [:show, :edit, :update, :destroy]
+  before_action :set_poll, only: [:show, :edit, :update]
 
   def index
     authorize Poll
@@ -47,13 +47,6 @@ class PollsController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def destroy
-    authorize @poll
-
-    @poll.destroy
-    redirect_to root_path
   end
 
   private

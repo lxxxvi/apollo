@@ -11,11 +11,8 @@
         .absolute.bottom-0.right-0
           .poll-actions
             = link_to 'Edit', edit_poll_path(@poll), class: 'shy-link'
-            = link_to 'Delete',
-              poll_path(@poll),
-              method: :delete,
-              data: { confirm: 'Are you sure?' },
-              class: 'dangerous-link'
+            - if @poll.deletable?
+              = render 'polls/deletion/form', form: PollDeletionForm.new(@poll)
 
 .flex.mt-5.mb-10
   .w-full.shadow-inner.bg-gray-100.py-3.px-2

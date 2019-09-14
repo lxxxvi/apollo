@@ -55,21 +55,10 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'should get delete' do
-    sign_in_as(:julia_roberts)
-
-    assert_difference -> { Poll.count }, -1 do
-      delete poll_path(poll)
-      follow_redirect!
-      assert_response :success
-    end
-  end
-
   test 'unauthorized actions' do
     sign_in_as(:tina_fey)
 
     assert_raise(ActiveRecord::RecordNotFound) { get edit_poll_path(poll) }
     assert_raise(ActiveRecord::RecordNotFound) { patch poll_path(poll) }
-    assert_raise(ActiveRecord::RecordNotFound) { delete poll_path(poll) }
   end
 end
