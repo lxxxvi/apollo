@@ -8,6 +8,7 @@ class CreatePolls < ActiveRecord::Migration[5.2]
       t.datetime :published_at, null: true
       t.datetime :started_at, null: true
       t.datetime :closed_at, null: true
+      t.datetime :archived_at, null: true
       t.index [:custom_id], unique: true, name: :ak_polls_custom_id
 
       t.timestamps

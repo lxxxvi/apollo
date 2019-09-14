@@ -1,12 +1,13 @@
 require 'application_system_test_case'
 
 class PollsManagementTest < ApplicationSystemTestCase
-  attr_reader :draft_poll, :published_poll, :started_poll
+  attr_reader :draft_poll, :published_poll, :started_poll, :closed_poll
 
   setup do
     @draft_poll = polls(:best_actress_draft)
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
+    @closed_poll = polls(:best_movie_closed)
   end
 
   test 'create a new poll' do
@@ -119,7 +120,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin archives a closed poll' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(ended_poll)
+    visit poll_path(closed_poll)
 
     assert_selector '.poll-state', text: 'Closed'
 
