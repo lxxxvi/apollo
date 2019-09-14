@@ -40,3 +40,14 @@ best_singer_adele:
   name: 'Adele'
   description: 'Rolling in the deep'
 
+best_movie_lebowski:
+  custom_id: 'best-movie-lebowski'
+  poll: best_movie_closed
+  name: 'The Big Lebowski'
+  description: 'Duuude'
+
+best_movie_fargo:
+  custom_id: 'best-movie-fargo'
+  poll: best_movie_closed
+  name: 'Fargo'
+  description: 'Jeeez!'

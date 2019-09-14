@@ -18,3 +18,12 @@ best_singer_started:
   description: 'Who is it?'
   published_at: 2000-01-01 01:01:01
   started_at: 2000-01-01 01:01:02
+
+best_movie_closed:
+  title: 'Best movie'
+  custom_id: 'best-movie-poll'
+  user: julia_roberts
+  description: 'Ultimate question'
+  published_at: 2000-01-01 01:01:01
+  started_at: 2000-01-01 01:01:02
+  closed_at: 2000-01-01 01:01:03

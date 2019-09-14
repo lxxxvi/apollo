@@ -43,7 +43,7 @@ class Polls::StartsControllerTest < ActionDispatch::IntegrationTest
   test 'non-admin cannot start startable poll' do
     sign_in_as(:tina_fey)
 
-    poll = started_poll
+    poll = published_poll
 
     assert_no_changes -> { poll.state } do
       assert_raise(ActiveRecord::RecordNotFound) { post poll_start_path(poll) }
@@ -54,7 +54,7 @@ class Polls::StartsControllerTest < ActionDispatch::IntegrationTest
   test 'guest cannot start startable poll' do
     sign_out
 
-    poll = started_poll
+    poll = published_poll
 
     assert_no_changes -> { poll.state } do
       assert_raise(Pundit::NotAuthorizedError) { post poll_start_path(poll) }

@@ -14,5 +14,6 @@ Rails.application.routes.draw do
     resources :tokens, only: %i[new create destroy], param: :value, module: :polls
     resource :publishment, only: %i[create], module: :polls
     resource :start, only: %i[create], module: :polls
+    resource :closing, only: %i[create], module: :polls
   end
 end
