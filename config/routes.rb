@@ -9,12 +9,13 @@ Rails.application.routes.draw do
   get 'sign_in/:authentication_token', to: 'sessions#new', as: :sign_in
   get 'sign_out', to: 'sessions#destroy', as: :sign_out
 
-  resources :polls, param: :custom_id do
+  resources :polls, except: %i[destroy], param: :custom_id do
     resources :nominees, except: %i[index show], param: :custom_id, module: :polls
     resources :tokens, only: %i[new create destroy], param: :value, module: :polls
     resource :publishment, only: %i[create], module: :polls
     resource :start, only: %i[create], module: :polls
     resource :closing, only: %i[create], module: :polls
     resource :archiving, only: %i[create], module: :polls
+    resource :deletion, only: %i[create], module: :polls
   end
 end

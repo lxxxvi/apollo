@@ -37,3 +37,11 @@ best_song_archived:
   started_at: 2000-01-01 01:01:02
   closed_at: 2000-01-01 01:01:03
   archived_at: 2000-01-01 01:01:04
+
+best_book_deleted:
+  title: 'Best book'
+  custom_id: 'best-book-deleted'
+  user: julia_roberts
+  description: 'No one read it'
+  published_at: 2000-01-01 01:01:01
+  deleted_at: 2000-01-01 01:01:05

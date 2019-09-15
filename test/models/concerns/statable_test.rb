@@ -2,7 +2,8 @@ require 'test_helper'
 
 class StatableTest < ActiveSupport::TestCase
   attr_reader :user, :draft_poll, :published_poll,
-              :started_poll, :closed_poll, :archived_poll
+              :started_poll, :closed_poll, :archived_poll,
+              :deleted_poll
 
   setup do
     @user = users(:julia_roberts)
@@ -11,11 +12,14 @@ class StatableTest < ActiveSupport::TestCase
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
     @archived_poll = polls(:best_song_archived)
+    @deleted_poll = polls(:best_book_deleted)
   end
 
   test 'initial state' do
     assert_equal :draft, Poll.new(title: 'Foo', user: user).state
   end
+
+  # publish
 
   test '#publishable?' do
     poll = draft_poll
@@ -46,7 +50,10 @@ class StatableTest < ActiveSupport::TestCase
     assert_raises(Error::PollStateChangeError) { started_poll.publish! }
     assert_raises(Error::PollStateChangeError) { closed_poll.publish! }
     assert_raises(Error::PollStateChangeError) { archived_poll.publish! }
+    assert_raises(Error::PollStateChangeError) { deleted_poll.publish! }
   end
+
+  # start
 
   test '#startable?' do
     assert published_poll.startable?
@@ -69,7 +76,10 @@ class StatableTest < ActiveSupport::TestCase
     assert_raises(Error::PollStateChangeError) { started_poll.start! }
     assert_raises(Error::PollStateChangeError) { closed_poll.start! }
     assert_raises(Error::PollStateChangeError) { archived_poll.start! }
+    assert_raises(Error::PollStateChangeError) { deleted_poll.start! }
   end
+
+  # close
 
   test 'closable?' do
     assert started_poll.closable?
@@ -92,7 +102,10 @@ class StatableTest < ActiveSupport::TestCase
     assert_raises(Error::PollStateChangeError) { published_poll.close! }
     assert_raises(Error::PollStateChangeError) { closed_poll.close! }
     assert_raises(Error::PollStateChangeError) { archived_poll.close! }
+    assert_raises(Error::PollStateChangeError) { deleted_poll.close! }
   end
+
+  # archive
 
   test 'archivable?' do
     assert closed_poll.archivable?
@@ -115,5 +128,31 @@ class StatableTest < ActiveSupport::TestCase
     assert_raises(Error::PollStateChangeError) { published_poll.archive! }
     assert_raises(Error::PollStateChangeError) { started_poll.archive! }
     assert_raises(Error::PollStateChangeError) { archived_poll.archive! }
+    assert_raises(Error::PollStateChangeError) { deleted_poll.archive! }
+  end
+
+  # delete
+
+  test 'deletable?' do
+    assert draft_poll.deletable?
+    assert published_poll.deletable?
+  end
+
+  test 'scope, state, state check for delete!' do
+    poll = published_poll
+
+    assert_difference 'Poll.deleted.count', 1 do
+      assert_changes 'poll.deleted?', to: true do
+        assert_changes 'poll.state', from: :published, to: :deleted do
+          poll.delete!
+        end
+      end
+    end
+  end
+
+  test '#delete! not deletable' do
+    assert_raises(Error::PollStateChangeError) { started_poll.delete! }
+    assert_raises(Error::PollStateChangeError) { closed_poll.delete! }
+    assert_raises(Error::PollStateChangeError) { archived_poll.delete! }
   end
 end
