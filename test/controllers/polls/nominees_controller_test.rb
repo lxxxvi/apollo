@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class NomineesControllerTest < ActionDispatch::IntegrationTest
+class Polls::NomineesControllerTest < ActionDispatch::IntegrationTest
   attr_reader :published_poll, :started_poll, :closed_poll, :archived_poll, :deleted_poll, :nominee
 
   setup do

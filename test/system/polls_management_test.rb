@@ -82,18 +82,24 @@ class PollsManagementTest < ApplicationSystemTestCase
     assert_selector 'a', text: 'Add nominee', count: 0
     assert_selector '.nominees a', text: 'Edit', count: 0
     assert_selector '.nominees a', text: 'Delete', count: 0
+    assert_selector 'a', text: 'Add tokens', count: 0
+    assert_selector '.tokens a', text: 'Delete', count: 0
 
     click_on 'Close poll'
     assert_selector '.poll-actions', text: 'Edit', count: 0
     assert_selector 'a', text: 'Add nominee', count: 0
     assert_selector '.nominees a', text: 'Edit', count: 0
     assert_selector '.nominees a', text: 'Delete', count: 0
+    assert_selector 'a', text: 'Add tokens', count: 0
+    assert_selector '.tokens a', text: 'Delete', count: 0
 
     click_on 'Archive poll'
     assert_selector '.poll-actions', text: 'Edit', count: 0
     assert_selector 'a', text: 'Add nominee', count: 0
     assert_selector '.nominees a', text: 'Edit', count: 0
     assert_selector '.nominees a', text: 'Delete', count: 0
+    assert_selector 'a', text: 'Add tokens', count: 0
+    assert_selector '.tokens a', text: 'Delete', count: 0
   end
 
   test 'admin cannot publish a poll if the email is not verified' do
