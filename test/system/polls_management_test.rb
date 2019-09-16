@@ -76,17 +76,24 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin cannot edit poll once started' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(draft_poll)
+    visit poll_path(started_poll)
 
-    assert_selector '.poll-actions', text: 'Edit', count: 1
-    click_on 'Publish poll'
-    assert_selector '.poll-actions', text: 'Edit', count: 1
-    click_on 'Start poll'
     assert_selector '.poll-actions', text: 'Edit', count: 0
+    assert_selector 'a', text: 'Add nominee', count: 0
+    assert_selector '.nominees a', text: 'Edit', count: 0
+    assert_selector '.nominees a', text: 'Delete', count: 0
+
     click_on 'Close poll'
     assert_selector '.poll-actions', text: 'Edit', count: 0
+    assert_selector 'a', text: 'Add nominee', count: 0
+    assert_selector '.nominees a', text: 'Edit', count: 0
+    assert_selector '.nominees a', text: 'Delete', count: 0
+
     click_on 'Archive poll'
     assert_selector '.poll-actions', text: 'Edit', count: 0
+    assert_selector 'a', text: 'Add nominee', count: 0
+    assert_selector '.nominees a', text: 'Edit', count: 0
+    assert_selector '.nominees a', text: 'Delete', count: 0
   end
 
   test 'admin cannot publish a poll if the email is not verified' do
