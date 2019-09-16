@@ -2,13 +2,13 @@ class Polls::NomineesController < ApplicationController
   before_action :set_poll
 
   def new
-    authorize @poll, :manage?
+    authorize @poll, :update?
 
     @nominee = @poll.nominees.new
   end
 
   def create
-    authorize @poll, :manage?
+    authorize @poll, :update?
 
     @nominee = @poll.nominees.new(nominee_params)
 
@@ -20,13 +20,13 @@ class Polls::NomineesController < ApplicationController
   end
 
   def edit
-    authorize @poll, :manage?
+    authorize @poll, :update?
 
     @nominee = find_nominee
   end
 
   def update
-    authorize @poll, :manage?
+    authorize @poll, :update?
 
     @nominee = find_nominee
 
@@ -52,7 +52,7 @@ class Polls::NomineesController < ApplicationController
   end
 
   def set_poll
-    @poll = Poll.find_by!(custom_id: params[:poll_custom_id])
+    @poll = policy_scope(Poll).find_by!(custom_id: params[:poll_custom_id])
   end
 
   def find_nominee
