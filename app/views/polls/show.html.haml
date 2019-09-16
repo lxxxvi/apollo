@@ -10,38 +10,34 @@
       .h-full.relative
         .absolute.bottom-0.right-0
           .poll-actions
-            = link_to 'Edit', edit_poll_path(@poll), class: 'shy-link'
-            - if @poll.deletable?
-              = render 'polls/deletion/form', form: PollDeletionForm.new(@poll)
+            .flex
+              = link_to 'Edit', edit_poll_path(@poll), class: 'shy-link'
+              - if @poll.deletable?
+                = render 'polls/deletion/form', form: PollDeletionForm.new(@poll)
+              - if policy(@poll).manage?
+                .poll-state-actions
+                  .flex.my-5.text-gray-500
+                    .w-full
+                      - if !@poll.user.verified?
+                        In order to publish this poll you need to verify your email first.
+                      - elsif @poll.publishable?
+                        = render 'polls/publishment/form', form: PollPublishmentForm.new(@poll)
+                      - elsif @poll.startable?
+                        = render 'polls/start/form', form: PollStartForm.new(@poll)
+                      - elsif @poll.closable?
+                        = render 'polls/closing/form', form: PollClosingForm.new(@poll)
+                      - elsif @poll.archivable?
+                        = render 'polls/archiving/form', form: PollArchivingForm.new(@poll)
+
+.flex.my-5
+  .w-full
+    .poll-state.text-xs.tracking-wider.uppercase{ class: "text-poll-state-#{@poll.state}" }= @poll.state
+
+%h2 Description
 
 .flex.mt-5.mb-10
   .w-full.shadow-inner.bg-gray-100.py-3.px-2
     %p= @poll.description
-
-.flex.mt-5
-  .w-full
-    %h2 State
-
-- if policy(@poll).manage?
-  .poll-state-actions
-    .flex.my-5.text-gray-500
-      .w-full
-        - if !@poll.user.verified?
-          In order to publish this poll you need to verify your email first.
-        - elsif @poll.publishable?
-          = render 'polls/publishment/form', form: PollPublishmentForm.new(@poll)
-        - elsif @poll.startable?
-          = render 'polls/start/form', form: PollStartForm.new(@poll)
-        - elsif @poll.closable?
-          = render 'polls/closing/form', form: PollClosingForm.new(@poll)
-        - elsif @poll.archivable?
-          = render 'polls/archiving/form', form: PollArchivingForm.new(@poll)
-
-.flex.mb-10
-  .w-full
-    .poll-state.tracking-widest.uppercase= @poll.state.to_s.capitalize
-
-
 
 .flex.mb-5
   %div{ class: 'w-1/2' }
