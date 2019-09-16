@@ -81,7 +81,7 @@ class PollsManagementTest < ApplicationSystemTestCase
 
     visit poll_path(draft_poll)
 
-    assert_selector '.poll-state', text: 'Draft'
+    assert_selector '.poll-state', text: 'draft'
     assert_text 'In order to publish this poll you need to verify your email first.'
     assert_selector ".poll-state-actions input[value='Publish poll']", count: 0
   end
@@ -90,20 +90,20 @@ class PollsManagementTest < ApplicationSystemTestCase
     sign_in_as(:julia_roberts)
 
     visit poll_path(draft_poll)
-    assert_selector '.poll-state', text: 'Draft'
+    assert_selector '.poll-state', text: 'draft'
 
     click_on 'Publish poll'
-    assert_selector '.poll-state', text: 'Published'
+    assert_selector '.poll-state', text: 'published'
   end
 
   test 'admin starts a published poll' do
     sign_in_as(:julia_roberts)
 
     visit poll_path(published_poll)
-    assert_selector '.poll-state', text: 'Published'
+    assert_selector '.poll-state', text: 'published'
 
     click_on 'Start poll'
-    assert_selector '.poll-state', text: 'Started'
+    assert_selector '.poll-state', text: 'started'
   end
 
   test 'admin closes a started poll' do
@@ -111,10 +111,10 @@ class PollsManagementTest < ApplicationSystemTestCase
 
     visit poll_path(started_poll)
 
-    assert_selector '.poll-state', text: 'Started'
+    assert_selector '.poll-state', text: 'started'
 
     click_on 'Close poll'
-    assert_selector '.poll-state', text: 'Closed'
+    assert_selector '.poll-state', text: 'closed'
   end
 
   test 'admin archives a closed poll' do
@@ -122,10 +122,10 @@ class PollsManagementTest < ApplicationSystemTestCase
 
     visit poll_path(closed_poll)
 
-    assert_selector '.poll-state', text: 'Closed'
+    assert_selector '.poll-state', text: 'closed'
 
     click_on 'Archive poll'
-    assert_selector '.poll-state', text: 'Archived'
+    assert_selector '.poll-state', text: 'archived'
   end
 
   # delete
