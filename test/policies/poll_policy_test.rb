@@ -37,10 +37,4 @@ class PollPolicyTest < ActiveSupport::TestCase
     refute_permit another_admin, poll, :update?
     assert_permit poll_admin, poll, :update?
   end
-
-  test '#destroy?' do
-    refute_permit guest, poll, :destroy?
-    refute_permit another_admin, poll, :destroy?
-    assert_permit poll_admin, poll, :destroy?
-  end
 end

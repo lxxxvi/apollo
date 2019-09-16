@@ -19,6 +19,15 @@ class StatableTest < ActiveSupport::TestCase
     assert_equal :draft, Poll.new(title: 'Foo', user: user).state
   end
 
+  test '#editable?' do
+    assert draft_poll.editable?
+    assert published_poll.editable?
+    assert_not started_poll.editable?
+    assert_not closed_poll.editable?
+    assert_not archived_poll.editable?
+    assert_not deleted_poll.editable?
+  end
+
   # publish
 
   test '#publishable?' do

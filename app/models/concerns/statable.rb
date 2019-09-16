@@ -36,18 +36,26 @@ module Statable
     # state checks
 
     def draft?
-      !published?
+      return false if deleted?
+
+      published_at.nil?
     end
 
     def published?
+      return false if deleted? || started? || closed? || archived?
+
       published_at.present?
     end
 
     def started?
+      return false if closed? || archived?
+
       started_at.present?
     end
 
     def closed?
+      return false if archived?
+
       closed_at.present?
     end
 
@@ -60,6 +68,10 @@ module Statable
     end
 
     # abilities
+
+    def editable?
+      draft? || published?
+    end
 
     def publishable?
       transition_allowed?(state, :published) && user.verified?
