@@ -20,11 +20,7 @@ class PollPolicy < ApplicationPolicy
   end
 
   def update?
-    manage?
-  end
-
-  def destroy?
-    update?
+    manage? && record.editable?
   end
 
   def manage?

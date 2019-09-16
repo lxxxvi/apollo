@@ -11,7 +11,8 @@
         .absolute.bottom-0.right-0
           .poll-actions
             .flex
-              = link_to 'Edit', edit_poll_path(@poll), class: 'shy-link'
+              - if @poll.editable?
+                = link_to 'Edit', edit_poll_path(@poll), class: 'shy-link'
               - if @poll.deletable?
                 = render 'polls/deletion/form', form: PollDeletionForm.new(@poll)
               - if policy(@poll).manage?
