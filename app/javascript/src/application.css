@@ -39,33 +39,27 @@ input[type=submit]:hover {
   @apply cursor-pointer text-apollo-pink-300;
 }
 
-.hint {
-  @apply text-xs text-gray-500;
-}
+.hint { @apply text-xs text-gray-500; }
 
-.apollo-pink-button {
-  @apply rounded border border-apollo-pink-500 py-1 px-4 mr-2;
-}
+.apollo-pink-button       { @apply rounded border border-apollo-pink-500 py-1 px-4 mr-2; }
+.apollo-pink-button:hover { @apply border-apollo-pink-200; }
 
-.apollo-pink-button:hover {
-  @apply border-apollo-pink-200;
-}
+.shy-link                 { @apply text-gray-400; }
+.shy-link:hover           { @apply text-apollo-pink-500; }
 
-.shy-link {
-  @apply text-gray-400;
-}
+.dangerous-link           { @apply text-red-500; }
+.dangerous-link:hover     { @apply text-red-300; }
+.shy-dangerous-link       { @apply text-gray-400; }
+.shy-dangerous-link:hover { @apply text-red-700; }
 
-.shy-link:hover {
-  @apply text-apollo-pink-500;
-}
-
-.dangerous-link {
-  @apply text-gray-400;
-}
-
-.dangerous-link:hover {
-  @apply text-red-700;
-}
+.publish-poll-link        { @apply text-apollo-violet-500 !important; }
+.publish-poll-link:hover  { @apply text-apollo-violet-300 !important; }
+.start-poll-link          { @apply text-apollo-green-500 !important; }
+.start-poll-link:hover    { @apply text-apollo-green-300 !important; }
+.close-poll-link          { @apply text-apollo-pink-500 !important; }
+.close-poll-link:hover    { @apply text-apollo-pink-300 !important; }
+.archive-poll-link        { @apply text-orange-600 !important; }
+.archive-poll-link:hover  { @apply text-orange-400 !important; }
 
 .logo {
   img {
@@ -82,28 +76,17 @@ input[type=submit]:hover {
   @apply my-16 py-10 text-gray-300 text-center;
 }
 
-.text-poll-state-draft {
-  @apply text-apollo-teal-500;
-}
+.poll-state-draft           { @apply text-apollo-teal-500 bg-apollo-teal-100 border border-apollo-teal-100 shadow-lg; }
+.poll-state-published       { @apply text-apollo-violet-500 bg-apollo-violet-100 border border-apollo-violet-100 shadow-lg; }
+.poll-state-started         { @apply text-apollo-green-500 bg-apollo-green-100 border border-apollo-green-100 shadow-lg; }
+.poll-state-closed          { @apply text-apollo-pink-500 bg-apollo-pink-100 border border-apollo-pink-100 shadow-lg; }
+.poll-state-archived        { @apply text-orange-600 bg-orange-100 border border-orange-100 shadow-lg; }
 
-.text-poll-state-published {
-  @apply text-apollo-violet-500;
-}
-
-.text-poll-state-started {
-  @apply text-apollo-green-500;
-}
-
-.text-poll-state-closed {
-  @apply text-apollo-pink-500;
-}
-
-.text-poll-state-archived {
-  @apply text-orange-500;
-}
-
-.text-poll-state-deleted {
-  @apply text-gray-500;
-}
+.text-poll-state-draft      { @apply text-apollo-teal-500; }
+.text-poll-state-published  { @apply text-apollo-violet-500; }
+.text-poll-state-started    { @apply text-apollo-green-500; }
+.text-poll-state-closed     { @apply text-apollo-pink-500; }
+.text-poll-state-archived   { @apply text-orange-600; }
+.text-poll-state-deleted    { @apply text-gray-500; }
 
 @tailwind utilities;
