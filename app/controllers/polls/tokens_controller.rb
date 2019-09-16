@@ -2,13 +2,13 @@ class Polls::TokensController < ApplicationController
   before_action :set_poll
 
   def new
-    authorize @poll, :manage?
+    authorize @poll, :update?
 
     @form = TokenForm.new(@poll)
   end
 
   def create
-    authorize @poll, :manage?
+    authorize @poll, :update?
 
     @form = TokenForm.new(@poll, poll_token_params)
 
@@ -20,7 +20,7 @@ class Polls::TokensController < ApplicationController
   end
 
   def destroy
-    authorize @poll, :manage?
+    authorize @poll, :update?
 
     token = find_token
     token.destroy
@@ -34,7 +34,7 @@ class Polls::TokensController < ApplicationController
   end
 
   def set_poll
-    @poll = Poll.find_by!(custom_id: params[:poll_custom_id])
+    @poll = policy_scope(Poll).find_by!(custom_id: params[:poll_custom_id])
   end
 
   def find_token
