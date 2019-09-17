@@ -4,7 +4,7 @@ class PollsController < ApplicationController
   def index
     authorize Poll
 
-    @polls = Poll.ordered
+    @polls = policy_scope(Poll).ordered
   end
 
   def show
