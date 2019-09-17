@@ -1,15 +1,18 @@
-- cancel_path = form.poll.new_record? ? root_path : poll_path(form.poll)
-
 = simple_form_for form do |f|
-  .my-8
-    .my-3= f.input :title, required: true
+  .flex.mb-5
+    .w-full= f.input :title, required: true, disabled: !form.poll.editable?
 
-    - if form.poll.new_record?
-      .my-3= f.input :email, required: true
+  - if form.poll.new_record?
+    .flex.mb-5
+      .w-full= f.input :email, required: true
 
-    .my-3= f.input :description, as: :text, required: false, hint: '(Optional)'
+  .flex.mb-5
+    .w-full= f.input :description, as: :text, required: false, hint: '(Optional)', disabled: !form.poll.editable?
 
-  .my-8
-    = f.button :submit, class: 'apollo-pink-button'
-    = link_to 'Cancel', cancel_path, class: 'shy-link'
+  - if form.poll.editable?
+    .flex.mb-5
+      .w-full.text-right
+        = f.button :submit, class: 'apollo-pink-button'
+        - if form.poll.new_record?
+          = link_to 'Cancel', root_path, class: 'shy-link'
 

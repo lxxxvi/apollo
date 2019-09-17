@@ -1,5 +1,5 @@
 class PollsController < ApplicationController
-  before_action :set_poll, only: [:show, :edit, :update]
+  before_action :set_poll, only: [:show, :manage, :update]
 
   def index
     authorize Poll
@@ -32,21 +32,19 @@ class PollsController < ApplicationController
     end
   end
 
-  def edit
-    authorize @poll
-
-    @form = PollForm.new(@poll, @poll.slice(:title, :description))
-  end
-
   def update
     authorize @poll
     @form = PollForm.new(@poll, edit_poll_params)
 
     if @form.save
-      redirect_to poll_path(@form.poll)
+      redirect_to manage_poll_path(@form.poll)
     else
-      render :edit
+      render :manage
     end
+  end
+
+  def manage
+    authorize @poll
   end
 
   private

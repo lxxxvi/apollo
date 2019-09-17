@@ -28,21 +28,23 @@ input[type=text],
 input[type=number],
 input[type=email],
 textarea {
-  @apply block text-2xl py-3 px-2 bg-gray-200 w-full;
+  @apply block text-lg py-2 px-2 bg-gray-100 w-full;
 }
 
 input[type=submit] {
-  @apply text-apollo-pink-500 bg-transparent;
+  @apply bg-transparent;
 }
 
 input[type=submit]:hover {
-  @apply cursor-pointer text-apollo-pink-300;
+  @apply cursor-pointer;
 }
 
 .hint { @apply text-xs text-gray-500; }
 
-.apollo-pink-button       { @apply rounded border border-apollo-pink-500 py-1 px-4 mr-2; }
-.apollo-pink-button:hover { @apply border-apollo-pink-200; }
+.apollo-pink-button       { @apply rounded border border-apollo-pink-500 text-apollo-pink-500 py-1 px-4; }
+.apollo-pink-button:hover { @apply border-apollo-pink-200 text-apollo-pink-200; }
+.dangerous-button         { @apply rounded border border-red-600 text-red-600 py-1 px-4; }
+.dangerous-button:hover   { @apply border-red-800 text-red-800; }
 
 .shy-link                 { @apply text-gray-400; }
 .shy-link:hover           { @apply text-apollo-pink-500; }

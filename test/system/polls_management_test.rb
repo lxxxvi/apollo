@@ -1,13 +1,14 @@
 require 'application_system_test_case'
 
 class PollsManagementTest < ApplicationSystemTestCase
-  attr_reader :draft_poll, :published_poll, :started_poll, :closed_poll
+  attr_reader :draft_poll, :published_poll, :started_poll, :closed_poll, :archived_poll
 
   setup do
     @draft_poll = polls(:best_actress_draft)
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
+    @archived_poll = polls(:best_song_archived)
   end
 
   test 'create a new poll' do
@@ -62,44 +63,34 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin edits an unstarted poll' do
     sign_in_as(:julia_roberts)
 
-    visit edit_poll_path(published_poll)
+    visit poll_path(published_poll)
 
-    within('form') do
+    click_on 'Manage'
+
+    within('.information-section form') do
       fill_in('Title', with: 'Best actress')
       fill_in('Description', with: 'Who is she?')
       click_on('Update Poll')
     end
 
-    assert_selector 'h1', text: 'Best actress'
+    assert_selector 'h1', text: 'Manage poll'
   end
 
   test 'admin cannot edit poll once started' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(started_poll)
+    [started_poll, closed_poll, archived_poll].each do |poll|
+      visit manage_poll_path(poll)
 
-    assert_selector '.poll-actions', text: 'Edit', count: 0
-    assert_selector 'a', text: 'Add nominee', count: 0
-    assert_selector '.nominees a', text: 'Edit', count: 0
-    assert_selector '.nominees a', text: 'Delete', count: 0
-    assert_selector 'a', text: 'Add tokens', count: 0
-    assert_selector '.tokens a', text: 'Delete', count: 0
+      within('.information-section form') do
+        assert_selector "input[type='submit']", count: 0
 
-    click_on 'Close poll'
-    assert_selector '.poll-actions', text: 'Edit', count: 0
-    assert_selector 'a', text: 'Add nominee', count: 0
-    assert_selector '.nominees a', text: 'Edit', count: 0
-    assert_selector '.nominees a', text: 'Delete', count: 0
-    assert_selector 'a', text: 'Add tokens', count: 0
-    assert_selector '.tokens a', text: 'Delete', count: 0
+        input_elements = find_all('input, textarea')
+        disabled_elements = find_all("[disabled='disabled']")
 
-    click_on 'Archive poll'
-    assert_selector '.poll-actions', text: 'Edit', count: 0
-    assert_selector 'a', text: 'Add nominee', count: 0
-    assert_selector '.nominees a', text: 'Edit', count: 0
-    assert_selector '.nominees a', text: 'Delete', count: 0
-    assert_selector 'a', text: 'Add tokens', count: 0
-    assert_selector '.tokens a', text: 'Delete', count: 0
+        assert_equal input_elements.count, disabled_elements.count, 'All input elements should be disabled'
+      end
+    end
   end
 
   test 'admin cannot publish a poll if the email is not verified' do
@@ -159,15 +150,32 @@ class PollsManagementTest < ApplicationSystemTestCase
 
   # delete
 
-  test 'deletes an unstarted poll' do
+  test 'admin deletes an unstarted poll' do
     sign_in_as(:julia_roberts)
 
     visit poll_path(published_poll)
 
-    within '.poll-actions' do
-      click_on 'Delete'
-    end
+    click_on 'Manage'
+
+    assert_selector 'h2', text: 'Delete'
+
+    click_on 'Delete'
 
     assert_selector 'h1', text: 'All polls'
+  end
+
+  test 'admin cannot delete a started poll' do
+    sign_in_as(:julia_roberts)
+
+    visit poll_path(started_poll)
+
+    click_on 'Manage'
+
+    assert_selector 'h2', text: 'Delete'
+
+    within('.delete-section') do
+      assert_text 'This poll can no longer be delete since it has been started.'
+      assert_text 'You may archive the poll after it is closed.'
+    end
   end
 end
