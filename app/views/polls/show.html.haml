@@ -2,21 +2,21 @@
   .w-full
     = link_to 'Back to overview', home_path, class: 'shy-link'
 
-.flex
-  %div{ class: 'w-1/2' }
-    %h1= @poll.title
-  %div{ class: 'w-1/2' }
-    - if policy(@poll).manage?
-      .h-full.relative
-        .absolute.bottom-0.right-0
-          .poll-actions
-            = link_to 'Manage', manage_poll_path(@poll), class: 'shy-link'
+.poll-title
+  .flex
+    %div{ class: 'w-1/2' }
+      %h1= @poll.title
+    %div{ class: 'w-1/2' }
+      - if policy(@poll).manage?
+        .h-full.relative
+          .absolute.bottom-0.right-0
+            .poll-actions
+              = link_to 'Manage', manage_poll_path(@poll), class: 'shy-link'
 
-.flex.my-10
-  .w-full
-    .flex.py-3.px-5{ class: "poll-state-#{@poll.state}" }
-      .tracking-wider.uppercase.align-middle{ class: 'w-1/2' }
-        .poll-state= @poll.state
+.poll-state.my-10
+  .flex.py-3.px-5{ class: "poll-state-#{@poll.state}" }
+    .tracking-wider.uppercase.align-middle{ class: 'w-1/2' }= @poll.state
+    - if policy(@poll).manage?
       .text-right{ class: 'w-1/2' }
         - if !@poll.user.verified?
           In order to publish this poll you need to verify your email first.
