@@ -5,8 +5,8 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   private
 
-  def sign_in_as(user_fixture_name)
-    user = users(user_fixture_name)
+  def sign_in_as(object)
+    user = object.is_a?(User) ? object : users(object)
     visit sign_in_url(user.authentication_token)
   end
 

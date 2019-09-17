@@ -42,6 +42,22 @@ class PollsManagementTest < ApplicationSystemTestCase
     assert_selector 'h1', text: 'Best singer'
   end
 
+  test 'signed in user sees only own polls' do
+    user = users(:julia_roberts)
+    sign_in_as(user)
+
+    assert_selector '.polls', count: 1
+    assert_equal Poll.of_user(user).without_deleted.count, find_all('.poll').count
+
+    sign_out
+
+    user = users(:tina_fey)
+    sign_in_as(user)
+
+    assert_selector '.polls', count: 1
+    assert_equal Poll.of_user(user).without_deleted.count, find_all('.poll').count
+  end
+
   # show
 
   test 'admin visits an drafted poll' do

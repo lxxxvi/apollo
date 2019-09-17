@@ -38,7 +38,7 @@ class Polls::NomineesController < ApplicationController
   end
 
   def destroy
-    authorize @poll, :manage?
+    authorize @poll, :update?
 
     @nominee = find_nominee
     @nominee.destroy

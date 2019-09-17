@@ -1,10 +1,11 @@
 require 'test_helper'
 
 class Polls::DeletionsControllerTest < ActionDispatch::IntegrationTest
-  attr_reader :published_poll, :deleted_poll
+  attr_reader :published_poll, :deleted_poll, :started_poll
 
   setup do
     @published_poll = polls(:best_actor_published)
+    @started_poll = polls(:best_singer_started)
     @deleted_poll = polls(:best_book_deleted)
   end
 
@@ -27,7 +28,7 @@ class Polls::DeletionsControllerTest < ActionDispatch::IntegrationTest
   test 'admin cannot delete undeletable poll' do
     sign_in_as(:julia_roberts)
 
-    poll = deleted_poll
+    poll = started_poll
 
     assert_no_changes -> { poll.state } do
       post poll_deletion_path(poll)

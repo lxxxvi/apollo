@@ -18,6 +18,7 @@ module Statable
     scope :closed, -> { where.not(closed_at: nil) }
     scope :archived, -> { where.not(archived_at: nil) }
     scope :deleted, -> { where.not(deleted_at: nil) }
+    scope :without_deleted, -> { where(deleted_at: nil) }
 
     def state
       return :deleted if deleted?
