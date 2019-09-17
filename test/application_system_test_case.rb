@@ -6,7 +6,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   private
 
   def sign_in_as(object)
-    user = object.kind_of?(User) ? object : users(object)
+    user = object.is_a?(User) ? object : users(object)
     visit sign_in_url(user.authentication_token)
   end
 
