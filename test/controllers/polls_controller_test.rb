@@ -65,36 +65,48 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   test 'unauthorized actions for admin once poll started' do
     sign_in_as(:julia_roberts)
 
-    [started_poll, closed_poll, archived_poll, deleted_poll].map do |poll|
-      assert_not_patch_poll Pundit::NotAuthorizedError, poll
-    end
+    assert_not_patch_poll(started_poll, Pundit::NotAuthorizedError)
+    assert_not_patch_poll(closed_poll, Pundit::NotAuthorizedError)
+    assert_not_patch_poll(archived_poll, Pundit::NotAuthorizedError)
+    assert_all_exceptions(deleted_poll, ActiveRecord::RecordNotFound)
   end
 
   test 'unauthorized actions for non-admin' do
     sign_in_as(:tina_fey)
 
-    [published_poll, started_poll, closed_poll, archived_poll, deleted_poll].map do |poll|
-      assert_not_get_manage(ActiveRecord::RecordNotFound, poll)
-      assert_not_patch_poll(ActiveRecord::RecordNotFound, poll)
-    end
+    assert_all_exceptions(published_poll, ActiveRecord::RecordNotFound)
+    assert_all_exceptions(started_poll, ActiveRecord::RecordNotFound)
+    assert_all_exceptions(closed_poll, ActiveRecord::RecordNotFound)
+    assert_all_exceptions(archived_poll, ActiveRecord::RecordNotFound)
+    assert_all_exceptions(deleted_poll, ActiveRecord::RecordNotFound)
   end
 
   test 'unauthorized actions for guest' do
     sign_out
 
-    [published_poll, started_poll, closed_poll, archived_poll, deleted_poll].map do |poll|
-      assert_not_get_manage Pundit::NotAuthorizedError, poll
-      assert_not_patch_poll Pundit::NotAuthorizedError, poll
-    end
+    assert_all_exceptions(published_poll, Pundit::NotAuthorizedError)
+    assert_all_exceptions(started_poll, Pundit::NotAuthorizedError)
+    assert_all_exceptions(closed_poll, Pundit::NotAuthorizedError)
+    assert_all_exceptions(archived_poll, Pundit::NotAuthorizedError)
+    assert_all_exceptions(deleted_poll, ActiveRecord::RecordNotFound)
   end
 
   private
 
-  def assert_not_get_manage(expected_exception, poll)
-    assert_raise(expected_exception) { get manage_poll_path(poll) }
+  def assert_all_exceptions(poll, exception)
+    assert_not_get_manage(poll, exception)
+    assert_not_patch_poll(poll, exception)
   end
 
-  def assert_not_patch_poll(expected_exception, poll)
-    assert_raise(expected_exception) { patch poll_path(poll) }
+  def assert_not_get_manage(poll, exception)
+    assert_raise(exception, build_exception(poll.state, __method__)) { get manage_poll_path(poll) }
+  end
+
+  def assert_not_patch_poll(poll, exception)
+    assert_raise(exception, build_exception(poll.state, __method__)) { patch poll_path(poll) }
+  end
+
+  def build_exception(state, method_name)
+    "Poll state: #{state}\nMethod: #{method_name}"
   end
 end
