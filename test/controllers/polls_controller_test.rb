@@ -1,9 +1,10 @@
 require 'test_helper'
 
 class PollsControllerTest < ActionDispatch::IntegrationTest
-  attr_reader :published_poll, :started_poll, :closed_poll, :archived_poll, :deleted_poll
+  attr_reader :draft_poll, :published_poll, :started_poll, :closed_poll, :archived_poll, :deleted_poll
 
   setup do
+    @draft_poll = polls(:best_actress_draft)
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
@@ -37,11 +38,13 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'admin should get edit for unstarted poll' do
+  test 'admin should get manage polls' do
     sign_in_as(:julia_roberts)
 
-    get edit_poll_path(published_poll)
-    assert_response :success
+    [draft_poll, published_poll, started_poll, closed_poll, archived_poll].each do |poll|
+      get manage_poll_path(poll)
+      assert_response :success
+    end
   end
 
   test 'admin should post update for unstarted poll' do
@@ -63,7 +66,6 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(:julia_roberts)
 
     [started_poll, closed_poll, archived_poll, deleted_poll].map do |poll|
-      assert_not_get_edit Pundit::NotAuthorizedError, poll
       assert_not_patch_poll Pundit::NotAuthorizedError, poll
     end
   end
@@ -72,7 +74,7 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(:tina_fey)
 
     [published_poll, started_poll, closed_poll, archived_poll, deleted_poll].map do |poll|
-      assert_not_get_edit(ActiveRecord::RecordNotFound, poll)
+      assert_not_get_manage(ActiveRecord::RecordNotFound, poll)
       assert_not_patch_poll(ActiveRecord::RecordNotFound, poll)
     end
   end
@@ -81,15 +83,15 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
     sign_out
 
     [published_poll, started_poll, closed_poll, archived_poll, deleted_poll].map do |poll|
-      assert_not_get_edit Pundit::NotAuthorizedError, poll
+      assert_not_get_manage Pundit::NotAuthorizedError, poll
       assert_not_patch_poll Pundit::NotAuthorizedError, poll
     end
   end
 
   private
 
-  def assert_not_get_edit(expected_exception, poll)
-    assert_raise(expected_exception) { get edit_poll_path(poll) }
+  def assert_not_get_manage(expected_exception, poll)
+    assert_raise(expected_exception) { get manage_poll_path(poll) }
   end
 
   def assert_not_patch_poll(expected_exception, poll)

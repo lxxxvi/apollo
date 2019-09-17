@@ -18,4 +18,4 @@
                   %h2= link_to poll.title, poll
                   %p.mt-2= poll.description
               .w-full.mt-3
-                .text-xs.tracking-wider.uppercase{ class: "text-poll-state-#{poll.state}" }= poll.state
+                .text-xs.tracking-wider.uppercase= colorize_text(poll.state, poll.state)
