@@ -17,5 +17,7 @@ Rails.application.routes.draw do
     resource :closing, only: %i[create], module: :polls
     resource :archiving, only: %i[create], module: :polls
     resource :deletion, only: %i[create], module: :polls
+
+    get :manage, on: :member
   end
 end
