@@ -72,46 +72,48 @@ class Polls::NomineesControllerTest < ActionDispatch::IntegrationTest
   test 'unauthorized actions admin' do
     sign_in_as(:julia_roberts)
 
-    assert_matrix(
-      [
-        [started_poll, Pundit::NotAuthorizedError],
-        [closed_poll, Pundit::NotAuthorizedError],
-        [archived_poll, Pundit::NotAuthorizedError],
-        [deleted_poll, ActiveRecord::RecordNotFound]
-      ]
-    )
-
+    [
+      [started_poll, Pundit::NotAuthorizedError],
+      [closed_poll, Pundit::NotAuthorizedError],
+      [archived_poll, Pundit::NotAuthorizedError],
+      [deleted_poll, ActiveRecord::RecordNotFound]
+    ].map(&method(:assert_all_exceptions))
   end
 
   test 'unauthorized actions non-admin' do
     sign_in_as(:tina_fey)
 
-    assert_matrix(
-      [
-        [published_poll, ActiveRecord::RecordNotFound],
-        [started_poll, ActiveRecord::RecordNotFound],
-        [closed_poll, ActiveRecord::RecordNotFound],
-        [archived_poll, ActiveRecord::RecordNotFound],
-        [deleted_poll, ActiveRecord::RecordNotFound]
-      ]
-    )
+    [
+      [published_poll, ActiveRecord::RecordNotFound],
+      [started_poll, ActiveRecord::RecordNotFound],
+      [closed_poll, ActiveRecord::RecordNotFound],
+      [archived_poll, ActiveRecord::RecordNotFound],
+      [deleted_poll, ActiveRecord::RecordNotFound]
+    ].map(&method(:assert_all_exceptions))
   end
 
   test 'unauthorized actions guest' do
     sign_out
 
-    assert_matrix(
-      [
-        [published_poll, Pundit::NotAuthorizedError],
-        [started_poll, Pundit::NotAuthorizedError],
-        [closed_poll, Pundit::NotAuthorizedError],
-        [archived_poll, Pundit::NotAuthorizedError],
-        [deleted_poll, ActiveRecord::RecordNotFound]
-      ]
-    )
+    [
+      [published_poll, Pundit::NotAuthorizedError],
+      [started_poll, Pundit::NotAuthorizedError],
+      [closed_poll, Pundit::NotAuthorizedError],
+      [archived_poll, Pundit::NotAuthorizedError],
+      [deleted_poll, ActiveRecord::RecordNotFound]
+    ].map(&method(:assert_all_exceptions))
   end
 
   private
+
+  def assert_all_exceptions(row)
+    poll, exception = row
+    assert_not_get_new(exception, poll)
+    assert_not_post(exception, poll)
+    assert_not_get_edit(exception, poll)
+    assert_not_patch(exception, poll)
+    assert_not_delete(exception, poll)
+  end
 
   def assert_not_get_new(expected_exception, poll)
     assert_raise(expected_exception) { get new_poll_nominee_path(poll) }
@@ -131,17 +133,5 @@ class Polls::NomineesControllerTest < ActionDispatch::IntegrationTest
 
   def assert_not_delete(expected_exception, poll)
     assert_raise(expected_exception) { delete poll_nominee_path(poll, nominee) }
-  end
-
-  def assert_matrix(matrix)
-    matrix.each do |row|
-      row.tap do |poll, exception|
-        assert_not_get_new(exception, poll)
-        assert_not_post(exception, poll)
-        assert_not_get_edit(exception, poll)
-        assert_not_patch(exception, poll)
-        assert_not_delete(exception, poll)
-      end
-    end
   end
 end

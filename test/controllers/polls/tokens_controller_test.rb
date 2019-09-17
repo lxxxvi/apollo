@@ -44,34 +44,46 @@ class Polls::TokensControllerTest < ActionDispatch::IntegrationTest
   test 'unauthorized actions for admin' do
     sign_in_as(:julia_roberts)
 
-    [started_poll, closed_poll, archived_poll, deleted_poll].each do |poll|
-      assert_not_get_new(Pundit::NotAuthorizedError, poll)
-      assert_not_post(Pundit::NotAuthorizedError, poll)
-      assert_not_delete(Pundit::NotAuthorizedError, poll)
-    end
+    [
+      [started_poll, Pundit::NotAuthorizedError],
+      [closed_poll, Pundit::NotAuthorizedError],
+      [archived_poll, Pundit::NotAuthorizedError],
+      [deleted_poll, ActiveRecord::RecordNotFound]
+    ].map(&method(:assert_all_exceptions))
   end
 
   test 'unauthorized actions non-admin' do
     sign_in_as(:tina_fey)
 
-    [published_poll, started_poll, closed_poll, archived_poll, deleted_poll].each do |poll|
-      assert_not_get_new(ActiveRecord::RecordNotFound, poll)
-      assert_not_post(ActiveRecord::RecordNotFound, poll)
-      assert_not_delete(ActiveRecord::RecordNotFound, poll)
-    end
+    [
+      [published_poll, ActiveRecord::RecordNotFound],
+      [started_poll, ActiveRecord::RecordNotFound],
+      [closed_poll, ActiveRecord::RecordNotFound],
+      [archived_poll, ActiveRecord::RecordNotFound],
+      [deleted_poll, ActiveRecord::RecordNotFound]
+    ].map(&method(:assert_all_exceptions))
   end
 
   test 'unauthorized actions guest' do
     sign_out
 
-    [published_poll, started_poll, closed_poll, archived_poll, deleted_poll].each do |poll|
-      assert_not_get_new(Pundit::NotAuthorizedError, poll)
-      assert_not_post(Pundit::NotAuthorizedError, poll)
-      assert_not_delete(Pundit::NotAuthorizedError, poll)
-    end
+    [
+      [published_poll, Pundit::NotAuthorizedError],
+      [started_poll, Pundit::NotAuthorizedError],
+      [closed_poll, Pundit::NotAuthorizedError],
+      [archived_poll, Pundit::NotAuthorizedError],
+      [deleted_poll, ActiveRecord::RecordNotFound]
+    ].map(&method(:assert_all_exceptions))
   end
 
   private
+
+  def assert_all_exceptions(row)
+    poll, expected_exception = row
+    assert_not_get_new(expected_exception, poll)
+    assert_not_post(expected_exception, poll)
+    assert_not_delete(expected_exception, poll)
+  end
 
   def assert_not_get_new(expected_exception, poll)
     assert_raise(expected_exception) { get new_poll_token_path(poll) }
