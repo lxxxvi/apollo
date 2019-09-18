@@ -8,6 +8,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     travel_to reference_date do
       assert_changes 'user.email_verified_at', to: reference_date do
         get sign_in_url(authentication_token: user.authentication_token)
+        user.reload
       end
     end
 
