@@ -1,5 +1,5 @@
 class PollsController < ApplicationController
-  before_action :set_poll, only: [:show, :manage, :update]
+  before_action :set_poll, only: [:show, :manage, :update, :vote]
 
   def index
     authorize Poll
@@ -47,10 +47,19 @@ class PollsController < ApplicationController
     authorize @poll
   end
 
+  def vote
+    authorize @poll
+    @token = find_token
+  end
+
   private
 
   def set_poll
     @poll = policy_scope(Poll).find_by!(custom_id: params[:custom_id])
+  end
+
+  def find_token
+    @poll.tokens.find_by!(value: params[:token])
   end
 
   def new_poll_params

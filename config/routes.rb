@@ -17,7 +17,9 @@ Rails.application.routes.draw do
     resource :closing, only: %i[create], module: :polls
     resource :archiving, only: %i[create], module: :polls
     resource :deletion, only: %i[create], module: :polls
+    resource :voting, only: %i[create], module: :polls
 
     get :manage, on: :member
+    get 'vote/:token', to: 'polls#vote', as: :vote, on: :member
   end
 end
