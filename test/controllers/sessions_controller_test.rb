@@ -1,15 +1,18 @@
 require 'test_helper'
 
 class SessionsControllerTest < ActionDispatch::IntegrationTest
-  test 'user signs in using valid authentication token' do
+  test 'user signs in using valid authentication token, email is verified' do
     user = users(:julia_roberts)
+    reference_date = user.authentication_token_expires_at
 
-    travel_to user.authentication_token_expires_at do
-      get sign_in_url(authentication_token: user.authentication_token)
-      follow_redirect!
-      assert_response :success
+    travel_to reference_date do
+      assert_changes 'user.email_verified_at', to: reference_date do
+        get sign_in_url(authentication_token: user.authentication_token)
+      end
     end
 
+    follow_redirect!
+    assert_response :success
     assert_equal 'Successfully signed in.', flash[:notice]
   end
 
