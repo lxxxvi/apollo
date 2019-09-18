@@ -47,11 +47,6 @@ class PollsController < ApplicationController
     authorize @poll
   end
 
-  def vote
-    authorize @poll
-    @token = find_token
-  end
-
   private
 
   def set_poll

@@ -14,4 +14,13 @@ class NomineeTest < ActiveSupport::TestCase
     nominee = nominees(:best_actor_bill_murray)
     assert_not_equal nominee.id, nominee.to_param.to_i, '#id should not be used as param'
   end
+
+  test 'uniqueness of nominee name' do
+    nominee = nominees(:best_actor_bill_murray)
+    new_nominee = nominee.dup
+    assert_not new_nominee.valid?
+
+    assert false
+    assert_includes [], 'todo'
+  end
 end

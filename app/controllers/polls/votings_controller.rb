@@ -1,18 +1,34 @@
 class Polls::VotingsController < ApplicationController
+  before_action :set_poll_and_token, only: %i[new create]
+
+  def new
+    authorize @poll, :vote?
+
+    @form =  PollVotingForm.new(@token)
+  end
+
   def create
-    @poll = policy_scope(Poll).started.find_by!(custom_id: params[:poll_custom_id])
+    authorize @poll, :vote?
 
-    form = PollVotingForm.new(@poll, poll_voting_params)
+    @form = PollVotingForm.new(@token, poll_voting_params)
 
-    # TODO: Improve me
-    if form.save!
-      redirect_to vote_poll_path(form.poll, form.token.value)
+    if @form.save!
+      redirect_to poll_path(@poll)
     else
-      redirect_to vote_poll_path(form.poll, form.token.value)
+      render :new
     end
   end
 
   private
+
+  def set_poll_and_token
+    @poll = policy_scope(Poll).started.find_by!(custom_id: params[:poll_custom_id])
+    @token = @poll.tokens.unused.find_by!(value: find_token_value)
+  end
+
+  def find_token_value
+    params.dig(:poll_voting, :token_value) || params[:token_value]
+  end
 
   def poll_voting_params
     params.require(:poll_voting).permit(:token_value, :nominee_id)

@@ -1,19 +1,22 @@
 class PollVotingForm
   include ActiveModel::Model
 
-  attr_reader :poll, :token_value, :nominee_id
+  attr_reader :token, :nominee_id
 
-  validate :valid_token?
-  validate :valid_nominee?
-  validate :poll_started?
+  validate :nominee_selected?
+  validate :nominee_exist?
 
-  def initialize(poll, params = {})
-    @poll = poll
-    @token_value, @nominee_id = params.values_at(:token_value, :nominee_id)
+  def initialize(token, params = {})
+    @token = token
+    @nominee_id = params[:nominee_id]
   end
 
   def self.model_name
     ActiveModel::Name.new(nil, self, 'Poll::Voting')
+  end
+
+  def token_value
+    token.value
   end
 
   def save!
@@ -22,31 +25,21 @@ class PollVotingForm
     token.update!(nominee: nominee)
   end
 
-  def token
-    @token ||= @poll.tokens.find_by!(value: @token_value)
-  end
-
   private
 
+  def nominee_selected?
+    return if nominee_id.present?
+
+    errors.add(:base, 'Please select a nominee')
+  end
+
   def nominee
-    @nominee ||= @poll.nominees.find_by!(id: @nominee_id)
+    @nominee ||= Nominee.of_poll(token.poll).find_by(id: @nominee_id)
   end
 
-  def valid_token?
-    return if token.present?
-
-    errors.add(:base, 'Token does not exist')
-  end
-
-  def valid_nominee?
+  def nominee_exist?
     return if nominee.present?
 
     errors.add(:base, 'Nominee does not exist')
-  end
-
-  def poll_started?
-    return if poll.started?
-
-    errors.add(:base, 'Poll is not started')
   end
 end

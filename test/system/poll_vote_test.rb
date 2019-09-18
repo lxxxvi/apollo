@@ -12,25 +12,22 @@ class PollsVoteTest < ApplicationSystemTestCase
 
     token = started_poll.tokens.first
 
-    visit vote_poll_path(started_poll, token: token.value)
+    visit poll_vote_path(started_poll, token_value: token.value)
 
     assert_selector 'h1', text: 'Cast your vote'
 
-    assert_selector '.nominees'
+    click_on 'Cast vote'
 
-    click_on 'Vote for Adele'
+    assert_selector '.errors', text: 'Please select a nominee'
 
-    within('.selected-nominee') do
-      assert_selector 'h3', text: 'Adele'
-      assert_text 'You voted for Adele'
+    within('.nominees') do
+      assert_selector "input[type='radio'][aria-label]"
+      choose('Adele')
     end
 
-    click_on 'Vote for Barbra Streisand'
+    click_on 'Cast vote'
 
-    within('.selected-nominee') do
-      assert_selector 'h3', text: 'Barbra Streisand'
-      assert_text 'You voted for Barbra Streisand'
-    end
+    assert_selector 'h1', text: 'Best singer'
   end
 
   test 'signed in user cannot vote' do
@@ -38,7 +35,7 @@ class PollsVoteTest < ApplicationSystemTestCase
 
     token = started_poll.tokens.first
 
-    visit poll_vote_path(started_poll, token: token.value)
+    visit poll_vote_path(started_poll, token_value: token.value)
 
     assert_selector 'h1', text: 'Best singer'
     assert_text 'You are not allowed to take part in the poll when signed in.'

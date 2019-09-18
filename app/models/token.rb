@@ -7,6 +7,8 @@ class Token < ApplicationRecord
   validates :value, presence: true
   # validates :value, uniqueness: { scope: :poll } TODO: make me fast
 
+  scope :unused, -> { where(nominee: nil) }
+
   def to_param
     value
   end
