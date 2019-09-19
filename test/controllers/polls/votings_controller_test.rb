@@ -22,10 +22,11 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
   test 'admin cannot post #create, with valid token' do
     sign_in_as(:julia_roberts)
 
-    assert_no_difference -> { Token.unused.count } do
+    assert_no_changes -> { started_poll_token.unused? } do
       assert_raise(Pundit::NotAuthorizedError) do
         post poll_voting_path(started_poll),
              params: poll_voting_params(started_poll_token.value, started_poll_nominee.id)
+        started_poll_token.reload
       end
     end
   end
@@ -40,9 +41,10 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
   test 'guest can post #create with valid, unused token' do
     sign_out
 
-    assert_difference -> { Token.unused.count }, -1 do
+    assert_changes -> { started_poll_token.unused? }, to: false do
       post poll_voting_path(started_poll),
            params: poll_voting_params(started_poll_token.value, started_poll_nominee.id)
+      started_poll_token.reload
     end
     follow_redirect!
     assert_response :success
@@ -53,9 +55,10 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
   test '#create with valid, unused token, wrong nominee' do
     sign_out
 
-    assert_no_difference -> { Token.unused.count } do
+    assert_no_changes -> { started_poll_token.unused? } do
       post poll_voting_path(started_poll),
            params: poll_voting_params(started_poll_token.value, published_poll_nominee.id)
+      started_poll_token.reload
     end
 
     assert_response :success
@@ -72,10 +75,11 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
   test 'guest cannot post #create with used token' do
     sign_out
 
-    assert_no_difference -> { Token.unused.count } do
+    assert_no_changes -> { started_poll_used_token.unused? } do
       assert_raise(Pundit::NotAuthorizedError) do
         post poll_voting_path(started_poll),
              params: poll_voting_params(started_poll_used_token.value, started_poll_nominee.id)
+        started_poll_used_token.reload
       end
     end
   end

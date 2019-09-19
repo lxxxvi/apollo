@@ -27,10 +27,6 @@ class PollPolicy < ApplicationPolicy
     record.user == user
   end
 
-  def vote?
-    record.started? && user.nil?
-  end
-
   class Scope < Scope
     def resolve
       if user.present?

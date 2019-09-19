@@ -4,7 +4,7 @@ class PollVotingForm
   attr_reader :token, :token_value, :nominee_id
 
   validate :nominee_selected?
-  validate :nominee_exist?
+  validate :nominee_exists?
 
   def initialize(token, params = {})
     @token = token
@@ -34,7 +34,7 @@ class PollVotingForm
     @nominee ||= Nominee.of_poll(token.poll).find_by(id: @nominee_id)
   end
 
-  def nominee_exist?
+  def nominee_exists?
     return if nominee.present?
 
     errors.add(:base, 'Nominee does not exist')

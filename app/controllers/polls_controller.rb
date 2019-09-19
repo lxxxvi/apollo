@@ -53,10 +53,6 @@ class PollsController < ApplicationController
     @poll = policy_scope(Poll).find_by!(custom_id: params[:custom_id])
   end
 
-  def find_token
-    @poll.tokens.find_by!(value: params[:token])
-  end
-
   def new_poll_params
     params.require(:poll).permit(:title, :email, :description)
   end
