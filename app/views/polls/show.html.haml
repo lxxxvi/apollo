@@ -66,27 +66,3 @@
                     method: :delete,
                     data: { confirm: 'Are you sure?' },
                     class: 'shy-dangerous-link'
-
-.flex.mb-5
-  %div{ class: 'w-1/2' }
-    %h2 Tokens
-  %div{ class: 'w-1/2' }
-    - if policy(@poll).update?
-      .h-full.relative
-        .absolute.bottom-0.right-0
-          = link_to 'Add tokens', new_poll_token_path(@poll)
-
-.tokens.card.mb-5
-  %ul.py-4.px-3
-    - @poll.tokens.each do |token|
-      %li.token.py-1
-        .flex
-          %div{ class: 'w-1/2' }
-            %pre= token.value
-          %div{ class: 'w-1/2 text-right' }
-            - if policy(@poll).update?
-              = link_to 'Delete',
-                poll_token_path(@poll, token),
-                method: :delete,
-                data: { confirm: 'Are you sure?' },
-                class: 'shy-dangerous-link'

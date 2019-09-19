@@ -9,4 +9,4 @@
 
   .my-8
     = f.submit 'Add tokens', class: 'apollo-pink-button'
-    = link_to 'Cancel', @form.poll, class: 'shy-link'
+    = link_to 'Cancel', manage_poll_path(@form.poll), class: 'shy-link'

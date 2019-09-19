@@ -4,27 +4,19 @@ class Polls::TokensController < ApplicationController
   def new
     authorize @poll, :update?
 
-    @form = TokenForm.new(@poll)
+    @form = PollTokensForm.new(@poll)
   end
 
   def create
     authorize @poll, :update?
 
-    @form = TokenForm.new(@poll, poll_token_params)
+    @form = PollTokensForm.new(@poll, poll_token_params)
 
     if @form.save
-      redirect_to @poll
+      redirect_to manage_poll_path(@poll)
     else
       render :new
     end
-  end
-
-  def destroy
-    authorize @poll, :update?
-
-    token = find_token
-    token.destroy
-    redirect_to token.poll
   end
 
   private
