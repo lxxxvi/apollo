@@ -1,22 +1,19 @@
 class PollVotingForm
   include ActiveModel::Model
 
-  attr_reader :token, :nominee_id
+  attr_reader :token, :token_value, :nominee_id
 
   validate :nominee_selected?
   validate :nominee_exist?
 
   def initialize(token, params = {})
     @token = token
+    @token_value = @token.value
     @nominee_id = params[:nominee_id]
   end
 
   def self.model_name
     ActiveModel::Name.new(nil, self, 'Poll::Voting')
-  end
-
-  def token_value
-    token.value
   end
 
   def save!

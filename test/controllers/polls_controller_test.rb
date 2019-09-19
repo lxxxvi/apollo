@@ -91,16 +91,6 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
     assert_all_exceptions(deleted_poll, ActiveRecord::RecordNotFound)
   end
 
-  test 'guest cannot vote for a started poll using invalid token' do
-    sign_out
-
-    assert false, 'implement me'
-  end
-
-  test 'guest cannot vote for a unstarted poll, with valid token' do
-    assert false, 'implement me'
-  end
-
   private
 
   def assert_all_exceptions(poll, exception)

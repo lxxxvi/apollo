@@ -9,6 +9,10 @@ class Token < ApplicationRecord
 
   scope :unused, -> { where(nominee: nil) }
 
+  def unused?
+    nominee.nil?
+  end
+
   def to_param
     value
   end

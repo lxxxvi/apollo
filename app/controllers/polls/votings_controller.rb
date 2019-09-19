@@ -1,19 +1,24 @@
 class Polls::VotingsController < ApplicationController
-  before_action :set_poll_and_token, only: %i[new create]
+  before_action :set_poll, only: %i[new create]
+  before_action :set_token, only: %i[new create]
 
   def new
-    authorize @poll, :vote?
+    token_policy = Pundit.policy(current_user, @token)
 
-    @form =  PollVotingForm.new(@token)
+    if token_policy.legit?
+      @form = PollVotingForm.new(@token)
+    else
+      redirect_to @poll
+    end
   end
 
   def create
-    authorize @poll, :vote?
+    authorize @token, :legit?
 
     @form = PollVotingForm.new(@token, poll_voting_params)
 
     if @form.save!
-      redirect_to poll_path(@poll)
+      redirect_to poll_path(@poll), notice: 'Thank you for your vote!'
     else
       render :new
     end
@@ -21,9 +26,12 @@ class Polls::VotingsController < ApplicationController
 
   private
 
-  def set_poll_and_token
-    @poll = policy_scope(Poll).started.find_by!(custom_id: params[:poll_custom_id])
-    @token = @poll.tokens.unused.find_by!(value: find_token_value)
+  def set_poll
+    @poll = policy_scope(Poll).find_by!(custom_id: params[:poll_custom_id])
+  end
+
+  def set_token
+    @token = @poll.tokens.find_by!(value: find_token_value)
   end
 
   def find_token_value

@@ -20,7 +20,9 @@ class NomineeTest < ActiveSupport::TestCase
     new_nominee = nominee.dup
     assert_not new_nominee.valid?
 
-    assert false
-    assert_includes [], 'todo'
+    new_nominee.errors.full_messages.tap do |full_messages|
+      assert_includes full_messages, 'Name has already been taken'
+      assert_includes full_messages, 'Custom has already been taken'
+    end
   end
 end

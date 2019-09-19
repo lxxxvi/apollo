@@ -1,5 +1,5 @@
 class PollsController < ApplicationController
-  before_action :set_poll, only: [:show, :manage, :update, :vote]
+  before_action :set_poll, only: [:show, :manage, :update]
 
   def index
     authorize Poll
