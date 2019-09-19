@@ -19,14 +19,6 @@ class Polls::TokensController < ApplicationController
     end
   end
 
-  def destroy
-    authorize @poll, :update?
-
-    token = find_token
-    token.destroy
-    redirect_to token.poll
-  end
-
   private
 
   def poll_token_params

@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   resources :polls, except: %i[destroy], param: :custom_id do
     resources :nominees, except: %i[index show], param: :custom_id, module: :polls
-    resources :tokens, only: %i[new create destroy], param: :value, module: :polls
+    resources :tokens, only: %i[new create], param: :value, module: :polls
     resource :publishment, only: %i[create], module: :polls
     resource :start, only: %i[create], module: :polls
     resource :closing, only: %i[create], module: :polls

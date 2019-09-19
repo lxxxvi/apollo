@@ -83,10 +83,3 @@
         .flex
           %div{ class: 'w-1/2' }
             %pre= token.value
-          %div{ class: 'w-1/2 text-right' }
-            - if policy(@poll).update?
-              = link_to 'Delete',
-                poll_token_path(@poll, token),
-                method: :delete,
-                data: { confirm: 'Are you sure?' },
-                class: 'shy-dangerous-link'

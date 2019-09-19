@@ -31,16 +31,6 @@ class Polls::TokensControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'delete token' do
-    sign_in_as(:julia_roberts)
-
-    assert_difference -> { published_poll.tokens.count }, -1 do
-      delete poll_token_path(published_poll, token)
-    end
-    follow_redirect!
-    assert_response :success
-  end
-
   test 'unauthorized actions for admin' do
     sign_in_as(:julia_roberts)
 
@@ -75,7 +65,6 @@ class Polls::TokensControllerTest < ActionDispatch::IntegrationTest
   def assert_all_exceptions(poll, exception)
     assert_not_get_new(poll, exception)
     assert_not_post(poll, exception)
-    assert_not_delete(poll, exception)
   end
 
   def assert_not_get_new(poll, exception)
@@ -84,9 +73,5 @@ class Polls::TokensControllerTest < ActionDispatch::IntegrationTest
 
   def assert_not_post(poll, exception)
     assert_raise(exception) { post poll_tokens_path(poll) }
-  end
-
-  def assert_not_delete(poll, exception)
-    assert_raise(exception) { delete poll_token_path(poll, token) }
   end
 end

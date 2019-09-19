@@ -47,18 +47,6 @@ class TokenTest < ApplicationSystemTestCase
     assert_selector 'input[aria-invalid="true"]', count: 1
   end
 
-  test 'delete token' do
-    sign_in_as(:julia_roberts)
-
-    visit poll_path(@poll)
-
-    assert_difference -> { token_items.count }, -1 do
-      within '.token:first-child' do
-        click_with_delete(delete_token_link)
-      end
-    end
-  end
-
   test 'guest does not see "Add token" button' do
     sign_out
     visit poll_path(@poll)
