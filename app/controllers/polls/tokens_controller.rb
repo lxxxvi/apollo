@@ -4,13 +4,13 @@ class Polls::TokensController < ApplicationController
   def new
     authorize @poll, :update?
 
-    @form = PollTokenForm.new(@poll)
+    @form = PollTokensForm.new(@poll)
   end
 
   def create
     authorize @poll, :update?
 
-    @form = PollTokenForm.new(@poll, poll_token_params)
+    @form = PollTokensForm.new(@poll, poll_token_params)
 
     if @form.save
       redirect_to manage_poll_path(@poll)
