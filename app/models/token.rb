@@ -7,6 +7,10 @@ class Token < ApplicationRecord
   validates :value, presence: true
   # validates :value, uniqueness: { scope: :poll } TODO: make me fast
 
+  def unused?
+    nominee.nil?
+  end
+
   def to_param
     value
   end

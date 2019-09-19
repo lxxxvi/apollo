@@ -6,13 +6,18 @@ best_actor_token_1:
   value: BEST-ACTOR-TOKEN-1
   poll: best_actor_published
 
-best_singer_token_1:
-  value: BEST-SINGER-TOKEN-1
+best_singer_token_unused:
+  value: BEST-SINGER-TOKEN-UNUSED
   poll: best_singer_started
+
+best_singer_token_used:
+  value: BEST-SINGER-TOKEN-USED
+  poll: best_singer_started
+  nominee: best_singer_adele
 
 best_movie_token_1:
   value: BEST-MOVIE-TOKEN-1
-  poll: best_movie_ended
+  poll: best_movie_closed
 
 best_song_token_1:
   value: BEST-SONG-TOKEN-1

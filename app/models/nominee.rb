@@ -3,8 +3,12 @@ class Nominee < ApplicationRecord
 
   validates :name, presence: true
   validates :custom_id, presence: true
+  validates :name, uniqueness: { scope: :poll }
+  validates :custom_id, uniqueness: { scope: :poll }
 
   belongs_to :poll
+
+  scope :of_poll, ->(poll) { where(poll: poll) }
 
   def to_param
     custom_id
