@@ -1,4 +1,4 @@
-class TokenForm
+class PollTokenForm
   include ActiveModel::Model
   MINIMUM_AMOUNT = 1
   MAXIMUM_AMOUNT = 1_000

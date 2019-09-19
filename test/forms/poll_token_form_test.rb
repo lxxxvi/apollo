@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TokenFormTest < ActiveSupport::TestCase
+class PollTokenFormTest < ActiveSupport::TestCase
   attr_reader :poll
 
   setup do
@@ -8,11 +8,11 @@ class TokenFormTest < ActiveSupport::TestCase
   end
 
   test 'invalid minimum amount' do
-    assert_not TokenForm.new(poll, amount: 0).valid?
+    assert_not PollTokenForm.new(poll, amount: 0).valid?
   end
 
   test 'invalid maximum amount' do
-    form = TokenForm.new(poll, amount: 1_001)
+    form = PollTokenForm.new(poll, amount: 1_001)
     assert_not form.valid?
 
     form.errors.to_a.tap do |errors|
@@ -22,17 +22,17 @@ class TokenFormTest < ActiveSupport::TestCase
   end
 
   test 'valid minimum amount' do
-    assert TokenForm.new(poll, amount: 1).valid?
+    assert PollTokenForm.new(poll, amount: 1).valid?
   end
 
   test 'valid maximum amount' do
     poll.tokens.destroy_all
-    assert TokenForm.new(poll, amount: 1_000).valid?
+    assert PollTokenForm.new(poll, amount: 1_000).valid?
   end
 
   test '#save' do
     assert_difference -> { poll.tokens.count }, 3 do
-      TokenForm.new(poll, amount: 3).save
+      PollTokenForm.new(poll, amount: 3).save
     end
   end
 end
