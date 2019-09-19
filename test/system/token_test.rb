@@ -5,38 +5,48 @@ class TokenTest < ApplicationSystemTestCase
   DELETE_TOKEN_TEXT = 'Delete'.freeze
 
   setup do
-    @poll = polls(:best_actor_published)
+    @published_poll = polls(:best_actor_published)
+    @started_poll = polls(:best_singer_started)
   end
 
   test 'create tokens' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@poll)
+    visit poll_path(@published_poll)
 
-    assert_selector 'h2', text: 'Tokens'
-    assert_equal 1, token_items.count
+    click_on 'Manage'
 
-    assert_difference -> { token_items.count }, 3 do
-      add_tokens_link.click
-      assert_selector 'a', text: 'Cancel', &:click
-      add_tokens_link.click
-      assert_selector 'h1', text: NEW_TOKENS_TEXT
+    within('.tokens-section') do
+      assert_selector 'h2', text: 'Tokens'
+      assert_text 'This poll has 1 token.'
+    end
 
-      find_label_and_input_for('poll_token_amount')
-      fill_in 'How many tokens would you like to add?', with: '3'
+    add_tokens_link.click
+    assert_selector 'a', text: 'Cancel', &:click
+    add_tokens_link.click
+    assert_selector 'h1', text: NEW_TOKENS_TEXT
 
-      within 'form#new_poll_token' do
-        submit_button = find("input[type='submit']")
-        assert_equal 'Add tokens', submit_button.value
-        submit_button.click
-      end
+    find_label_and_input_for('poll_token_amount')
+    fill_in 'How many tokens would you like to add?', with: '3'
+
+    within 'form#new_poll_token' do
+      submit_button = find("input[type='submit']")
+      assert_equal 'Add tokens', submit_button.value
+      submit_button.click
+    end
+
+    assert_selector 'h1', text: 'Manage poll'
+
+    within('.tokens-section') do
+      assert_selector 'h2', text: 'Tokens'
+      assert_text 'This poll has 4 tokens.'
     end
   end
 
   test 'create too many tokens' do
     sign_in_as(:julia_roberts)
 
-    visit new_poll_token_path(@poll)
+    visit new_poll_token_path(@published_poll)
 
     assert_selector 'h1', text: NEW_TOKENS_TEXT
 
@@ -47,23 +57,17 @@ class TokenTest < ApplicationSystemTestCase
     assert_selector 'input[aria-invalid="true"]', count: 1
   end
 
-  test 'guest does not see "Add token" button' do
-    sign_out
-    visit poll_path(@poll)
-    assert_raises(Capybara::ElementNotFound) { add_tokens_link }
-  end
+  test 'admin cannot add tokens if poll has started' do
+    sign_in_as(:julia_roberts)
 
-  test 'guest does not see token action buttons' do
-    sign_out
-    visit poll_path(@poll)
-    assert_raises(Capybara::ElementNotFound) { delete_token_link }
+    visit manage_poll_path(@started_poll)
+
+    within('.tokens-section') do
+      assert_selector 'a', text: 'Add tokens', count: 0
+    end
   end
 
   private
-
-  def token_items
-    find_all('.tokens li.token')
-  end
 
   def add_tokens_link
     find 'a', text: NEW_TOKENS_TEXT

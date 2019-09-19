@@ -3,7 +3,7 @@
 
 %h1.mb-10 Manage poll
 
-.information-section.my-10
+.information-section.my-16
   .flex
     .w-full
       %h2.border-0.border-gray-200.border-b.text-gray-600 Information
@@ -13,7 +13,21 @@
             = raw "Information can no longer be changed as soon as the poll #{colorize_text('starts', :started)}."
           %div.pl-2{ class: 'w-3/5' }= render 'form', form: PollForm.new(@poll, @poll.slice(:title, :description))
 
-.delete-section.my-10
+.tokens-section.my-16
+  %h2.border-0.border-gray-200.border-b.text-gray-600 Tokens
+  .pt-5.px-2
+    .flex.-mx-2
+      .text-gray-500.pr-2{ class: 'w-2/5' }
+        Tokens are used to vote.
+      .pl-2{ class: 'w-3/5' }
+        .flex
+          .w-full= raw "This poll has #{emphasize(pluralize(@poll.tokens.count, 'token'))}."
+        - if policy(@poll).update?
+          .flex.text-right
+            .w-full
+              = link_to 'Add tokens', new_poll_token_path(@poll), class: 'apollo-pink-button'
+
+.delete-section.my-16
   %h2.border-0.border-gray-200.border-b.text-red-700 Delete
   .pt-5.px-2
     .flex.-mx-2
