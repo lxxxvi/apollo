@@ -13,6 +13,55 @@
             = raw "Information can no longer be changed as soon as the poll #{colorize_text('starts', :started)}."
           %div.pl-2{ class: 'w-2/3' }= render 'form', form: PollForm.new(@poll, @poll.slice(:title, :description))
 
+.checklist-section
+  .flex
+    .w-full
+      %h2.border-0.border-gray-200.border-b.text-gray-600 Checklist
+  .flex.flex-wrap.mt-4
+    .w-full
+      .flex.flex-wrap.my-2.border-0.border-apollo-teal-300.pl-4.border-l-8
+        .w-full.text-xl
+          = colorize_text("Verify email address", :draft)
+        .w-full.text-gray-600.my-1.text-sm
+          = raw "In order to #{colorize_text('publish', :published)} the poll, you need to verify your email address that we have sent during registration."
+    .w-full
+      .flex.flex-wrap.my-2.border-0.border-apollo-teal-300.pl-4.border-l-8
+        .w-full.text-xl
+          = colorize_text("Add nominees", :draft)
+        .w-full.text-gray-600.my-1.text-sm
+          A poll should have at least 1 nominee.
+    .w-full
+      .flex.flex-wrap.my-2.border-0.border-apollo-teal-300.pl-4.border-l-8
+        .w-full.text-xl
+          = colorize_text("Add tokens", :draft)
+        .w-full.text-gray-600.my-1.text-sm
+          Tokens are used to anonymously vote for a nominee.
+    .w-full
+      .flex.flex-wrap.my-2.border-0.border-apollo-violet-300.pl-4.border-l-8
+        .w-full.text-xl
+          = colorize_text("Publish poll", :published)
+        .w-full.text-gray-600.my-1.text-sm
+          = raw "Once a poll is #{colorize_text('published', :published)}, holders of a token can preview the nominees but voting is not allowed yet. In this phase you can still add, update or delete nominees and add tokens."
+    .w-full
+      .flex.flex-wrap.my-2.border-0.border-apollo-green-500.pl-4.border-l-8
+        .w-full.text-xl
+          = colorize_text("Start poll", :started)
+        .w-full.text-gray-600.my-1.text-sm
+          = raw "Once a poll is #{colorize_text('started', :started)}, tokens can be used for voting. Any other modification on the poll is no longer allowed."
+    .w-full
+      .flex.flex-wrap.my-2.border-0.border-apollo-pink-500.pl-4.border-l-8
+        .w-full.text-xl
+          = colorize_text("Close poll", :closed)
+        .w-full.text-gray-600.my-1.text-sm
+          = raw "Once a poll is #{colorize_text('closed', :closed)}, voting is no longer possible. The poll is ultimately concluded and the results are final."
+    .w-full
+      .flex.flex-wrap.my-2.border-0.border-orange-600.pl-4.border-l-8
+        .w-full.text-xl
+          = colorize_text("Archive poll", :archived)
+        .w-full.text-gray-600.my-1.text-sm
+          = raw "#{colorize_text('Archived', :archived)} poll will no longer show up in the public list."
+
+
 .nominees-section.my-16
   .flex
     .w-full
