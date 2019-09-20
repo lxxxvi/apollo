@@ -1,10 +1,6 @@
 require 'application_system_test_case'
 
 class NomineesTest < ApplicationSystemTestCase
-  NEW_NOMINEE_TEXT = 'Add nominee'.freeze
-  EDIT_NOMINEE_TEXT = 'Edit'.freeze
-  DELETE_NOMINEE_TEXT = 'Delete'.freeze
-
   setup do
     @poll = polls(:best_actor_published)
   end
@@ -14,7 +10,11 @@ class NomineesTest < ApplicationSystemTestCase
 
     visit poll_path(@poll)
 
-    new_nominee_button.click
+    click_on 'Manage'
+
+    within('.nominees-section') do
+      click_on 'Add nominee'
+    end
 
     assert_selector('h1', text: 'Add nominee')
     assert_selector('form.new_nominee') do
@@ -36,14 +36,6 @@ class NomineesTest < ApplicationSystemTestCase
 
     assert_selector('h1', text: 'Add nominee')
     assert_selector('input[aria-invalid="true"]', count: 1)
-  end
-
-  test 'submit new nominee form complete' do
-    sign_in_as(:julia_roberts)
-
-    visit new_poll_nominee_path(@poll)
-
-    assert_selector('h1', text: 'Add nominee')
 
     within('form.new_nominee') do
       fill_in('Name', with: 'John Malkovich')
@@ -53,16 +45,16 @@ class NomineesTest < ApplicationSystemTestCase
     click_on('Create Nominee')
 
     assert_selector('h1', text: 'Best actor')
-    assert_selector('body', text: 'John Malkovich')
+    assert_selector('h3', text: 'John Malkovich')
   end
 
   test 'edit an nominee' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@poll)
+    visit manage_poll_path(@poll)
 
     within('.nominee:first-child') do
-      edit_nominee_button.click
+      click_on 'Edit'
     end
 
     assert_selector('h1', text: 'Edit nominee')
@@ -82,40 +74,13 @@ class NomineesTest < ApplicationSystemTestCase
   test 'delete nominee' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@poll)
+    visit manage_poll_path(@poll)
 
     assert_difference -> { all('.nominees li.nominee').count }, -1 do
       within('.nominee:first-child') do
+        delete_nominee_button = find 'a', text: 'Delete'
         click_with_delete(delete_nominee_button)
       end
     end
-  end
-
-  test 'guest does not see "Add nominee" button' do
-    sign_out
-    visit poll_path(@poll)
-
-    assert_raise(Capybara::ElementNotFound) { edit_nominee_button }
-  end
-
-  test 'guest does not see any action buttons for nominee' do
-    sign_out
-    visit poll_path(@poll)
-
-    assert_raise(Capybara::ElementNotFound) { delete_nominee_button }
-  end
-
-  private
-
-  def new_nominee_button
-    find 'a', text: NEW_NOMINEE_TEXT
-  end
-
-  def edit_nominee_button
-    find 'a', text: EDIT_NOMINEE_TEXT
-  end
-
-  def delete_nominee_button
-    find 'a', text: DELETE_NOMINEE_TEXT
   end
 end

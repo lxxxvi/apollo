@@ -9,6 +9,7 @@ class Nominee < ApplicationRecord
   belongs_to :poll
 
   scope :of_poll, ->(poll) { where(poll: poll) }
+  scope :ordered_by_name, -> { order(name: :asc) }
 
   def to_param
     custom_id
