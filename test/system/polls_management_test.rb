@@ -106,6 +106,14 @@ class PollsManagementTest < ApplicationSystemTestCase
 
         assert_equal input_elements.count, disabled_elements.count, 'All input elements should be disabled'
       end
+
+      within('.nominees-section') do
+        assert_selector 'a', count: 0
+      end
+
+      within('.tokens-section') do
+        assert_selector 'a', count: 0
+      end
     end
   end
 
@@ -173,9 +181,10 @@ class PollsManagementTest < ApplicationSystemTestCase
 
     click_on 'Manage'
 
-    assert_selector 'h2', text: 'Delete'
-
-    click_on 'Delete'
+    within('.delete-section') do
+      assert_selector 'h2', text: 'Delete poll'
+      click_on 'Delete'
+    end
 
     assert_selector 'h1', text: 'All polls'
   end
@@ -187,9 +196,8 @@ class PollsManagementTest < ApplicationSystemTestCase
 
     click_on 'Manage'
 
-    assert_selector 'h2', text: 'Delete'
-
     within('.delete-section') do
+      assert_selector 'h2', text: 'Delete poll'
       assert_text 'This poll can no longer be delete since it has been started.'
       assert_text 'You may archive the poll after it is closed.'
     end
