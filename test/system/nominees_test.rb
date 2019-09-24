@@ -8,7 +8,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'visiting the nominee form' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@poll)
+    visit admin_poll_path(@poll)
 
     click_on 'Manage'
 
@@ -29,7 +29,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'submit new nominee form empty' do
     sign_in_as(:julia_roberts)
 
-    visit new_poll_nominee_path(@poll)
+    visit new_admin_poll_nominee_path(@poll)
 
     assert_selector('h1', text: 'Add nominee')
     click_on('Create Nominee')
@@ -51,7 +51,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'edit an nominee' do
     sign_in_as(:julia_roberts)
 
-    visit manage_poll_path(@poll)
+    visit manage_admin_poll_path(@poll)
 
     within('.nominee:first-child') do
       click_on 'Edit'
@@ -74,7 +74,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'delete nominee' do
     sign_in_as(:julia_roberts)
 
-    visit manage_poll_path(@poll)
+    visit manage_admin_poll_path(@poll)
 
     assert_difference -> { all('.nominees li.nominee').count }, -1 do
       within('.nominee:first-child') do

@@ -11,7 +11,7 @@ class PollsVoteTest < ApplicationSystemTestCase
   test 'guest votes for a started poll using valid token' do
     sign_out
 
-    visit poll_vote_path(started_poll, token_value: started_poll_token_unused.value)
+    visit admin_poll_vote_path(started_poll, token_value: started_poll_token_unused.value)
 
     assert_selector 'h1', text: 'Cast your vote'
 
@@ -32,7 +32,7 @@ class PollsVoteTest < ApplicationSystemTestCase
   test 'signed in user cannot vote' do
     sign_in_as(:julia_roberts)
 
-    visit poll_vote_path(started_poll, token_value: started_poll_token_unused.value)
+    visit admin_poll_vote_path(started_poll, token_value: started_poll_token_unused.value)
 
     assert_selector 'h1', text: 'Best singer'
   end

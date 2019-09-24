@@ -5,8 +5,9 @@ AllCops:
   Exclude:
     - 'bin/**/*'
     - 'db/schema.rb'
-    - 'vendor/**/*'
     - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
 
 Rails:
   Enabled: true

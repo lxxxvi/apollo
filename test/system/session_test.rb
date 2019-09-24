@@ -16,7 +16,7 @@ class SessionTest < ApplicationSystemTestCase
   end
 
   test 'sign out is displayed' do
-    visit home_path
+    visit root_path
 
     assert_selector 'a', text: 'Sign in'
     assert_selector 'a', text: 'Sign out', count: 0

@@ -12,7 +12,7 @@ class TokenTest < ApplicationSystemTestCase
   test 'create tokens' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(@published_poll)
+    visit admin_poll_path(@published_poll)
 
     click_on 'Manage'
 
@@ -46,7 +46,7 @@ class TokenTest < ApplicationSystemTestCase
   test 'create too many tokens' do
     sign_in_as(:julia_roberts)
 
-    visit new_poll_token_path(@published_poll)
+    visit new_admin_poll_token_path(@published_poll)
 
     assert_selector 'h1', text: NEW_TOKENS_TEXT
 
@@ -60,7 +60,7 @@ class TokenTest < ApplicationSystemTestCase
   test 'admin cannot add tokens if poll has started' do
     sign_in_as(:julia_roberts)
 
-    visit manage_poll_path(@started_poll)
+    visit manage_admin_poll_path(@started_poll)
 
     within('.tokens-section') do
       assert_selector 'a', text: 'Add tokens', count: 0
