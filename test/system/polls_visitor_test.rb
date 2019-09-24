@@ -25,11 +25,11 @@ class PollsVisitorTest < ApplicationSystemTestCase
   private
 
   def assert_no_visit_poll(poll)
-    assert_raise(ActiveRecord::RecordNotFound) { visit poll_path(poll) }
+    assert_raise(ActiveRecord::RecordNotFound) { visit admin_poll_path(poll) }
   end
 
   def assert_visit_poll(poll)
-    visit poll_path(poll)
+    visit admin_poll_path(poll)
 
     assert_selector 'h1', text: 'Best actor'
     assert_selector 'p', text: 'Who is he?'

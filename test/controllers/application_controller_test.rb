@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ApplicationControllerTest < ActionDispatch::IntegrationTest
   test '#home_path' do
-    get home_path
+    get root_path
     assert_response :success
   end
 

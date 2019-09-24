@@ -13,7 +13,7 @@ class PollsManagementTest < ApplicationSystemTestCase
 
   test 'create a new poll' do
     sign_out
-    visit new_poll_path
+    visit new_admin_poll_path
 
     assert_selector 'h1', text: 'New poll'
     within('form.new_poll') do
@@ -63,7 +63,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin visits an drafted poll' do
     sign_in_as(:julia_roberts)
 
-    visit polls_path
+    visit admin_polls_path
 
     click_on draft_poll.title
 
@@ -79,7 +79,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin edits an unstarted poll' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(published_poll)
+    visit admin_poll_path(published_poll)
 
     click_on 'Manage'
 
@@ -96,7 +96,7 @@ class PollsManagementTest < ApplicationSystemTestCase
     sign_in_as(:julia_roberts)
 
     [started_poll, closed_poll, archived_poll].each do |poll|
-      visit manage_poll_path(poll)
+      visit manage_admin_poll_path(poll)
 
       within('.information-section form') do
         assert_selector "input[type='submit']", count: 0
@@ -123,7 +123,7 @@ class PollsManagementTest < ApplicationSystemTestCase
     user = users(:julia_roberts)
     user.update(email_verified_at: nil)
 
-    visit poll_path(draft_poll)
+    visit admin_poll_path(draft_poll)
 
     assert_selector '.poll-state', text: 'draft'
     assert_text 'In order to publish this poll you need to verify your email first.'
@@ -133,7 +133,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin publishes a drafted a poll' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(draft_poll)
+    visit admin_poll_path(draft_poll)
     assert_selector '.poll-state', text: 'draft'
 
     click_on 'Publish poll'
@@ -143,7 +143,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin starts a published poll' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(published_poll)
+    visit admin_poll_path(published_poll)
     assert_selector '.poll-state', text: 'published'
 
     click_on 'Start poll'
@@ -153,7 +153,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin closes a started poll' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(started_poll)
+    visit admin_poll_path(started_poll)
 
     assert_selector '.poll-state', text: 'started'
 
@@ -164,7 +164,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin archives a closed poll' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(closed_poll)
+    visit admin_poll_path(closed_poll)
 
     assert_selector '.poll-state', text: 'closed'
 
@@ -177,7 +177,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin deletes an unstarted poll' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(published_poll)
+    visit admin_poll_path(published_poll)
 
     click_on 'Manage'
 
@@ -192,7 +192,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin cannot delete a started poll' do
     sign_in_as(:julia_roberts)
 
-    visit poll_path(started_poll)
+    visit admin_poll_path(started_poll)
 
     click_on 'Manage'
 

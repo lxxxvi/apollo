@@ -1,5 +1,0 @@
-= simple_form_for nominee, url: [nominee.poll, nominee] do |f|
-  = f.input :name, required: true
-  = f.input :description, as: :text, required: false, hint: '(Optional)'
-  = f.button :submit
-  = link_to 'Cancel', nominee.poll

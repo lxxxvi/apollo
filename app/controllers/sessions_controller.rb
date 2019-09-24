@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     if user.present?
       sign_in(user)
       user.update!(email_verified_at: Time.zone.now)
-      redirect_to home_path, notice: 'Successfully signed in.'
+      redirect_to root_path, notice: 'Successfully signed in.'
     else
       redirect_to request_token_path, notice: 'Invalid authentication token.'
     end

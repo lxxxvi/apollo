@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class RequestTokenTest < ApplicationSystemTestCase
   test 'user requests a new authentication token' do
-    visit home_path
+    visit root_path
 
     click_on 'Sign in'
     assert_selector 'h1', text: 'Request a new token'
