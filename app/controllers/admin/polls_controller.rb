@@ -7,34 +7,13 @@ class Admin::PollsController < ApplicationController
     @polls = policy_scope(Poll).ordered
   end
 
-  def show
-    authorize @poll
-  end
-
-  def new
-    poll = Poll.new
-    authorize poll
-
-    @form = PollForm.new(poll)
-  end
-
-  def create
-    poll = Poll.new
-    authorize poll
-
-    @form = PollForm.new(poll, new_poll_params)
-
-    if @form.save
-      sign_in @form.poll.user
-      redirect_to admin_poll_path(@form.poll)
-    else
-      render :new
-    end
-  end
+  # def show
+  #   authorize @poll
+  # end
 
   def update
     authorize @poll
-    @form = PollForm.new(@poll, edit_poll_params)
+    @form = PollForm.new(@poll, poll_params)
 
     if @form.save
       redirect_to manage_admin_poll_path(@form.poll)
@@ -43,9 +22,9 @@ class Admin::PollsController < ApplicationController
     end
   end
 
-  def manage
-    authorize @poll
-  end
+  # def manage
+  #   authorize @poll
+  # end
 
   private
 
@@ -53,11 +32,7 @@ class Admin::PollsController < ApplicationController
     @poll = policy_scope(Poll).find_by!(custom_id: params[:custom_id])
   end
 
-  def new_poll_params
-    params.require(:poll).permit(:title, :email, :description)
-  end
-
-  def edit_poll_params
+  def poll_params
     params.require(:poll).permit(:title, :description)
   end
 end

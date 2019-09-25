@@ -1,4 +1,4 @@
-class PollDeletionForm
+class Admin::PollDeletionForm
   include ActiveModel::Model
 
   attr_reader :poll
@@ -10,7 +10,7 @@ class PollDeletionForm
   end
 
   def self.model_name
-    ActiveModel::Name.new(nil, self, 'Poll::Deletion')
+    ActiveModel::Name.new(nil, self, 'Admin::Poll::Deletion')
   end
 
   def save!
