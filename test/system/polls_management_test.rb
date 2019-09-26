@@ -74,6 +74,10 @@ class PollsManagementTest < ApplicationSystemTestCase
     assert_selector 'h1', text: 'All polls'
   end
 
+  test 'admin visits admin area of a poll' do
+    assert false, 'implement me'
+  end
+
   # edit
 
   test 'admin edits an unstarted poll' do
@@ -178,8 +182,6 @@ class PollsManagementTest < ApplicationSystemTestCase
     sign_in_as(:julia_roberts)
 
     visit admin_poll_path(published_poll)
-
-    click_on 'Manage'
 
     within('.delete-section') do
       assert_selector 'h2', text: 'Delete poll'
