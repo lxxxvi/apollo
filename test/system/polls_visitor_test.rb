@@ -29,29 +29,19 @@ class PollsVisitorTest < ApplicationSystemTestCase
   end
 
   def assert_visit_poll(poll)
-    visit admin_poll_path(poll)
+    visit poll_path(poll)
 
     assert_selector 'h1', text: 'Best actor'
     assert_selector 'p', text: 'Who is he?'
     assert_selector '.nominee', text: 'Bryan Cranston'
 
     assert_no_manage
-    assert_no_poll_state_change
 
     assert_selector 'a', text: 'Back to overview', &:click
     assert_selector 'h1', text: 'All polls'
   end
 
   def assert_no_manage
-    within '.poll-title' do
-      assert_selector 'a', text: 'Manage', count: 0
-    end
-  end
-
-  def assert_no_poll_state_change
-    within '.poll-state' do
-      assert_selector 'a', count: 0
-      assert_selector 'input', count: 0
-    end
+    assert_selector 'a', text: 'Manage', count: 0
   end
 end

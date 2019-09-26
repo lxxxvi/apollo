@@ -2,9 +2,9 @@ class Admin::Polls::DeletionsController < ApplicationController
   before_action :set_poll, only: %i[create]
 
   def create
-    authorize @poll, :manage?
+    authorize @poll, :admin?
 
-    form = PollDeletionForm.new(@poll)
+    form = Admin::PollDeletionForm.new(@poll)
 
     if form.save!
       redirect_to root_path, notice: 'Poll deleted'

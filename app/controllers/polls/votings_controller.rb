@@ -1,4 +1,4 @@
-class Admin::Polls::VotingsController < ApplicationController
+class Polls::VotingsController < ApplicationController
   before_action :set_poll, only: %i[new create]
   before_action :set_token, only: %i[new create]
 
@@ -8,7 +8,7 @@ class Admin::Polls::VotingsController < ApplicationController
     if token_policy.legit?
       @form = PollVotingForm.new(@token)
     else
-      redirect_to admin_poll_path(@poll)
+      redirect_to poll_path(@poll)
     end
   end
 
@@ -18,7 +18,7 @@ class Admin::Polls::VotingsController < ApplicationController
     @form = PollVotingForm.new(@token, poll_voting_params)
 
     if @form.save!
-      redirect_to admin_poll_path(@poll), notice: 'Thank you for your vote!'
+      redirect_to poll_path(@poll), notice: 'Thank you for your vote!'
     else
       render :new
     end

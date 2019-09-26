@@ -2,9 +2,9 @@ class Admin::Polls::StartsController < ApplicationController
   before_action :set_poll, only: %i[create]
 
   def create
-    authorize @poll, :manage?
+    authorize @poll, :admin?
 
-    form = PollStartForm.new(@poll)
+    form = Admin::PollStartForm.new(@poll)
 
     if form.save!
       redirect_to admin_poll_path(@poll), notice: 'Poll started'

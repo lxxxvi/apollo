@@ -1,4 +1,4 @@
-class PollStartForm
+class Admin::PollStartForm
   include ActiveModel::Model
 
   attr_reader :poll
@@ -10,7 +10,7 @@ class PollStartForm
   end
 
   def self.model_name
-    ActiveModel::Name.new(nil, self, 'Poll::Start')
+    ActiveModel::Name.new(nil, self, 'Admin::Poll::Start')
   end
 
   def save!

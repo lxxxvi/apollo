@@ -13,7 +13,7 @@
               - @form.errors.full_messages.each do |full_message|
                 %li= full_message
 
-= simple_form_for @form, url: admin_poll_voting_path(@poll) do |f|
+= simple_form_for @form, url: poll_voting_path(@poll) do |f|
   = f.input :token_value, as: :hidden
   = f.input :nominee_id, as: :hidden
 

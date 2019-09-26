@@ -1,4 +1,4 @@
-class PollClosingForm
+class Admin::PollClosingForm
   include ActiveModel::Model
 
   attr_reader :poll
@@ -10,7 +10,7 @@ class PollClosingForm
   end
 
   def self.model_name
-    ActiveModel::Name.new(nil, self, 'Poll::Closing')
+    ActiveModel::Name.new(nil, self, 'Admin::Poll::Closing')
   end
 
   def save!

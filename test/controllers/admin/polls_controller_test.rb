@@ -12,29 +12,10 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
     @deleted_poll = polls(:best_book_deleted)
   end
 
-  test 'show published poll' do
+  test 'admin show published poll' do
+    sign_in_as(:julia_roberts)
+
     get admin_poll_path(published_poll)
-    assert_response :success
-  end
-
-  test 'new poll' do
-    get new_admin_poll_path
-    assert_response :success
-  end
-
-  test 'create poll' do
-    assert_difference -> { User.count }, 1 do
-      assert_difference -> { Poll.count }, 1 do
-        post admin_polls_path, params: {
-          poll: {
-            title: 'The poll name',
-            email: 'email@apollo.test',
-            description: 'A description'
-          }
-        }
-      end
-    end
-    follow_redirect!
     assert_response :success
   end
 
@@ -42,7 +23,7 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(:julia_roberts)
 
     [draft_poll, published_poll, started_poll, closed_poll, archived_poll].each do |poll|
-      get manage_admin_poll_path(poll)
+      get admin_poll_path(poll)
       assert_response :success
     end
   end
@@ -94,12 +75,12 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
   private
 
   def assert_all_exceptions(poll, exception)
-    assert_not_get_manage(poll, exception)
+    assert_not_get_show(poll, exception)
     assert_not_patch_poll(poll, exception)
   end
 
-  def assert_not_get_manage(poll, exception)
-    assert_raise(exception, build_exception(poll.state, __method__)) { get manage_admin_poll_path(poll) }
+  def assert_not_get_show(poll, exception)
+    assert_raise(exception, build_exception(poll.state, __method__)) { get admin_poll_path(poll) }
   end
 
   def assert_not_patch_poll(poll, exception)

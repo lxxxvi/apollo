@@ -1,4 +1,4 @@
-class PollArchivingForm
+class Admin::PollArchivingForm
   include ActiveModel::Model
 
   attr_reader :poll
@@ -10,7 +10,7 @@ class PollArchivingForm
   end
 
   def self.model_name
-    ActiveModel::Name.new(nil, self, 'Poll::Archiving')
+    ActiveModel::Name.new(nil, self, 'Admin::Poll::Archiving')
   end
 
   def save!

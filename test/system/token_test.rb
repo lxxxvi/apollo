@@ -14,8 +14,6 @@ class TokenTest < ApplicationSystemTestCase
 
     visit admin_poll_path(@published_poll)
 
-    click_on 'Manage'
-
     within('.tokens-section') do
       assert_selector 'h2', text: 'Tokens'
       assert_text 'This poll has 1 token.'
@@ -60,7 +58,7 @@ class TokenTest < ApplicationSystemTestCase
   test 'admin cannot add tokens if poll has started' do
     sign_in_as(:julia_roberts)
 
-    visit manage_admin_poll_path(@started_poll)
+    visit admin_poll_path(@started_poll)
 
     within('.tokens-section') do
       assert_selector 'a', text: 'Add tokens', count: 0

@@ -1,14 +1,19 @@
-= simple_form_for [:admin, form] do |f|
-  .flex.mb-5
+= simple_form_for form do |f|
+
+  - if form.poll.new_record?
+    .flex.my-5
+      .w-full= f.input :email, required: true
+
+  .flex.my-5
     .w-full= f.input :title, required: true, disabled: !form.poll.editable?
 
-  .flex.mb-5
+  .flex.my-5
     .w-full= f.input :description, as: :text, required: false, hint: '(Optional)', disabled: !form.poll.editable?
 
   - if form.poll.editable?
-    .flex.mb-5
-      .w-full.text-right
+    .flex.my-10
+      .w-full
         = f.button :submit, class: 'apollo-pink-button'
         - if form.poll.new_record?
-          = link_to 'Cancel', root_path, class: 'shy-link'
+          = link_to 'Cancel', root_path, class: 'shy-link ml-3'
 
