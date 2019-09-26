@@ -13,7 +13,7 @@ class PollsManagementTest < ApplicationSystemTestCase
 
   test 'create a new poll' do
     sign_out
-    visit new_admin_poll_path
+    visit new_poll_path
 
     assert_selector 'h1', text: 'New poll'
     within('form.new_poll') do
@@ -63,7 +63,7 @@ class PollsManagementTest < ApplicationSystemTestCase
   test 'admin visits an drafted poll' do
     sign_in_as(:julia_roberts)
 
-    visit admin_polls_path
+    visit polls_path
 
     click_on draft_poll.title
 
@@ -75,7 +75,13 @@ class PollsManagementTest < ApplicationSystemTestCase
   end
 
   test 'admin visits admin area of a poll' do
-    assert false, 'implement me'
+    sign_in_as(:julia_roberts)
+
+    visit polls_path
+    click_on draft_poll.title
+    click_on 'Manage'
+
+    assert_selector 'h1', text: 'Manage poll'
   end
 
   # edit
@@ -84,8 +90,6 @@ class PollsManagementTest < ApplicationSystemTestCase
     sign_in_as(:julia_roberts)
 
     visit admin_poll_path(published_poll)
-
-    click_on 'Manage'
 
     within('.information-section form') do
       fill_in('Title', with: 'Best actress')
@@ -195,8 +199,6 @@ class PollsManagementTest < ApplicationSystemTestCase
     sign_in_as(:julia_roberts)
 
     visit admin_poll_path(started_poll)
-
-    click_on 'Manage'
 
     within('.delete-section') do
       assert_selector 'h2', text: 'Delete poll'

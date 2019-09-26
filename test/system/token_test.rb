@@ -14,8 +14,6 @@ class TokenTest < ApplicationSystemTestCase
 
     visit admin_poll_path(@published_poll)
 
-    click_on 'Manage'
-
     within('.tokens-section') do
       assert_selector 'h2', text: 'Tokens'
       assert_text 'This poll has 1 token.'

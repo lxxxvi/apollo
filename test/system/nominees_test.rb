@@ -10,8 +10,6 @@ class NomineesTest < ApplicationSystemTestCase
 
     visit admin_poll_path(@poll)
 
-    click_on 'Manage'
-
     within('.nominees-section') do
       click_on 'Add nominee'
     end
@@ -26,7 +24,7 @@ class NomineesTest < ApplicationSystemTestCase
     find_label_and_textarea_for('nominee_description')
   end
 
-  test 'submit new nominee form empty' do
+  test 'submit new nominee form' do
     sign_in_as(:julia_roberts)
 
     visit new_admin_poll_nominee_path(@poll)
@@ -44,8 +42,11 @@ class NomineesTest < ApplicationSystemTestCase
 
     click_on('Create Nominee')
 
-    assert_selector('h1', text: 'Best actor')
-    assert_selector('h3', text: 'John Malkovich')
+    assert_selector('h1', text: 'Manage poll')
+
+    within '.nominees-section' do
+      assert_selector('h3', text: 'John Malkovich')
+    end
   end
 
   test 'edit an nominee' do
@@ -66,9 +67,12 @@ class NomineesTest < ApplicationSystemTestCase
 
     click_on('Update Nominee')
 
-    assert_selector('h1', text: 'Best actor')
-    assert_selector('body', text: 'Ghost-Bustin')
-    assert_selector('body', text: 'afraid')
+    assert_selector('h1', text: 'Manage poll')
+
+    within '.nominees-section' do
+      assert_selector 'h3', text: 'Ghost-Bustin'
+      assert_text 'afraid'
+    end
   end
 
   test 'delete nominee' do

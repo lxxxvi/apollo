@@ -4,8 +4,12 @@
 
 .poll-title
   .flex
-    %div{ class: 'w-5/5' }
-      %h1= @poll.title
+    .relative{ class: 'w-full' }
+      %h1.inline-block= @poll.title
+      - if policy(@poll).admin?
+        %span.absolute.right-0.bottom-0
+          = link_to 'Manage', admin_poll_path(@poll), class: 'shy-link'
+
 
 .my-10
   %h2 About
