@@ -7,27 +7,26 @@
     %div{ class: 'w-3/5' }
       %h1= @poll.title
     %div{ class: 'w-2/5' }
-      - if policy(@poll).manage?
+      - if policy(@poll).admin?
         .h-full.relative
           .absolute.bottom-0.right-0
             .poll-actions
-              = link_to 'Manage', manage_admin_poll_path(@poll), class: 'shy-link'
+              = link_to 'Manage', admin_poll_path(@poll), class: 'shy-link'
 
 .poll-state.my-10
   .flex.py-3.px-5{ class: "poll-state-#{@poll.state}" }
     .tracking-wider.uppercase.align-middle{ class: 'w-1/2' }= @poll.state
-    - if policy(@poll).manage?
-      .text-right{ class: 'w-1/2' }
-        - if !@poll.user.verified?
-          In order to publish this poll you need to verify your email first.
-        - elsif @poll.publishable?
-          = render 'admin/polls/publishment/form', form: PollPublishmentForm.new(@poll)
-        - elsif @poll.startable?
-          = render 'admin/polls/start/form', form: PollStartForm.new(@poll)
-        - elsif @poll.closable?
-          = render 'admin/polls/closing/form', form: PollClosingForm.new(@poll)
-        - elsif @poll.archivable?
-          = render 'admin/polls/archiving/form', form: PollArchivingForm.new(@poll)
+    .text-right{ class: 'w-1/2' }
+      - if !@poll.user.verified?
+        In order to publish this poll you need to verify your email first.
+      - elsif @poll.publishable?
+        = render 'admin/polls/publishment/form', form: Admin::PollPublishmentForm.new(@poll)
+      - elsif @poll.startable?
+        = render 'admin/polls/start/form', form: Admin::PollStartForm.new(@poll)
+      - elsif @poll.closable?
+        = render 'admin/polls/closing/form', form: Admin::PollClosingForm.new(@poll)
+      - elsif @poll.archivable?
+        = render 'admin/polls/archiving/form', form: Admin::PollArchivingForm.new(@poll)
 
 %h2 About
 

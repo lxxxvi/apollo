@@ -2,9 +2,9 @@ class Admin::Polls::PublishmentsController < ApplicationController
   def create
     poll = Poll.find_by!(custom_id: params[:poll_custom_id])
 
-    authorize poll, :manage?
+    authorize poll, :admin?
 
-    form = PollPublishmentForm.new(poll)
+    form = Admin::PollPublishmentForm.new(poll)
 
     if form.save!
       redirect_to admin_poll_path(poll), notice: 'Poll published'

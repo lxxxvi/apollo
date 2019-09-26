@@ -13,7 +13,7 @@ class Admin::Polls::TokensController < ApplicationController
     @form = PollTokensForm.new(@poll, poll_token_params)
 
     if @form.save
-      redirect_to manage_admin_poll_path(@poll)
+      redirect_to admin_poll_path(@poll)
     else
       render :new
     end

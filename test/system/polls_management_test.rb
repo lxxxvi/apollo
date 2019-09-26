@@ -96,7 +96,7 @@ class PollsManagementTest < ApplicationSystemTestCase
     sign_in_as(:julia_roberts)
 
     [started_poll, closed_poll, archived_poll].each do |poll|
-      visit manage_admin_poll_path(poll)
+      visit admin_poll_path(poll)
 
       within('.information-section form') do
         assert_selector "input[type='submit']", count: 0

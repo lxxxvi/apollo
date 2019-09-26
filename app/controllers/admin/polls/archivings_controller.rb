@@ -2,9 +2,9 @@ class Admin::Polls::ArchivingsController < ApplicationController
   before_action :set_poll, only: %i[create]
 
   def create
-    authorize @poll, :manage?
+    authorize @poll, :admin?
 
-    form = PollArchivingForm.new(@poll)
+    form = Admin::PollArchivingForm.new(@poll)
 
     if form.save!
       redirect_to admin_poll_path(@poll), notice: 'Poll archived'

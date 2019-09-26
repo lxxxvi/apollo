@@ -42,7 +42,7 @@ class Admin::Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
     sign_out
 
     assert_changes -> { started_poll_token.unused? }, to: false do
-      post admin_poll_voting_path(started_poll),
+      post poll_voting_path(started_poll),
            params: poll_voting_params(started_poll_token.value, started_poll_nominee.id)
       started_poll_token.reload
     end

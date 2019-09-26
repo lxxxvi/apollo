@@ -20,10 +20,10 @@ class PollPolicy < ApplicationPolicy
   end
 
   def update?
-    manage? && record.editable?
+    admin? && record.editable?
   end
 
-  def manage?
+  def admin?
     record.user == user
   end
 

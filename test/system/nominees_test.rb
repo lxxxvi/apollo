@@ -51,7 +51,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'edit an nominee' do
     sign_in_as(:julia_roberts)
 
-    visit manage_admin_poll_path(@poll)
+    visit admin_poll_path(@poll)
 
     within('.nominee:first-child') do
       click_on 'Edit'
@@ -74,7 +74,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'delete nominee' do
     sign_in_as(:julia_roberts)
 
-    visit manage_admin_poll_path(@poll)
+    visit admin_poll_path(@poll)
 
     assert_difference -> { all('.nominees li.nominee').count }, -1 do
       within('.nominee:first-child') do

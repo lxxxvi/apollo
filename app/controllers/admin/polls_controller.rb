@@ -7,24 +7,20 @@ class Admin::PollsController < ApplicationController
     @polls = policy_scope(Poll).ordered
   end
 
-  # def show
-  #   authorize @poll
-  # end
+  def show
+    authorize @poll, :admin?
+  end
 
   def update
     authorize @poll
     @form = PollForm.new(@poll, poll_params)
 
     if @form.save
-      redirect_to manage_admin_poll_path(@form.poll)
+      redirect_to admin_poll_path(@form.poll)
     else
-      render :manage
+      render :show
     end
   end
-
-  # def manage
-  #   authorize @poll
-  # end
 
   private
 

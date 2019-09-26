@@ -72,7 +72,7 @@
       - if @poll.deletable?
         .text-gray-500.pr-2{ class: 'w-1/3' }
           This action cannot be undone.
-        .pl-2.text-right{ class: 'w-2/3' }= render 'admin/polls/deletion/form', form: PollDeletionForm.new(@poll)
+        .pl-2.text-right{ class: 'w-2/3' }= render 'admin/polls/deletion/form', form: Admin::PollDeletionForm.new(@poll)
       - else
         .text-gray-500
           = raw "This poll can no longer be delete since it has been #{colorize_text('started', :started)}."
