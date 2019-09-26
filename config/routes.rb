@@ -8,7 +8,10 @@ Rails.application.routes.draw do
   get 'sign_in/:authentication_token', to: 'sessions#new', as: :sign_in
   get 'sign_out', to: 'sessions#destroy', as: :sign_out
 
-  resources :polls, only: %i[index show new create], param: :custom_id
+  resources :polls, only: %i[index show new create], param: :custom_id do
+    resource :voting, only: %i[new create], module: :polls
+    get 'vote/:token_value', to: 'polls/votings#new', as: :vote
+  end
 
   namespace :admin do
     resources :polls, except: %i[new create destroy], param: :custom_id do
@@ -19,9 +22,6 @@ Rails.application.routes.draw do
       resource :closing, only: %i[create], module: :polls
       resource :archiving, only: %i[create], module: :polls
       resource :deletion, only: %i[create], module: :polls
-      resource :voting, only: %i[new create], module: :polls
-
-      get 'vote/:token_value', to: 'polls/votings#new', as: :vote
     end
   end
 end
