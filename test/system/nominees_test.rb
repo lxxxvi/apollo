@@ -89,4 +89,26 @@ class NomineesTest < ApplicationSystemTestCase
       end
     end
   end
+
+  test 'add, edit and delete buttons disappear after poll has started' do
+    sign_in_as(:julia_roberts)
+
+    visit admin_poll_nominees_path(@poll)
+
+    assert_changes -> { nominees_section_links.count }, to: 0 do
+      click_on 'Start'
+    end
+
+    click_on 'Close'
+    assert_equal 0, nominees_section_links.count
+
+    click_on 'Archive'
+    assert_equal 0, nominees_section_links.count
+  end
+
+  private
+
+  def nominees_section_links
+    all('.nominees-section a')
+  end
 end

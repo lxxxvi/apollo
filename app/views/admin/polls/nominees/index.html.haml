@@ -1,33 +1,34 @@
 = render 'admin/polls/title_and_subnavigation', poll: @poll
 
-.flex.my-10
-  .w-full
-    .flex
-      .text-gray-600{ class: 'w-1/2'}
-        %h2.text-gray-600 Nominees
-      .relative{ class: 'w-1/2'}
-        - if policy(@poll).edit?
-          = link_to 'Add nominee', new_admin_poll_nominee_path(@poll), class: 'apollo-pink-link absolute bottom-0 right-0'
-    .flex
-      .w-full.mt-5
-        %ul.nominees
-          - @poll.nominees.ordered_by_name.each do |nominee|
-            %li.nominee.card
-              .mb-10.px-2
-                .flex.-mx-2
-                  .text-gray-500.pr-2{ class: 'w-1/3' }
-                  .pl-2{ class: 'w-2/3' }
-                    .flex.flex-wrap
-                      .w-full
-                        %h3= nominee.name
-                      .w-full.mt-1.my-2.text-gray-600.text-sm= nominee.description
-                      - if policy(@poll).edit?
-                        .w-full.text-sm
-                          = link_to 'Edit',
-                            edit_admin_poll_nominee_path(@poll, nominee),
-                            class: 'shy-link'
-                          = link_to 'Delete',
-                            admin_poll_nominee_path(@poll, nominee),
-                            method: :delete,
-                            data: { confirm: 'Are you sure?' },
-                            class: 'shy-dangerous-link'
+.nominees-section
+  .flex.my-10
+    .w-full
+      .flex
+        .text-gray-600{ class: 'w-1/2'}
+          %h2.text-gray-600 Nominees
+        .relative{ class: 'w-1/2'}
+          - if policy(@poll).edit?
+            = link_to 'Add nominee', new_admin_poll_nominee_path(@poll), class: 'apollo-pink-link absolute bottom-0 right-0'
+      .flex
+        .w-full.mt-5
+          %ul.nominees
+            - @poll.nominees.ordered_by_name.each do |nominee|
+              %li.nominee.card
+                .mb-10.px-2
+                  .flex.-mx-2
+                    .text-gray-500.pr-2{ class: 'w-1/3' }
+                    .pl-2{ class: 'w-2/3' }
+                      .flex.flex-wrap
+                        .w-full
+                          %h3= nominee.name
+                        .w-full.mt-1.my-2.text-gray-600.text-sm= nominee.description
+                        - if policy(@poll).edit?
+                          .w-full.text-sm
+                            = link_to 'Edit',
+                              edit_admin_poll_nominee_path(@poll, nominee),
+                              class: 'shy-link'
+                            = link_to 'Delete',
+                              admin_poll_nominee_path(@poll, nominee),
+                              method: :delete,
+                              data: { confirm: 'Are you sure?' },
+                              class: 'shy-dangerous-link'

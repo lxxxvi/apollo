@@ -63,6 +63,11 @@ class TokenTest < ApplicationSystemTestCase
     assert_selector 'a', text: 'Add tokens', count: 0
   end
 
+
+  test 'add and delete buttons disappear after poll has started' do
+    assert false
+  end
+
   private
 
   def add_tokens_link
