@@ -5,14 +5,20 @@ class NomineesTest < ApplicationSystemTestCase
     @poll = polls(:best_actor_published)
   end
 
+  test 'visiting the nominees index' do
+    sign_in_as(:julia_roberts)
+    visit admin_poll_path(@poll)
+    click_on 'Nominees'
+    assert_selector 'h1', text: 'Manage poll'
+    assert_selector 'h2', text: 'Nominees'
+  end
+
   test 'visiting the nominee form' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_path(@poll)
+    visit admin_poll_nominees_path(@poll)
 
-    within('.nominees-section') do
-      click_on 'Add nominee'
-    end
+    click_on 'Add nominee'
 
     assert_selector('h1', text: 'Add nominee')
     assert_selector('form.new_nominee') do
@@ -44,15 +50,13 @@ class NomineesTest < ApplicationSystemTestCase
 
     assert_selector('h1', text: 'Manage poll')
 
-    within '.nominees-section' do
-      assert_selector('h3', text: 'John Malkovich')
-    end
+    assert_selector('h3', text: 'John Malkovich')
   end
 
   test 'edit an nominee' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_path(@poll)
+    visit admin_poll_nominees_path(@poll)
 
     within('.nominee:first-child') do
       click_on 'Edit'
@@ -69,16 +73,14 @@ class NomineesTest < ApplicationSystemTestCase
 
     assert_selector('h1', text: 'Manage poll')
 
-    within '.nominees-section' do
-      assert_selector 'h3', text: 'Ghost-Bustin'
-      assert_text 'afraid'
-    end
+    assert_selector 'h3', text: 'Ghost-Bustin'
+    assert_text 'afraid'
   end
 
   test 'delete nominee' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_path(@poll)
+    visit admin_poll_nominees_path(@poll)
 
     assert_difference -> { all('.nominees li.nominee').count }, -1 do
       within('.nominee:first-child') do

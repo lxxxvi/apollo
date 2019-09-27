@@ -100,19 +100,24 @@ class PollsManagementTest < ApplicationSystemTestCase
     assert_selector 'h1', text: 'Manage poll'
   end
 
-  test 'admin cannot edit poll once started' do
+  test 'buttons are hidden depending on state' do
     sign_in_as(:julia_roberts)
 
-    [started_poll, closed_poll, archived_poll].each do |poll|
-      visit admin_poll_path(poll)
+    visit admin_poll_path(published_poll)
 
-      assert_selector "input[type='submit']", count: 0
-
-      input_elements = find_all('input, textarea')
-      disabled_elements = find_all("[disabled='disabled']")
-
-      assert_equal input_elements.count, disabled_elements.count, 'All input elements should be disabled'
+    assert_difference -> { submit_buttons.count }, -2, 'Update and delete buttons should disappear' do
+      click_on 'Start'
+      assert_inputs_disabled
     end
+
+    assert_no_difference -> { submit_buttons.count } do
+      click_on 'Close'
+      assert_inputs_disabled
+    end
+
+    click_on 'Archive'
+
+    assert_equal 0, submit_buttons.count, 'Should not have any submit buttons after Archive'
   end
 
   test 'admin cannot publish a poll if the email is not verified' do
@@ -195,5 +200,17 @@ class PollsManagementTest < ApplicationSystemTestCase
       assert_text 'This poll can no longer be delete since it has been started.'
       assert_text 'You may archive the poll after it is closed.'
     end
+  end
+
+  private
+
+  def submit_buttons
+    all("input[type='submit']")
+  end
+
+  def assert_inputs_disabled
+    assert_equal find_all("input[type='text'], textarea").count,
+                 find_all("[disabled='disabled']").count,
+                 'All input elements should be disabled'
   end
 end

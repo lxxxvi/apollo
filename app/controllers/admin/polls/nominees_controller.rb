@@ -13,7 +13,7 @@ class Admin::Polls::NomineesController < ApplicationController
     @nominee = @poll.nominees.new(nominee_params)
 
     if @nominee.save
-      redirect_to admin_poll_path(@poll)
+      redirect_to admin_poll_nominees_path(@poll)
     else
       render :new, status: :unprocessable_entity
     end
@@ -31,7 +31,7 @@ class Admin::Polls::NomineesController < ApplicationController
     @nominee = find_nominee
 
     if @nominee.update!(nominee_params)
-      redirect_to admin_poll_path(@nominee.poll)
+      redirect_to admin_poll_nominees_path(@nominee.poll)
     else
       render :edit
     end
@@ -42,7 +42,7 @@ class Admin::Polls::NomineesController < ApplicationController
 
     @nominee = find_nominee
     @nominee.destroy
-    redirect_to admin_poll_path(@nominee.poll)
+    redirect_to admin_poll_nominees_path(@nominee.poll)
   end
 
   private
