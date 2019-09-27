@@ -106,22 +106,12 @@ class PollsManagementTest < ApplicationSystemTestCase
     [started_poll, closed_poll, archived_poll].each do |poll|
       visit admin_poll_path(poll)
 
-      within('.information-section form') do
-        assert_selector "input[type='submit']", count: 0
+      assert_selector "input[type='submit']", count: 0
 
-        input_elements = find_all('input, textarea')
-        disabled_elements = find_all("[disabled='disabled']")
+      input_elements = find_all('input, textarea')
+      disabled_elements = find_all("[disabled='disabled']")
 
-        assert_equal input_elements.count, disabled_elements.count, 'All input elements should be disabled'
-      end
-
-      within('.nominees-section') do
-        assert_selector 'a', count: 0
-      end
-
-      within('.tokens-section') do
-        assert_selector 'a', count: 0
-      end
+      assert_equal input_elements.count, disabled_elements.count, 'All input elements should be disabled'
     end
   end
 

@@ -14,10 +14,12 @@ class TokenTest < ApplicationSystemTestCase
 
     visit admin_poll_path(@published_poll)
 
-    within('.tokens-section') do
-      assert_selector 'h2', text: 'Tokens'
-      assert_text 'This poll has 1 token.'
+    within('.subnavigation') do
+      click_on 'Tokens'
     end
+
+    assert_selector 'h2', text: 'Tokens'
+    assert_text 'This poll has 1 token.'
 
     add_tokens_link.click
     assert_selector 'a', text: 'Cancel', &:click
@@ -35,10 +37,8 @@ class TokenTest < ApplicationSystemTestCase
 
     assert_selector 'h1', text: 'Manage poll'
 
-    within('.tokens-section') do
-      assert_selector 'h2', text: 'Tokens'
-      assert_text 'This poll has 4 tokens.'
-    end
+    assert_selector 'h2', text: 'Tokens'
+    assert_text 'This poll has 4 tokens.'
   end
 
   test 'create too many tokens' do
@@ -58,11 +58,9 @@ class TokenTest < ApplicationSystemTestCase
   test 'admin cannot add tokens if poll has started' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_path(@started_poll)
+    visit admin_poll_tokens_path(@started_poll)
 
-    within('.tokens-section') do
-      assert_selector 'a', text: 'Add tokens', count: 0
-    end
+    assert_selector 'a', text: 'Add tokens', count: 0
   end
 
   private
