@@ -1,0 +1,9 @@
+.flex
+  .mb-10= link_to 'Back to poll', poll_path(poll), class: 'shy-link'
+
+%h1.mb-10 Manage poll
+
+.flex.text-center.subnavigation
+  %div{ class: 'w-1/3' }= link_to 'General', admin_poll_path(poll)
+  %div{ class: 'w-1/3' }= link_to 'Nominees', admin_poll_nominees_path(poll)
+  %div{ class: 'w-1/3' }= link_to 'Tokens', admin_poll_tokens_path(poll)

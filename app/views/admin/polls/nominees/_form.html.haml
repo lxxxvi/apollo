@@ -1,5 +1,8 @@
 = simple_form_for nominee, url: [:admin, nominee.poll, nominee] do |f|
-  = f.input :name, required: true
-  = f.input :description, as: :text, required: false, hint: '(Optional)'
-  = f.button :submit
-  = link_to 'Cancel', admin_poll_path(nominee.poll)
+  .my-4
+    = f.input :name, required: true
+  .my-4
+    = f.input :description, as: :text, required: false, hint: '(Optional)'
+  .my-8
+    = f.button :submit, class: 'apollo-pink-button'
+    = link_to 'Cancel', admin_poll_nominees_path(nominee.poll), class: 'shy-link ml-2'

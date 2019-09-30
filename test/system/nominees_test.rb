@@ -2,17 +2,26 @@ require 'application_system_test_case'
 
 class NomineesTest < ApplicationSystemTestCase
   setup do
-    @poll = polls(:best_actor_published)
+    @published_poll = polls(:best_actor_published)
+    @started_poll = polls(:best_singer_started)
+    @closed_poll = polls(:best_movie_closed)
+    @archived_poll = polls(:best_song_archived)
+  end
+
+  test 'visiting the nominees index' do
+    sign_in_as(:julia_roberts)
+    visit admin_poll_path(@published_poll)
+    click_on 'Nominees'
+    assert_selector 'h1', text: 'Manage poll'
+    assert_selector 'h2', text: 'Nominees'
   end
 
   test 'visiting the nominee form' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_path(@poll)
+    visit admin_poll_nominees_path(@published_poll)
 
-    within('.nominees-section') do
-      click_on 'Add nominee'
-    end
+    click_on 'Add nominee'
 
     assert_selector('h1', text: 'Add nominee')
     assert_selector('form.new_nominee') do
@@ -27,7 +36,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'submit new nominee form' do
     sign_in_as(:julia_roberts)
 
-    visit new_admin_poll_nominee_path(@poll)
+    visit new_admin_poll_nominee_path(@published_poll)
 
     assert_selector('h1', text: 'Add nominee')
     click_on('Create Nominee')
@@ -44,15 +53,13 @@ class NomineesTest < ApplicationSystemTestCase
 
     assert_selector('h1', text: 'Manage poll')
 
-    within '.nominees-section' do
-      assert_selector('h3', text: 'John Malkovich')
-    end
+    assert_selector('h3', text: 'John Malkovich')
   end
 
   test 'edit an nominee' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_path(@poll)
+    visit admin_poll_nominees_path(@published_poll)
 
     within('.nominee:first-child') do
       click_on 'Edit'
@@ -69,16 +76,14 @@ class NomineesTest < ApplicationSystemTestCase
 
     assert_selector('h1', text: 'Manage poll')
 
-    within '.nominees-section' do
-      assert_selector 'h3', text: 'Ghost-Bustin'
-      assert_text 'afraid'
-    end
+    assert_selector 'h3', text: 'Ghost-Bustin'
+    assert_text 'afraid'
   end
 
   test 'delete nominee' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_path(@poll)
+    visit admin_poll_nominees_path(@published_poll)
 
     assert_difference -> { all('.nominees li.nominee').count }, -1 do
       within('.nominee:first-child') do
@@ -86,5 +91,27 @@ class NomineesTest < ApplicationSystemTestCase
         click_with_delete(delete_nominee_button)
       end
     end
+  end
+
+  test 'add, edit and delete buttons disappear after poll has started' do
+    sign_in_as(:julia_roberts)
+
+    visit admin_poll_nominees_path(@published_poll)
+
+    assert_changes -> { nominees_section_links.count }, to: 0 do
+      visit admin_poll_nominees_path(@started_poll)
+    end
+
+    visit admin_poll_nominees_path(@closed_poll)
+    assert_equal 0, nominees_section_links.count
+
+    visit admin_poll_nominees_path(@archived_poll)
+    assert_equal 0, nominees_section_links.count
+  end
+
+  private
+
+  def nominees_section_links
+    all('.nominees-section a')
   end
 end
