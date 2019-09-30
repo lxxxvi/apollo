@@ -3,12 +3,14 @@ best_actress_draft:
   custom_id: 'best-actress-poll'
   user: julia_roberts
   description: 'Who is she?'
+  state: 'draft'
 
 best_actor_published:
   title: 'Best actor'
   custom_id: 'best-actor-poll'
   user: julia_roberts
   description: 'Who is he?'
+  state: 'published'
   published_at: 2000-01-01 01:01:01
 
 best_singer_started:
@@ -16,6 +18,7 @@ best_singer_started:
   custom_id: 'best-singer-poll'
   user: julia_roberts
   description: 'Who is it?'
+  state: 'started'
   published_at: 2000-01-01 01:01:01
   started_at: 2000-01-01 01:01:02
 
@@ -24,6 +27,7 @@ best_movie_closed:
   custom_id: 'best-movie-poll'
   user: julia_roberts
   description: 'Ultimate question'
+  state: 'closed'
   published_at: 2000-01-01 01:01:01
   started_at: 2000-01-01 01:01:02
   closed_at: 2000-01-01 01:01:03
@@ -33,6 +37,7 @@ best_song_archived:
   custom_id: 'best-song-archived'
   user: julia_roberts
   description: 'There has to be one answer'
+  state: 'archived'
   published_at: 2000-01-01 01:01:01
   started_at: 2000-01-01 01:01:02
   closed_at: 2000-01-01 01:01:03
@@ -43,5 +48,6 @@ best_book_deleted:
   custom_id: 'best-book-deleted'
   user: julia_roberts
   description: 'No one read it'
+  state: 'deleted'
   published_at: 2000-01-01 01:01:01
   deleted_at: 2000-01-01 01:01:05
