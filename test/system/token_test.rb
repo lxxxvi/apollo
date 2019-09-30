@@ -7,6 +7,8 @@ class TokenTest < ApplicationSystemTestCase
   setup do
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
+    @closed_poll = polls(:best_movie_closed)
+    @archived_poll = polls(:best_song_archived)
   end
 
   test 'create tokens' do
@@ -21,9 +23,9 @@ class TokenTest < ApplicationSystemTestCase
     assert_selector 'h2', text: 'Tokens'
     assert_text 'This poll has 1 token.'
 
-    add_tokens_link.click
+    click_on 'Add tokens'
     assert_selector 'a', text: 'Cancel', &:click
-    add_tokens_link.click
+    click_on 'Add tokens'
     assert_selector 'h1', text: NEW_TOKENS_TEXT
 
     find_label_and_input_for('poll_token_amount')
@@ -63,18 +65,25 @@ class TokenTest < ApplicationSystemTestCase
     assert_selector 'a', text: 'Add tokens', count: 0
   end
 
-
   test 'add and delete buttons disappear after poll has started' do
-    assert false
+    sign_in_as(:julia_roberts)
+
+    visit admin_poll_tokens_path(@published_poll)
+
+    assert_changes -> { tokens_section_links.count }, to: 0 do
+      visit admin_poll_tokens_path(@started_poll)
+    end
+
+    visit admin_poll_tokens_path(@closed_poll)
+    assert_equal 0, tokens_section_links.count
+
+    visit admin_poll_tokens_path(@archived_poll)
+    assert_equal 0, tokens_section_links.count
   end
 
   private
 
-  def add_tokens_link
-    find 'a', text: NEW_TOKENS_TEXT
-  end
-
-  def delete_token_link
-    find 'a', text: DELETE_TOKEN_TEXT
+  def tokens_section_links
+    find_all('.tokens-section a')
   end
 end

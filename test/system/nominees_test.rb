@@ -2,12 +2,15 @@ require 'application_system_test_case'
 
 class NomineesTest < ApplicationSystemTestCase
   setup do
-    @poll = polls(:best_actor_published)
+    @published_poll = polls(:best_actor_published)
+    @started_poll = polls(:best_singer_started)
+    @closed_poll = polls(:best_movie_closed)
+    @archived_poll = polls(:best_song_archived)
   end
 
   test 'visiting the nominees index' do
     sign_in_as(:julia_roberts)
-    visit admin_poll_path(@poll)
+    visit admin_poll_path(@published_poll)
     click_on 'Nominees'
     assert_selector 'h1', text: 'Manage poll'
     assert_selector 'h2', text: 'Nominees'
@@ -16,7 +19,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'visiting the nominee form' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_nominees_path(@poll)
+    visit admin_poll_nominees_path(@published_poll)
 
     click_on 'Add nominee'
 
@@ -33,7 +36,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'submit new nominee form' do
     sign_in_as(:julia_roberts)
 
-    visit new_admin_poll_nominee_path(@poll)
+    visit new_admin_poll_nominee_path(@published_poll)
 
     assert_selector('h1', text: 'Add nominee')
     click_on('Create Nominee')
@@ -56,7 +59,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'edit an nominee' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_nominees_path(@poll)
+    visit admin_poll_nominees_path(@published_poll)
 
     within('.nominee:first-child') do
       click_on 'Edit'
@@ -80,7 +83,7 @@ class NomineesTest < ApplicationSystemTestCase
   test 'delete nominee' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_nominees_path(@poll)
+    visit admin_poll_nominees_path(@published_poll)
 
     assert_difference -> { all('.nominees li.nominee').count }, -1 do
       within('.nominee:first-child') do
@@ -93,16 +96,16 @@ class NomineesTest < ApplicationSystemTestCase
   test 'add, edit and delete buttons disappear after poll has started' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_nominees_path(@poll)
+    visit admin_poll_nominees_path(@published_poll)
 
     assert_changes -> { nominees_section_links.count }, to: 0 do
-      click_on 'Start'
+      visit admin_poll_nominees_path(@started_poll)
     end
 
-    click_on 'Close'
+    visit admin_poll_nominees_path(@closed_poll)
     assert_equal 0, nominees_section_links.count
 
-    click_on 'Archive'
+    visit admin_poll_nominees_path(@archived_poll)
     assert_equal 0, nominees_section_links.count
   end
 
