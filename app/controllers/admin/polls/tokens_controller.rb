@@ -7,6 +7,12 @@ class Admin::Polls::TokensController < ApplicationController
     @form = PollTokensForm.new(@poll)
   end
 
+  def show
+    authorize @poll, :show_token?
+
+    @token = @poll.tokens.find_by!(custom_id: 'FOOO')
+  end
+
   def create
     authorize @poll, :update?
 
