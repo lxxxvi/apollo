@@ -5,6 +5,7 @@ class TokenTest < ActiveSupport::TestCase
     poll = polls(:best_actor_published)
     token = Token.create!(poll: poll)
 
+    assert_match(/[[:alnum:]]+/, token.reload.custom_id)
     assert_match(/[[:alnum:]]+/, token.reload.value)
   end
 
