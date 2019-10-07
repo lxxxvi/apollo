@@ -11,6 +11,27 @@ class TokenTest < ApplicationSystemTestCase
     @archived_poll = polls(:best_song_archived)
   end
 
+  test 'show token button' do
+    sign_in_as(:julia_roberts)
+
+    visit admin_poll_tokens_path(@started_poll)
+
+    assert_selector 'h2', text: 'Tokens'
+
+    within('.tokens-section') do
+      assert_selector 'a', text: 'Show unused token', &:click
+    end
+
+    assert_selector 'h2', text: 'Token'
+    assert_selector 'a', text: 'Next unused token'
+
+    visit admin_poll_tokens_path(@closed_poll)
+
+    within('.tokens-section') do
+      assert_equal 0, find_all('a', text: 'Show').count
+    end
+  end
+
   test 'create tokens' do
     sign_in_as(:julia_roberts)
 
