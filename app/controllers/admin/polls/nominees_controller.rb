@@ -15,7 +15,7 @@ class Admin::Polls::NomineesController < ApplicationController
     if @nominee.save
       redirect_to admin_poll_nominees_path(@poll)
     else
-      render :new, status: :unprocessable_entity
+      render :new, state: :unprocessable_entity
     end
   end
 

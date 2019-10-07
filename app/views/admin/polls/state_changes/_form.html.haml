@@ -1,0 +1,3 @@
+= simple_form_for form, url: form.to_url do |f|
+  = f.input :next_state, as: :hidden
+  = f.submit form.action_text, class: "#{form.poll.next_state}-poll-link"

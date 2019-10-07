@@ -16,7 +16,19 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test 'initial state' do
-    assert_equal :draft, Poll.new(title: 'Foo', user: user).state
+    assert_equal 'draft', Poll.new(title: 'Foo', user: user).state
+  end
+
+  test 'valid state transitions' do
+    assert @draft_poll.publish
+    assert @published_poll.start
+    assert @started_poll.close
+    assert @closed_poll.archive
+  end
+
+  test 'valid state deletions' do
+    assert @draft_poll.delete
+    assert @published_poll.delete
   end
 
   test '#editable?' do
@@ -28,18 +40,25 @@ class StatableTest < ActiveSupport::TestCase
     assert_not deleted_poll.editable?
   end
 
+  test '#next_state' do
+    assert_equal :published, @draft_poll.next_state
+    assert_equal :started, @published_poll.next_state
+    assert_equal :closed, @started_poll.next_state
+    assert_equal :archived, @closed_poll.next_state
+    assert_nil @archived_poll.next_state
+  end
+
   # publish
 
-  test '#publishable?' do
+  test '#verified_user' do
     poll = draft_poll
     poll.user.email_verified_at = nil
-    assert_not poll.publishable?, 'Should not be publishable because user is not verified'
+
+    assert_not poll.publish
+    assert_includes poll.errors, :user
 
     poll.user.email_verified_at = Time.zone.now
-    assert poll.publishable?, 'Should be publishable because user is verifed, and it is not published yet'
-
-    poll.published_at = Time.zone.now
-    assert_not poll.publishable?, 'Should not be publishable, because it already is published'
+    assert poll.publish
   end
 
   test 'scope, state, state check for publish!' do
@@ -47,121 +66,100 @@ class StatableTest < ActiveSupport::TestCase
 
     assert_difference 'Poll.published.count', 1 do
       assert_changes 'poll.published?', to: true do
-        assert_changes 'poll.state', from: :draft, to: :published do
-          poll.publish!
+        assert_changes 'poll.state', from: 'draft', to: 'published' do
+          poll.publish
         end
       end
     end
   end
 
-  test '#publish! not publishable' do
-    assert_raises(Error::PollStateChangeError) { published_poll.publish! }
-    assert_raises(Error::PollStateChangeError) { started_poll.publish! }
-    assert_raises(Error::PollStateChangeError) { closed_poll.publish! }
-    assert_raises(Error::PollStateChangeError) { archived_poll.publish! }
-    assert_raises(Error::PollStateChangeError) { deleted_poll.publish! }
+  test '#publish not publishable' do
+    assert_not started_poll.publish
+    assert_not closed_poll.publish
+    assert_not archived_poll.publish
+    assert_not deleted_poll.publish
   end
 
   # start
-
-  test '#startable?' do
-    assert published_poll.startable?
-  end
 
   test 'scope, state, state check for start!' do
     poll = published_poll
 
     assert_difference 'Poll.started.count', 1 do
       assert_changes 'poll.started?', to: true do
-        assert_changes 'poll.state', from: :published, to: :started do
-          poll.start!
+        assert_changes 'poll.state', from: 'published', to: 'started' do
+          poll.start
         end
       end
     end
   end
 
-  test '#start! not startable' do
-    assert_raises(Error::PollStateChangeError) { draft_poll.start! }
-    assert_raises(Error::PollStateChangeError) { started_poll.start! }
-    assert_raises(Error::PollStateChangeError) { closed_poll.start! }
-    assert_raises(Error::PollStateChangeError) { archived_poll.start! }
-    assert_raises(Error::PollStateChangeError) { deleted_poll.start! }
+  test '#start not startable' do
+    assert_not draft_poll.start
+    assert_not closed_poll.start
+    assert_not archived_poll.start
+    assert_not deleted_poll.start
   end
 
   # close
-
-  test 'closable?' do
-    assert started_poll.closable?
-  end
 
   test 'scope, state, state check for close!' do
     poll = started_poll
 
     assert_difference 'Poll.closed.count', 1 do
       assert_changes 'poll.closed?', to: true do
-        assert_changes 'poll.state', from: :started, to: :closed do
-          poll.close!
+        assert_changes 'poll.state', from: 'started', to: 'closed' do
+          poll.close
         end
       end
     end
   end
 
   test '#close! not closable' do
-    assert_raises(Error::PollStateChangeError) { draft_poll.close! }
-    assert_raises(Error::PollStateChangeError) { published_poll.close! }
-    assert_raises(Error::PollStateChangeError) { closed_poll.close! }
-    assert_raises(Error::PollStateChangeError) { archived_poll.close! }
-    assert_raises(Error::PollStateChangeError) { deleted_poll.close! }
+    assert_not draft_poll.close
+    assert_not published_poll.close
+    assert_not archived_poll.close
+    assert_not deleted_poll.close
   end
 
   # archive
-
-  test 'archivable?' do
-    assert closed_poll.archivable?
-  end
 
   test 'scope, state, state check for archive!' do
     poll = closed_poll
 
     assert_difference 'Poll.archived.count', 1 do
       assert_changes 'poll.archived?', to: true do
-        assert_changes 'poll.state', from: :closed, to: :archived do
-          poll.archive!
+        assert_changes 'poll.state', from: 'closed', to: 'archived' do
+          poll.archive
         end
       end
     end
   end
 
-  test '#archive! not archivable' do
-    assert_raises(Error::PollStateChangeError) { draft_poll.archive! }
-    assert_raises(Error::PollStateChangeError) { published_poll.archive! }
-    assert_raises(Error::PollStateChangeError) { started_poll.archive! }
-    assert_raises(Error::PollStateChangeError) { archived_poll.archive! }
-    assert_raises(Error::PollStateChangeError) { deleted_poll.archive! }
+  test '#archive not archivable' do
+    assert_not draft_poll.archive
+    assert_not published_poll.archive
+    assert_not started_poll.archive
+    assert_not deleted_poll.archive
   end
 
   # delete
-
-  test 'deletable?' do
-    assert draft_poll.deletable?
-    assert published_poll.deletable?
-  end
 
   test 'scope, state, state check for delete!' do
     poll = published_poll
 
     assert_difference 'Poll.deleted.count', 1 do
       assert_changes 'poll.deleted?', to: true do
-        assert_changes 'poll.state', from: :published, to: :deleted do
-          poll.delete!
+        assert_changes 'poll.state', from: 'published', to: 'deleted' do
+          poll.delete
         end
       end
     end
   end
 
-  test '#delete! not deletable' do
-    assert_raises(Error::PollStateChangeError) { started_poll.delete! }
-    assert_raises(Error::PollStateChangeError) { closed_poll.delete! }
-    assert_raises(Error::PollStateChangeError) { archived_poll.delete! }
+  test '#delete not deletable' do
+    assert_not started_poll.delete
+    assert_not closed_poll.delete
+    assert_not archived_poll.delete
   end
 end

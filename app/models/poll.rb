@@ -1,5 +1,6 @@
 class Poll < ApplicationRecord
   include Statable
+  LISTED_STATES = %i[published started closed archived].freeze
 
   before_validation :create_custom_id
 
@@ -12,7 +13,7 @@ class Poll < ApplicationRecord
   has_many :tokens, dependent: :destroy
 
   scope :ordered, -> { order(created_at: :desc) }
-  scope :listed, -> { published.without_deleted }
+  scope :listed, -> { in_state(LISTED_STATES) }
   scope :of_user, ->(user) { where(user: user) }
 
   def to_param

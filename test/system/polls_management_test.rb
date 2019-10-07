@@ -184,7 +184,7 @@ class PollsManagementTest < ApplicationSystemTestCase
 
     within('.delete-section') do
       assert_selector 'h2', text: 'Delete poll'
-      click_on 'Delete'
+      click_on 'Delete poll'
     end
 
     assert_selector 'h1', text: 'All polls'
