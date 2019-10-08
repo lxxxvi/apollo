@@ -1,6 +1,5 @@
 class Admin::Polls::TokensController < ApplicationController
   before_action :set_poll
-  before_action :set_token, only: :show
 
   def index; end
 
@@ -10,8 +9,10 @@ class Admin::Polls::TokensController < ApplicationController
     @form = PollTokensForm.new(@poll)
   end
 
-  def show
+  def untouched
     authorize @poll, :show_token?
+
+    @token = @poll.tokens.untouched.sample
   end
 
   def create
@@ -34,9 +35,5 @@ class Admin::Polls::TokensController < ApplicationController
 
   def set_poll
     @poll = policy_scope(Poll).find_by!(custom_id: params[:poll_custom_id])
-  end
-
-  def set_token
-    @token = @poll.tokens.find_by!(value: params[:custom_id])
   end
 end
