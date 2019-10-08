@@ -27,6 +27,10 @@ class PollPolicy < ApplicationPolicy
     record.user == user
   end
 
+  def show_token?
+    admin? && (record.published? || record.started?)
+  end
+
   class Scope < Scope
     def resolve
       if user.present?

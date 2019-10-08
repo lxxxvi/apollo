@@ -19,6 +19,21 @@ class Admin::Polls::TokensControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test 'get untouched token' do
+    sign_in_as(:julia_roberts)
+
+    get untouched_admin_poll_tokens_path(started_poll)
+    assert_response :success
+  end
+
+  test 'get show token not allowed for closed' do
+    sign_in_as(:julia_roberts)
+
+    assert_raise(Pundit::NotAuthorizedError) do
+      get untouched_admin_poll_tokens_path(closed_poll)
+    end
+  end
+
   test 'create token' do
     sign_in_as(:julia_roberts)
 

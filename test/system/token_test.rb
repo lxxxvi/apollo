@@ -11,6 +11,26 @@ class TokenTest < ApplicationSystemTestCase
     @archived_poll = polls(:best_song_archived)
   end
 
+  test 'show token button' do
+    sign_in_as(:julia_roberts)
+
+    visit admin_poll_tokens_path(@started_poll)
+
+    assert_selector 'h2', text: 'Tokens'
+
+    within('.tokens-section') do
+      assert_selector 'a', text: 'Show untouched token', &:click
+    end
+
+    assert_selector 'h1', text: 'Token'
+
+    visit admin_poll_tokens_path(@closed_poll)
+
+    within('.tokens-section') do
+      assert_equal 0, find_all('a', text: 'Show').count
+    end
+  end
+
   test 'create tokens' do
     sign_in_as(:julia_roberts)
 
@@ -21,7 +41,7 @@ class TokenTest < ApplicationSystemTestCase
     end
 
     assert_selector 'h2', text: 'Tokens'
-    assert_text 'This poll has 1 token.'
+    assert_selector '.tokens-section .tokens .token', minimum: 1
 
     click_on 'Add tokens'
     assert_selector 'a', text: 'Cancel', &:click
@@ -40,7 +60,7 @@ class TokenTest < ApplicationSystemTestCase
     assert_selector 'h1', text: 'Manage poll'
 
     assert_selector 'h2', text: 'Tokens'
-    assert_text 'This poll has 4 tokens.'
+    assert_selector '.tokens-section .tokens .token', minimum: 4
   end
 
   test 'create too many tokens' do
@@ -70,7 +90,7 @@ class TokenTest < ApplicationSystemTestCase
 
     visit admin_poll_tokens_path(@published_poll)
 
-    assert_changes -> { tokens_section_links.count }, to: 0 do
+    assert_difference -> { tokens_section_links.count }, -1 do
       visit admin_poll_tokens_path(@started_poll)
     end
 

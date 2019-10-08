@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 2019_08_25_121817) do
     t.string "value", null: false
     t.bigint "poll_id", null: false
     t.bigint "nominee_id"
+    t.datetime "touched_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["nominee_id"], name: "index_tokens_on_nominee_id"
