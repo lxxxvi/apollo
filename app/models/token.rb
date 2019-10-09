@@ -9,8 +9,8 @@ class Token < ApplicationRecord
 
   scope :untouched, -> { where(touched_at: nil) }
 
-  def unused?
-    nominee.nil?
+  def redeemed?
+    nominee.present?
   end
 
   def to_param
