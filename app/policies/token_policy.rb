@@ -1,5 +1,5 @@
 class TokenPolicy < ApplicationPolicy
   def legit?
-    record.poll.started? && record.unused? && user.nil?
+    record.poll.started? && !record.redeemed? && user.nil?
   end
 end

@@ -4,7 +4,7 @@ class PollVotingFormTest < ActiveSupport::TestCase
   attr_reader :token, :nominee
 
   setup do
-    @token = tokens(:best_singer_token_unused)
+    @token = tokens(:best_singer_token_not_redeemed)
     @nominee = nominees(:best_singer_adele)
   end
 

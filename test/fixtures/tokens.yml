@@ -6,12 +6,12 @@ best_actor_token_1:
   value: 'BEST-ACTOR-TOKEN-1'
   poll: best_actor_published
 
-best_singer_token_unused:
-  value: 'BEST-SINGER-TOKEN-UNUSED'
+best_singer_token_not_redeemed:
+  value: 'BEST-SINGER-TOKEN-NOT-REDEEMED'
   poll: best_singer_started
 
-best_singer_token_used:
-  value: 'BEST-SINGER-TOKEN-USED'
+best_singer_token_redeemed:
+  value: 'BEST-SINGER-TOKEN-REDEEMED'
   poll: best_singer_started
   nominee: best_singer_adele
 
