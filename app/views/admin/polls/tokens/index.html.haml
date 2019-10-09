@@ -10,7 +10,7 @@
           .relative{ class: 'w-1/2'}
             .absolute.bottom-0.right-0
               - if policy(@poll).show_token?
-                = link_to 'Show untouched token', untouched_admin_poll_tokens_path(@poll), class: 'apollo-pink-link'
+                = link_to 'Show unused token', unused_admin_poll_tokens_path(@poll), class: 'apollo-pink-link'
                 |
               - if policy(@poll).update?
                 = link_to 'Add tokens', new_admin_poll_token_path(@poll), class: 'apollo-pink-link'

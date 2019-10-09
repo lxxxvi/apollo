@@ -19,7 +19,7 @@ class TokenTest < ApplicationSystemTestCase
     assert_selector 'h2', text: 'Tokens'
 
     within('.tokens-section') do
-      assert_selector 'a', text: 'Show untouched token', &:click
+      assert_selector 'a', text: 'Show unused token', &:click
     end
 
     assert_selector 'h1', text: 'Token'
