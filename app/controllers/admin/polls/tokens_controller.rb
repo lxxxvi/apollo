@@ -9,10 +9,10 @@ class Admin::Polls::TokensController < ApplicationController
     @form = PollTokensForm.new(@poll)
   end
 
-  def untouched
+  def unused
     authorize @poll, :show_token?
 
-    @token = @poll.tokens.untouched.sample
+    @token = @poll.tokens.unused.sample
   end
 
   def create

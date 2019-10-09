@@ -19,10 +19,10 @@ class Admin::Polls::TokensControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test 'get untouched token' do
+  test 'get unused token' do
     sign_in_as(:julia_roberts)
 
-    get untouched_admin_poll_tokens_path(started_poll)
+    get unused_admin_poll_tokens_path(started_poll)
     assert_response :success
   end
 
@@ -30,7 +30,7 @@ class Admin::Polls::TokensControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(:julia_roberts)
 
     assert_raise(Pundit::NotAuthorizedError) do
-      get untouched_admin_poll_tokens_path(closed_poll)
+      get unused_admin_poll_tokens_path(closed_poll)
     end
   end
 

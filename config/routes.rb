@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :polls, only: %i[show update], param: :custom_id do
       resources :nominees, except: %i[show], param: :custom_id, module: :polls
       resources :tokens, only: %i[index new create], param: :custom_id, module: :polls do
-        get :untouched, on: :collection
+        get :unused, on: :collection
       end
       resource :state_change, only: %i[create], module: :polls
     end
