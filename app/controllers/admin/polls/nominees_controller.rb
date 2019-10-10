@@ -1,6 +1,10 @@
 class Admin::Polls::NomineesController < ApplicationController
   before_action :set_poll
 
+  def index
+    authorize @poll, :admin?
+  end
+
   def new
     authorize @poll, :update?
 

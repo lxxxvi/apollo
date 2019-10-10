@@ -1,7 +1,9 @@
 class Admin::Polls::TokensController < ApplicationController
   before_action :set_poll
 
-  def index; end
+  def index
+    authorize @poll, :admin?
+  end
 
   def new
     authorize @poll, :update?
