@@ -7,7 +7,7 @@ class Token < ApplicationRecord
   validates :value, presence: true
   # validates :value, uniqueness: { scope: :poll } TODO: make me fast
 
-  scope :unused, -> { where(used_at: nil) }
+  scope :unused, -> { where(first_visited_at: nil) }
 
   def redeemed?
     nominee.present?
