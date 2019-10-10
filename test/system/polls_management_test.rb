@@ -43,6 +43,9 @@ class PollsManagementTest < ApplicationSystemTestCase
   end
 
   test 'signed in user sees only own polls' do
+    skip
+    # Refactor to admin_polls#index
+
     user = users(:julia_roberts)
     sign_in_as(user)
 

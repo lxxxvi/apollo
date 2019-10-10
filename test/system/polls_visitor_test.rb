@@ -4,6 +4,23 @@ class PollsVisitorTest < ApplicationSystemTestCase
   setup do
     @draft_poll = polls(:best_actress_draft)
     @published_poll = polls(:best_actor_published)
+    @archived_poll = polls(:best_song_archived)
+  end
+
+  test 'guest does not see archived poll on index' do
+    sign_out
+
+    visit polls_path
+    assert_selector '.poll .poll-state', minimum: 1
+    assert_not all('.poll .poll-state').map(&:text).map(&:downcase).include?('archived'),
+               'Archived polls should not appear on index'
+  end
+
+  test 'guest can visit an archived poll' do
+    sign_out
+
+    visit poll_path(@archived_poll)
+    assert_selector 'h1', text: 'Best song'
   end
 
   test 'non-admin cannot visit a published poll' do
