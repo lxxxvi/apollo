@@ -6,6 +6,7 @@ class Polls::VotingsController < ApplicationController
     token_policy = Pundit.policy(current_user, @token)
 
     if token_policy.legit?
+      @token.mark_first_visit!
       @form = PollVotingForm.new(@token)
     else
       redirect_to poll_path(@poll)
