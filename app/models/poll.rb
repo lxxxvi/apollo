@@ -13,7 +13,7 @@ class Poll < ApplicationRecord
   has_many :tokens, dependent: :destroy
 
   scope :ordered, -> { order(created_at: :desc) }
-  scope :listed, -> { in_state(LISTED_STATES) }
+  scope :listed, -> { published }
   scope :of_user, ->(user) { where(user: user) }
 
   def to_param

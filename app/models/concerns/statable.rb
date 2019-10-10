@@ -20,20 +20,15 @@ module Statable
     scope :started, -> { where(state: :started) }
     scope :closed, -> { where(state: :closed) }
     scope :archived, -> { where(state: :archived) }
-    scope :deleted, -> { where(state: :deleted) }
-    scope :without_archived, -> { where.not(state: :archived) }
-    scope :without_deleted, -> { where.not(state: :deleted) }
+    scope :deleted, -> { where.not(deleted_at: nil) }
+    scope :without_archived, -> { where.not(archived_at: nil) }
+    scope :without_deleted, -> { where.not(deleted_at: nil) }
     scope :in_state, ->(states) { where(state: states) }
 
-    after_initialize :set_state
     before_validation :calculate_state
 
     validate :verified_user, unless: :draft?
     validate :state_transition
-
-    def set_state
-      self.state = calculate_state
-    end
 
     def calculate_state
       return :deleted if deleted?
