@@ -3,6 +3,10 @@ class PollPolicy < ApplicationPolicy
     true
   end
 
+  def admin_index?
+    user.present?
+  end
+
   def show?
     true
   end

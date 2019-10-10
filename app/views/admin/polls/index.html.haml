@@ -1,0 +1,12 @@
+.flex.my-5
+  %div{ class: 'w-1/2' }
+    %h1.text-gray-500 My polls
+  %div{ class: 'w-1/2' }
+    .h-full.relative
+      .absolute.bottom-0.right-0
+        = link_to 'All polls', polls_path
+        |
+        = link_to 'New poll', new_poll_path
+
+
+= render 'polls/index', polls: @polls

@@ -11,6 +11,19 @@ class PollsManagementTest < ApplicationSystemTestCase
     @archived_poll = polls(:best_song_archived)
   end
 
+  test 'admin visits admins polls index' do
+    sign_in_as(:julia_roberts)
+
+    click_on 'My polls'
+
+    assert_selector 'h1', text: 'My polls'
+    assert_selector '.polls .poll-state', text: 'archived'
+
+    click_on 'All polls'
+
+    assert_selector 'h1', text: 'All polls'
+  end
+
   test 'create a new poll' do
     sign_out
     visit new_poll_path
@@ -40,25 +53,6 @@ class PollsManagementTest < ApplicationSystemTestCase
     end
 
     assert_selector 'h1', text: 'Best singer'
-  end
-
-  test 'signed in user sees only own polls' do
-    skip
-    # Refactor to admin_polls#index
-
-    user = users(:julia_roberts)
-    sign_in_as(user)
-
-    assert_selector '.polls', count: 1
-    assert_equal Poll.of_user(user).without_deleted.count, find_all('.poll').count
-
-    sign_out
-
-    user = users(:tina_fey)
-    sign_in_as(user)
-
-    assert_selector '.polls', count: 1
-    assert_equal Poll.of_user(user).without_deleted.count, find_all('.poll').count
   end
 
   # show
