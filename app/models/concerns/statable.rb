@@ -21,6 +21,7 @@ module Statable
     scope :closed, -> { where(state: :closed) }
     scope :archived, -> { where(state: :archived) }
     scope :deleted, -> { where(state: :deleted) }
+    scope :without_archived, -> { where.not(state: :archived) }
     scope :without_deleted, -> { where.not(state: :deleted) }
     scope :in_state, ->(states) { where(state: states) }
 
