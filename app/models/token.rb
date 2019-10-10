@@ -9,12 +9,22 @@ class Token < ApplicationRecord
 
   scope :unused, -> { where(first_visited_at: nil) }
 
+  def used?
+    first_visited_at.present?
+  end
+
   def redeemed?
     nominee.present?
   end
 
   def to_param
     value
+  end
+
+  def mark_first_visit!
+    return if used?
+
+    update!(first_visited_at: Time.zone.now)
   end
 
   private

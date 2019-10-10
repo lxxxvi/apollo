@@ -34,7 +34,10 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
   test 'guest can get #new with valid, not redeemed token' do
     sign_out
 
-    get poll_vote_path(started_poll, token_value: started_poll_token)
+    assert_changes -> { started_poll_token.used? } do
+      get poll_vote_path(started_poll, token_value: started_poll_token)
+      started_poll_token.reload
+    end
     assert_response :success
   end
 
