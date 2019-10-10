@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :polls, only: %i[show update], param: :custom_id do
+    resources :polls, only: %i[index show update], param: :custom_id do
       resources :nominees, except: %i[show], param: :custom_id, module: :polls
       resources :tokens, only: %i[index new create], param: :custom_id, module: :polls do
         get :unused, on: :collection

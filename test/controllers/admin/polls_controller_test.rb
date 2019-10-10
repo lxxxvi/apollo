@@ -12,6 +12,19 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
     @deleted_poll = polls(:best_book_deleted)
   end
 
+  test 'admin get admin polls index' do
+    sign_in_as(:julia_roberts)
+
+    get admin_polls_path
+    assert_response :success
+  end
+
+  test 'non-admin cannot get admin polls index' do
+    sign_out
+
+    assert_raise(Pundit::NotAuthorizedError) { get admin_polls_path }
+  end
+
   test 'admin show published poll' do
     sign_in_as(:julia_roberts)
 

@@ -1,6 +1,11 @@
 class Admin::PollsController < ApplicationController
   before_action :set_poll, only: %i[show update]
 
+  def index
+    authorize Poll, :admin_index?
+    @polls = policy_scope(Poll).ordered
+  end
+
   def show
     authorize @poll, :admin?
   end
