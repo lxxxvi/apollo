@@ -81,7 +81,7 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
     assert_all_exceptions(published_poll, Pundit::NotAuthorizedError)
     assert_all_exceptions(started_poll, Pundit::NotAuthorizedError)
     assert_all_exceptions(closed_poll, Pundit::NotAuthorizedError)
-    assert_all_exceptions(archived_poll, Pundit::NotAuthorizedError)
+    assert_all_exceptions(archived_poll, ActiveRecord::RecordNotFound)
     assert_all_exceptions(deleted_poll, ActiveRecord::RecordNotFound)
   end
 

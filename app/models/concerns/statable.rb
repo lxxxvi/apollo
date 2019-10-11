@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ModuleLength
 module Statable
   extend ActiveSupport::Concern
 
@@ -15,14 +14,7 @@ module Statable
 
   # rubocop:disable Metrics/BlockLength
   included do
-    # scope :not_draft, -> { where.not(published_at: nil) }
-    # scope :draft, -> { where(published_at: nil) }
-    # scope :published, -> { where(started_at: nil) }
-    # scope :started, -> { where(closed: nil) }
-    # scope :closed, -> { where(archived: nil) }
-    # scope :not_archived, -> { where.not(archived_at: nil) }
-    # scope :archived, -> { where.not(archived_at: :archived) }
-    # scope :deleted, -> { where.not(deleted_at: nil) }
+    scope :not_draft, -> { where.not(published_at: nil) }
     scope :not_deleted, -> { where(deleted_at: nil) }
 
     validate :verified_user, unless: :draft?
@@ -55,12 +47,10 @@ module Statable
     end
 
     def transit_to!(new_state)
-      if transition_allowed?(state, new_state)
-        attributes = Hash[state_to_column[new_state], Time.zone.now]
-        update!(attributes)
-      else
-        raise InvalidStateTransition.new(state, new_state)
-      end
+      raise InvalidStateTransition.new(state, new_state) unless transition_allowed?(state, new_state)
+
+      attributes = Hash[state_to_column[new_state], Time.zone.now]
+      update!(attributes)
     end
 
     def verified_user
@@ -118,28 +108,6 @@ module Statable
     def deletable?
       transition_allowed?(state, :deleted)
     end
-
-    # # actions
-    # def published!
-    #   self.published_at = Time.zone.now
-    # end
-
-    # def started!
-    #   self.started_at = Time.zone.now
-    # end
-
-    # def closed!
-    #   self.closed_at = Time.zone.now
-    # end
-
-    # def archived!
-    #   self.archived_at = Time.zone.now
-    # end
-
-    # def deleted!
-    #   self.deleted_at = Time.zone.now
-    # end
   end
   # rubocop:enable Metrics/BlockLength
 end
-# rubocop:enable Metrics/ModuleLength

@@ -45,8 +45,7 @@ class Admin::PollStateChangeForm
 
   def validate_poll
     poll.transit_to!(next_state)
-    return if poll.valid?
-
-    errors.copy!(poll.errors)
+  rescue InvalidStateTransition => e
+    errors.add(:base, e.message)
   end
 end

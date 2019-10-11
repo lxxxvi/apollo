@@ -20,15 +20,15 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test 'valid state transitions' do
-    assert_transition @draft_poll, :published
-    assert_transition @published_poll, :started
-    assert_transition @started_poll, :closed
-    assert_transition @closed_poll, :archived
+    assert @draft_poll.transit_to!(:published)
+    assert @published_poll.transit_to!(:started)
+    assert @started_poll.transit_to!(:closed)
+    assert @closed_poll.transit_to!(:archived)
   end
 
   test 'valid state deletions' do
-    assert_transition @draft_poll, :deleted
-    assert_transition @published_poll, :deleted
+    assert @draft_poll.transit_to!(:deleted)
+    assert @published_poll.transit_to!(:deleted)
   end
 
   test '#editable?' do
@@ -54,8 +54,7 @@ class StatableTest < ActiveSupport::TestCase
     poll = draft_poll
     poll.user.email_verified_at = nil
 
-    poll.transit_to!(:published)
-    assert_not poll.valid?
+    assert_raise(ActiveRecord::RecordInvalid) { poll.transit_to!(:published) }
     assert_includes poll.errors, :user
 
     poll.user.email_verified_at = Time.zone.now
@@ -66,20 +65,18 @@ class StatableTest < ActiveSupport::TestCase
   test 'scope, state, state check for publish!' do
     poll = draft_poll
 
-    assert_difference 'Poll.published.count', 1 do
-      assert_changes 'poll.published?', to: true do
-        assert_changes 'poll.state', from: :draft, to: :published do
-          poll.transit_to(:published)
-        end
+    assert_changes 'poll.published?', to: true do
+      assert_changes 'poll.state', from: :draft, to: :published do
+        poll.transit_to!(:published)
       end
     end
   end
 
   test '#publish not publishable' do
-    assert_not started_poll.publish
-    assert_not closed_poll.publish
-    assert_not archived_poll.publish
-    assert_not deleted_poll.publish
+    assert_raise(InvalidStateTransition) { started_poll.transit_to!(:publish) }
+    assert_raise(InvalidStateTransition) { closed_poll.transit_to!(:publish) }
+    assert_raise(InvalidStateTransition) { archived_poll.transit_to!(:publish) }
+    assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:publish) }
   end
 
   # start
@@ -95,10 +92,10 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test '#start not startable' do
-    assert_not draft_poll.start
-    assert_not closed_poll.start
-    assert_not archived_poll.start
-    assert_not deleted_poll.start
+    assert_raise(InvalidStateTransition) { draft_poll.transit_to!(:started) }
+    assert_raise(InvalidStateTransition) { closed_poll.transit_to!(:started) }
+    assert_raise(InvalidStateTransition) { archived_poll.transit_to!(:started) }
+    assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:started) }
   end
 
   # close
@@ -152,8 +149,8 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test '#delete not deletable' do
-    assert_not started_poll.delete
-    assert_not closed_poll.delete
-    assert_not archived_poll.delete
+    assert_raise(InvalidStateTransition) { started_poll.transit_to!(:delete) }
+    assert_raise(InvalidStateTransition) { closed_poll.transit_to!(:delete) }
+    assert_raise(InvalidStateTransition) { archived_poll.transit_to!(:delete) }
   end
 end

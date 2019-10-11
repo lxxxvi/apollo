@@ -10,22 +10,16 @@ class Admin::PollStateChangeFormTest < ActiveSupport::TestCase
     @deleted_poll = polls(:best_book_deleted)
   end
 
-  test 'draft poll' do
+  test 'valid transitions' do
     assert Admin::PollStateChangeForm.new(@draft_poll, next_state: :published).valid?
-    assert_not Admin::PollStateChangeForm.new(@draft_poll, next_state: :started).valid?
-  end
-
-  test 'published poll' do
     assert Admin::PollStateChangeForm.new(@published_poll, next_state: :started).valid?
-    assert_not Admin::PollStateChangeForm.new(@published_poll, next_state: :closed).valid?
-  end
-
-  test 'started poll' do
     assert Admin::PollStateChangeForm.new(@started_poll, next_state: :closed).valid?
-    assert_not Admin::PollStateChangeForm.new(@started_poll, next_state: :archived).valid?
+    assert Admin::PollStateChangeForm.new(@closed_poll, next_state: :archived).valid?
   end
 
-  test 'closed poll' do
-    assert Admin::PollStateChangeForm.new(@closed_poll, next_state: :archived).valid?
+  test 'invalid transitions' do
+    assert_not Admin::PollStateChangeForm.new(@draft_poll, next_state: :started).valid?
+    assert_not Admin::PollStateChangeForm.new(@published_poll, next_state: :closed).valid?
+    assert_not Admin::PollStateChangeForm.new(@started_poll, next_state: :archived).valid?
   end
 end
