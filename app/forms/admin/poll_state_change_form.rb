@@ -26,7 +26,7 @@ class Admin::PollStateChangeForm
   def save
     return unless valid?
 
-    poll.transit
+    poll.save
   end
 
   def to_url
@@ -44,9 +44,8 @@ class Admin::PollStateChangeForm
   end
 
   def validate_poll
-    poll.state = next_state
-    return if poll.valid?
-
-    errors.copy!(poll.errors)
+    poll.transit_to!(next_state)
+  rescue InvalidStateTransition => e
+    errors.add(:base, e.message)
   end
 end

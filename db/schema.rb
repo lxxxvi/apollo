@@ -31,7 +31,6 @@ ActiveRecord::Schema.define(version: 2019_08_25_121817) do
     t.string "title", null: false
     t.text "description"
     t.bigint "user_id"
-    t.string "state", null: false
     t.datetime "published_at"
     t.datetime "started_at"
     t.datetime "closed_at"
