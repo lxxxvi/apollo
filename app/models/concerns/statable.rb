@@ -15,22 +15,19 @@ module Statable
 
   # rubocop:disable Metrics/BlockLength
   included do
-    scope :draft, -> { where(published_at: nil) }
-    scope :published, -> { where(started_at: nil) }
-    scope :started, -> { where(closed: nil) }
-    scope :closed, -> { where(archived: nil) }
-    scope :not_archived, -> { where.not(archived_at: nil) }
-    scope :archived, -> { where.not(archived_at: :archived) }
-    scope :deleted, -> { where.not(deleted_at: nil) }
-    scope :not_deleted, -> { where.not(deleted_at: nil) }
-    scope :in_state, ->(states) { where(state: states) }
-
-    before_validation :calculate_state
+    # scope :not_draft, -> { where.not(published_at: nil) }
+    # scope :draft, -> { where(published_at: nil) }
+    # scope :published, -> { where(started_at: nil) }
+    # scope :started, -> { where(closed: nil) }
+    # scope :closed, -> { where(archived: nil) }
+    # scope :not_archived, -> { where.not(archived_at: nil) }
+    # scope :archived, -> { where.not(archived_at: :archived) }
+    # scope :deleted, -> { where.not(deleted_at: nil) }
+    scope :not_deleted, -> { where(deleted_at: nil) }
 
     validate :verified_user, unless: :draft?
-    validate :state_transition
 
-    def calculate_state
+    def state
       return :deleted if deleted?
       return :archived if archived?
       return :closed if closed?
@@ -40,10 +37,6 @@ module Statable
       INITIAL_STATE
     end
 
-    def calculated_state
-      self.state = calculate_state
-    end
-
     def next_state
       return :published if draft?
       return :started if published?
@@ -51,25 +44,23 @@ module Statable
       return :archived if closed?
     end
 
-    def transit_action
+    def state_to_column
       {
-        draft: -> { draft },
-        published: -> { publish },
-        started: -> { start },
-        closed: -> { close },
-        archived: -> { archive },
-        deleted: -> { delete }
-      }[state.to_sym]
+        published: :published_at,
+        started: :started_at,
+        closed: :closed_at,
+        archived: :archived_at,
+        deleted: :deleted_at
+      }.with_indifferent_access
     end
 
-    def transit
-      transit_action&.call
-    end
-
-    def state_transition
-      return if transition_allowed?(state_was, state)
-
-      errors.add(:base, "State transition from #{state_was} to #{state} is not allowed")
+    def transit_to!(new_state)
+      if transition_allowed?(state, new_state)
+        attributes = Hash[state_to_column[new_state], Time.zone.now]
+        update!(attributes)
+      else
+        raise InvalidStateTransition.new(state, new_state)
+      end
     end
 
     def verified_user
@@ -128,30 +119,26 @@ module Statable
       transition_allowed?(state, :deleted)
     end
 
-    # actions
-    def draft
-      update(state: :draft)
-    end
+    # # actions
+    # def published!
+    #   self.published_at = Time.zone.now
+    # end
 
-    def publish
-      update(published_at: Time.zone.now, state: :published)
-    end
+    # def started!
+    #   self.started_at = Time.zone.now
+    # end
 
-    def start
-      update(started_at: Time.zone.now, state: :started)
-    end
+    # def closed!
+    #   self.closed_at = Time.zone.now
+    # end
 
-    def close
-      update(closed_at: Time.zone.now, state: :closed)
-    end
+    # def archived!
+    #   self.archived_at = Time.zone.now
+    # end
 
-    def archive
-      update(archived_at: Time.zone.now, state: :archived)
-    end
-
-    def delete
-      update(deleted_at: Time.zone.now, state: :deleted)
-    end
+    # def deleted!
+    #   self.deleted_at = Time.zone.now
+    # end
   end
   # rubocop:enable Metrics/BlockLength
 end

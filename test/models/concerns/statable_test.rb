@@ -16,19 +16,19 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test 'initial state' do
-    assert_equal 'draft', Poll.new(title: 'Foo', user: user).state
+    assert_equal :draft, Poll.new(title: 'Foo', user: user).state
   end
 
   test 'valid state transitions' do
-    assert @draft_poll.publish
-    assert @published_poll.start
-    assert @started_poll.close
-    assert @closed_poll.archive
+    assert_transition @draft_poll, :published
+    assert_transition @published_poll, :started
+    assert_transition @started_poll, :closed
+    assert_transition @closed_poll, :archived
   end
 
   test 'valid state deletions' do
-    assert @draft_poll.delete
-    assert @published_poll.delete
+    assert_transition @draft_poll, :deleted
+    assert_transition @published_poll, :deleted
   end
 
   test '#editable?' do
@@ -54,11 +54,13 @@ class StatableTest < ActiveSupport::TestCase
     poll = draft_poll
     poll.user.email_verified_at = nil
 
-    assert_not poll.publish
+    poll.transit_to!(:published)
+    assert_not poll.valid?
     assert_includes poll.errors, :user
 
     poll.user.email_verified_at = Time.zone.now
-    assert poll.publish
+    poll.transit_to!(:published)
+    assert poll.valid?
   end
 
   test 'scope, state, state check for publish!' do
@@ -66,8 +68,8 @@ class StatableTest < ActiveSupport::TestCase
 
     assert_difference 'Poll.published.count', 1 do
       assert_changes 'poll.published?', to: true do
-        assert_changes 'poll.state', from: 'draft', to: 'published' do
-          poll.publish
+        assert_changes 'poll.state', from: :draft, to: :published do
+          poll.transit_to(:published)
         end
       end
     end
@@ -85,11 +87,9 @@ class StatableTest < ActiveSupport::TestCase
   test 'scope, state, state check for start!' do
     poll = published_poll
 
-    assert_difference 'Poll.started.count', 1 do
-      assert_changes 'poll.started?', to: true do
-        assert_changes 'poll.state', from: 'published', to: 'started' do
-          poll.start
-        end
+    assert_changes 'poll.started?', to: true do
+      assert_changes 'poll.state', from: :published, to: :started do
+        poll.transit_to!(:started)
       end
     end
   end
@@ -103,23 +103,21 @@ class StatableTest < ActiveSupport::TestCase
 
   # close
 
-  test 'scope, state, state check for close!' do
+  test 'state, state check for close!' do
     poll = started_poll
 
-    assert_difference 'Poll.closed.count', 1 do
-      assert_changes 'poll.closed?', to: true do
-        assert_changes 'poll.state', from: 'started', to: 'closed' do
-          poll.close
-        end
+    assert_changes 'poll.closed?', to: true do
+      assert_changes 'poll.state', from: :started, to: :closed do
+        poll.transit_to!(:closed)
       end
     end
   end
 
   test '#close! not closable' do
-    assert_not draft_poll.close
-    assert_not published_poll.close
-    assert_not archived_poll.close
-    assert_not deleted_poll.close
+    assert_raise(InvalidStateTransition) { draft_poll.transit_to!(:closed) }
+    assert_raise(InvalidStateTransition) { published_poll.transit_to!(:closed) }
+    assert_raise(InvalidStateTransition) { archived_poll.transit_to!(:closed) }
+    assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:closed) }
   end
 
   # archive
@@ -127,32 +125,28 @@ class StatableTest < ActiveSupport::TestCase
   test 'scope, state, state check for archive!' do
     poll = closed_poll
 
-    assert_difference 'Poll.archived.count', 1 do
-      assert_changes 'poll.archived?', to: true do
-        assert_changes 'poll.state', from: 'closed', to: 'archived' do
-          poll.archive
-        end
+    assert_changes 'poll.archived?', to: true do
+      assert_changes 'poll.state', from: :closed, to: :archived do
+        poll.transit_to!(:archived)
       end
     end
   end
 
   test '#archive not archivable' do
-    assert_not draft_poll.archive
-    assert_not published_poll.archive
-    assert_not started_poll.archive
-    assert_not deleted_poll.archive
+    assert_raise(InvalidStateTransition) { draft_poll.transit_to!(:archived) }
+    assert_raise(InvalidStateTransition) { published_poll.transit_to!(:archived) }
+    assert_raise(InvalidStateTransition) { started_poll.transit_to!(:archived) }
+    assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:archived) }
   end
 
   # delete
 
-  test 'scope, state, state check for delete!' do
+  test 'state, state check for delete!' do
     poll = published_poll
 
-    assert_difference 'Poll.deleted.count', 1 do
-      assert_changes 'poll.deleted?', to: true do
-        assert_changes 'poll.state', from: 'published', to: 'deleted' do
-          poll.delete
-        end
+    assert_changes 'poll.deleted?', to: true do
+      assert_changes 'poll.state', from: :published, to: :deleted do
+        poll.transit_to!(:deleted)
       end
     end
   end
