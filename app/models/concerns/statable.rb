@@ -15,14 +15,14 @@ module Statable
 
   # rubocop:disable Metrics/BlockLength
   included do
-    scope :draft, -> { where(state: :draft) }
-    scope :published, -> { where(state: :published) }
-    scope :started, -> { where(state: :started) }
-    scope :closed, -> { where(state: :closed) }
-    scope :archived, -> { where(state: :archived) }
+    scope :draft, -> { where(published_at: nil) }
+    scope :published, -> { where(started_at: nil) }
+    scope :started, -> { where(closed: nil) }
+    scope :closed, -> { where(archived: nil) }
+    scope :not_archived, -> { where.not(archived_at: nil) }
+    scope :archived, -> { where.not(archived_at: :archived) }
     scope :deleted, -> { where.not(deleted_at: nil) }
-    scope :without_archived, -> { where.not(archived_at: nil) }
-    scope :without_deleted, -> { where.not(deleted_at: nil) }
+    scope :not_deleted, -> { where.not(deleted_at: nil) }
     scope :in_state, ->(states) { where(state: states) }
 
     before_validation :calculate_state

@@ -38,7 +38,7 @@ class PollPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.present?
-        scope.of_user(user).without_deleted
+        scope.of_user(user).not_deleted
       else
         scope.listed
       end
