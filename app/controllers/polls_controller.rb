@@ -1,6 +1,6 @@
 class PollsController < ApplicationController
   def index
-    @polls = policy_scope(Poll).ordered
+    @polls = policy_scope(Poll).not_archived.ordered
   end
 
   def show

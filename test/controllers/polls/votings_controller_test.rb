@@ -98,7 +98,7 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
 
   test 'guest is redirected on #new to poll if poll is not started' do
     assert_raise(ActiveRecord::RecordNotFound) do
-      get poll_vote_path(polls(:best_actress_draft), token_value: 'not-relevant-for-this-test')
+      get poll_vote_path(polls(:best_actress_drafted), token_value: 'not-relevant-for-this-test')
     end
 
     assert_raise(ActiveRecord::RecordNotFound) do
@@ -113,9 +113,9 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
 
-    assert_raise(ActiveRecord::RecordNotFound) do
-      get poll_vote_path(polls(:best_song_archived), token_value: 'BEST-SONG-TOKEN-1')
-    end
+    get poll_vote_path(polls(:best_song_archived), token_value: 'BEST-SONG-TOKEN-1')
+    follow_redirect!
+    assert_response :success
   end
 
   test 'guest cannot post #create for an unstarted poll, with valid token' do

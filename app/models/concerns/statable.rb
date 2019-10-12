@@ -2,7 +2,7 @@ module Statable
   extend ActiveSupport::Concern
 
   ALLOWED_TRANSITIONS = {
-    draft: %i[deleted published],
+    drafted: %i[deleted published],
     published: %i[deleted started],
     started: %i[closed],
     closed: %i[archived],
@@ -10,14 +10,15 @@ module Statable
     deleted: []
   }.freeze
 
-  INITIAL_STATE = :draft
+  INITIAL_STATE = :drafted
 
   # rubocop:disable Metrics/BlockLength
   included do
-    scope :not_draft, -> { where.not(published_at: nil) }
+    scope :not_drafted, -> { where.not(published_at: nil) }
+    scope :not_archived, -> { where(archived_at: nil) }
     scope :not_deleted, -> { where(deleted_at: nil) }
 
-    validate :verified_user, unless: :draft?
+    validate :verified_user, unless: :drafted?
 
     def state
       return :deleted if deleted?
@@ -30,7 +31,7 @@ module Statable
     end
 
     def next_state
-      return :published if draft?
+      return :published if drafted?
       return :started if published?
       return :closed if started?
       return :archived if closed?
@@ -67,7 +68,7 @@ module Statable
 
     # state calculations
 
-    def draft?
+    def drafted?
       return false if deleted?
 
       published_at.nil?
@@ -102,7 +103,7 @@ module Statable
     # abilities
 
     def editable?
-      draft? || published?
+      drafted? || published?
     end
 
     def deletable?

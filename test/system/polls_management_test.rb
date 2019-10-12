@@ -1,10 +1,10 @@
 require 'application_system_test_case'
 
 class PollsManagementTest < ApplicationSystemTestCase
-  attr_reader :draft_poll, :published_poll, :started_poll, :closed_poll, :archived_poll
+  attr_reader :drafted_poll, :published_poll, :started_poll, :closed_poll, :archived_poll
 
   setup do
-    @draft_poll = polls(:best_actress_draft)
+    @drafted_poll = polls(:best_actress_drafted)
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
@@ -57,12 +57,12 @@ class PollsManagementTest < ApplicationSystemTestCase
 
   # show
 
-  test 'admin visits an drafted poll' do
+  test 'admin visits an drafteded poll' do
     sign_in_as(:julia_roberts)
 
     visit polls_path
 
-    click_on draft_poll.title
+    click_on drafted_poll.title
 
     assert_selector 'h1', text: 'Best actress'
     assert_selector 'p', text: 'Who is she?'
@@ -75,7 +75,7 @@ class PollsManagementTest < ApplicationSystemTestCase
     sign_in_as(:julia_roberts)
 
     visit polls_path
-    click_on draft_poll.title
+    click_on drafted_poll.title
     click_on 'Manage'
 
     assert_selector 'h1', text: 'Manage poll'
@@ -123,18 +123,18 @@ class PollsManagementTest < ApplicationSystemTestCase
     user = users(:julia_roberts)
     user.update(email_verified_at: nil)
 
-    visit admin_poll_path(draft_poll)
+    visit admin_poll_path(drafted_poll)
 
-    assert_selector '.poll-state', text: 'draft'
+    assert_selector '.poll-state', text: 'drafted'
     assert_text 'In order to publish this poll you need to verify your email first.'
     assert_selector ".poll-state-actions input[value='Publish poll']", count: 0
   end
 
-  test 'admin publishes a drafted a poll' do
+  test 'admin publishes a drafteded a poll' do
     sign_in_as(:julia_roberts)
 
-    visit admin_poll_path(draft_poll)
-    assert_selector '.poll-state', text: 'draft'
+    visit admin_poll_path(drafted_poll)
+    assert_selector '.poll-state', text: 'drafted'
 
     click_on 'Publish poll'
     assert_selector '.poll-state', text: 'published'

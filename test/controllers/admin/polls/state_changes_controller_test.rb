@@ -1,18 +1,18 @@
 require 'test_helper'
 
 class Admin::Polls::StateChangesControllerTest < ActionDispatch::IntegrationTest
-  attr_reader :draft_poll, :published_poll, :started_poll, :closed_poll
+  attr_reader :drafted_poll, :published_poll, :started_poll, :closed_poll
 
   setup do
-    @draft_poll = polls(:best_actress_draft)
+    @drafted_poll = polls(:best_actress_drafted)
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
   end
 
-  test 'publish draft' do
+  test 'publish drafted' do
     sign_in_as(:julia_roberts)
-    assert_changes_to_state draft_poll, :published
+    assert_changes_to_state drafted_poll, :published
   end
 
   test 'start published' do
@@ -30,9 +30,9 @@ class Admin::Polls::StateChangesControllerTest < ActionDispatch::IntegrationTest
     assert_changes_to_state closed_poll, :archived
   end
 
-  test 'delete draft' do
+  test 'delete drafted' do
     sign_in_as(:julia_roberts)
-    assert_changes_to_state draft_poll, :deleted
+    assert_changes_to_state drafted_poll, :deleted
   end
 
   test 'delete published' do

@@ -2,7 +2,7 @@ require 'application_system_test_case'
 
 class PollsVisitorTest < ApplicationSystemTestCase
   setup do
-    @draft_poll = polls(:best_actress_draft)
+    @drafted_poll = polls(:best_actress_drafted)
     @published_poll = polls(:best_actor_published)
     @archived_poll = polls(:best_song_archived)
   end
@@ -17,7 +17,6 @@ class PollsVisitorTest < ApplicationSystemTestCase
   end
 
   test 'guest can visit an archived poll' do
-    skip
     sign_out
 
     visit poll_path(@archived_poll)
@@ -37,7 +36,7 @@ class PollsVisitorTest < ApplicationSystemTestCase
 
   test 'guest cannot visit an unlisted poll' do
     sign_out
-    assert_no_visit_poll @draft_poll
+    assert_no_visit_poll @drafted_poll
   end
 
   private

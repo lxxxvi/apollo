@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
-  attr_reader :draft_poll, :published_poll, :started_poll, :closed_poll, :archived_poll, :deleted_poll
+  attr_reader :drafted_poll, :published_poll, :started_poll, :closed_poll, :archived_poll, :deleted_poll
 
   setup do
-    @draft_poll = polls(:best_actress_draft)
+    @drafted_poll = polls(:best_actress_drafted)
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
@@ -35,7 +35,7 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
   test 'admin should get manage polls' do
     sign_in_as(:julia_roberts)
 
-    [draft_poll, published_poll, started_poll, closed_poll, archived_poll].each do |poll|
+    [drafted_poll, published_poll, started_poll, closed_poll, archived_poll].each do |poll|
       get admin_poll_path(poll)
       assert_response :success
     end
@@ -81,7 +81,7 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
     assert_all_exceptions(published_poll, Pundit::NotAuthorizedError)
     assert_all_exceptions(started_poll, Pundit::NotAuthorizedError)
     assert_all_exceptions(closed_poll, Pundit::NotAuthorizedError)
-    assert_all_exceptions(archived_poll, ActiveRecord::RecordNotFound)
+    assert_all_exceptions(archived_poll, Pundit::NotAuthorizedError)
     assert_all_exceptions(deleted_poll, ActiveRecord::RecordNotFound)
   end
 
