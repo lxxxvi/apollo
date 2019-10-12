@@ -37,33 +37,11 @@ module Statable
       return :archived if closed?
     end
 
-    def state_to_column
-      {
-        published: :published_at,
-        started: :started_at,
-        closed: :closed_at,
-        archived: :archived_at,
-        deleted: :deleted_at
-      }.with_indifferent_access
-    end
-
     def transit_to!(new_state)
       raise InvalidStateTransition.new(state, new_state) unless transition_allowed?(state, new_state)
 
       attributes = Hash[state_to_column[new_state], Time.zone.now]
       update!(attributes)
-    end
-
-    def verified_user
-      return if user.verified?
-
-      errors.add(:user, 'must be verified')
-    end
-
-    def transition_allowed?(from_state, to_state)
-      (to_state.to_sym == INITIAL_STATE) ||
-        (from_state == to_state) ||
-        ALLOWED_TRANSITIONS[from_state.to_sym].include?(to_state.to_sym)
     end
 
     # state calculations
@@ -108,6 +86,30 @@ module Statable
 
     def deletable?
       transition_allowed?(state, :deleted)
+    end
+
+    private
+
+    def state_to_column
+      {
+        published: :published_at,
+        started: :started_at,
+        closed: :closed_at,
+        archived: :archived_at,
+        deleted: :deleted_at
+      }.with_indifferent_access
+    end
+
+    def verified_user
+      return if user.verified?
+
+      errors.add(:user, 'must be verified')
+    end
+
+    def transition_allowed?(from_state, to_state)
+      (to_state.to_sym == INITIAL_STATE) ||
+        (from_state == to_state) ||
+        ALLOWED_TRANSITIONS[from_state.to_sym].include?(to_state.to_sym)
     end
   end
   # rubocop:enable Metrics/BlockLength
