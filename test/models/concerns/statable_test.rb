@@ -1,13 +1,13 @@
 require 'test_helper'
 
 class StatableTest < ActiveSupport::TestCase
-  attr_reader :user, :draft_poll, :published_poll,
+  attr_reader :user, :drafted_poll, :published_poll,
               :started_poll, :closed_poll, :archived_poll,
               :deleted_poll
 
   setup do
     @user = users(:julia_roberts)
-    @draft_poll = polls(:best_actress_draft)
+    @drafted_poll = polls(:best_actress_drafted)
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
@@ -16,23 +16,23 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test 'initial state' do
-    assert_equal :draft, Poll.new(title: 'Foo', user: user).state
+    assert_equal :drafted, Poll.new(title: 'Foo', user: user).state
   end
 
   test 'valid state transitions' do
-    assert @draft_poll.transit_to!(:published)
+    assert @drafted_poll.transit_to!(:published)
     assert @published_poll.transit_to!(:started)
     assert @started_poll.transit_to!(:closed)
     assert @closed_poll.transit_to!(:archived)
   end
 
   test 'valid state deletions' do
-    assert @draft_poll.transit_to!(:deleted)
+    assert @drafted_poll.transit_to!(:deleted)
     assert @published_poll.transit_to!(:deleted)
   end
 
   test '#editable?' do
-    assert draft_poll.editable?
+    assert drafted_poll.editable?
     assert published_poll.editable?
     assert_not started_poll.editable?
     assert_not closed_poll.editable?
@@ -41,7 +41,7 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test '#next_state' do
-    assert_equal :published, @draft_poll.next_state
+    assert_equal :published, @drafted_poll.next_state
     assert_equal :started, @published_poll.next_state
     assert_equal :closed, @started_poll.next_state
     assert_equal :archived, @closed_poll.next_state
@@ -51,7 +51,7 @@ class StatableTest < ActiveSupport::TestCase
   # publish
 
   test '#verified_user' do
-    poll = draft_poll
+    poll = drafted_poll
     poll.user.email_verified_at = nil
 
     assert_raise(ActiveRecord::RecordInvalid) { poll.transit_to!(:published) }
@@ -63,10 +63,10 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test 'scope, state, state check for publish!' do
-    poll = draft_poll
+    poll = drafted_poll
 
     assert_changes 'poll.published?', to: true do
-      assert_changes 'poll.state', from: :draft, to: :published do
+      assert_changes 'poll.state', from: :drafted, to: :published do
         poll.transit_to!(:published)
       end
     end
@@ -92,7 +92,7 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test '#start not startable' do
-    assert_raise(InvalidStateTransition) { draft_poll.transit_to!(:started) }
+    assert_raise(InvalidStateTransition) { drafted_poll.transit_to!(:started) }
     assert_raise(InvalidStateTransition) { closed_poll.transit_to!(:started) }
     assert_raise(InvalidStateTransition) { archived_poll.transit_to!(:started) }
     assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:started) }
@@ -111,7 +111,7 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test '#close! not closable' do
-    assert_raise(InvalidStateTransition) { draft_poll.transit_to!(:closed) }
+    assert_raise(InvalidStateTransition) { drafted_poll.transit_to!(:closed) }
     assert_raise(InvalidStateTransition) { published_poll.transit_to!(:closed) }
     assert_raise(InvalidStateTransition) { archived_poll.transit_to!(:closed) }
     assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:closed) }
@@ -130,7 +130,7 @@ class StatableTest < ActiveSupport::TestCase
   end
 
   test '#archive not archivable' do
-    assert_raise(InvalidStateTransition) { draft_poll.transit_to!(:archived) }
+    assert_raise(InvalidStateTransition) { drafted_poll.transit_to!(:archived) }
     assert_raise(InvalidStateTransition) { published_poll.transit_to!(:archived) }
     assert_raise(InvalidStateTransition) { started_poll.transit_to!(:archived) }
     assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:archived) }

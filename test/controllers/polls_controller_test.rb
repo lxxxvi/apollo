@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class PollsControllerTest < ActionDispatch::IntegrationTest
-  attr_reader :draft_poll, :published_poll, :started_poll, :closed_poll, :archived_poll, :deleted_poll
+  attr_reader :drafted_poll, :published_poll, :started_poll, :closed_poll, :archived_poll, :deleted_poll
 
   setup do
-    @draft_poll = polls(:best_actress_draft)
+    @drafted_poll = polls(:best_actress_drafted)
     @published_poll = polls(:best_actor_published)
     @started_poll = polls(:best_singer_started)
     @closed_poll = polls(:best_movie_closed)
@@ -25,8 +25,8 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'not #get show draft, archived, deleted' do
-    [draft_poll, archived_poll, deleted_poll].each do |poll|
+  test 'not #get show drafted, archived, deleted' do
+    [drafted_poll, archived_poll, deleted_poll].each do |poll|
       assert_raises(ActiveRecord::RecordNotFound) { get poll_path(poll) }
     end
   end

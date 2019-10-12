@@ -1,12 +1,12 @@
 best_actress_julia_roberts:
   custom_id: "best-actreess-julia"
-  poll: best_actress_draft
+  poll: best_actress_drafted
   name: "Julia Roberts"
   description: 'Pretty woman'
 
 best_actress_meryl_streep:
   custom_id: "best-actress-meryl-streep"
-  poll: best_actress_draft
+  poll: best_actress_drafted
   name: "Meryl Streep"
   description: "What is she wearing?"
 

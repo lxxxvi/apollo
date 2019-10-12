@@ -98,7 +98,7 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
 
   test 'guest is redirected on #new to poll if poll is not started' do
     assert_raise(ActiveRecord::RecordNotFound) do
-      get poll_vote_path(polls(:best_actress_draft), token_value: 'not-relevant-for-this-test')
+      get poll_vote_path(polls(:best_actress_drafted), token_value: 'not-relevant-for-this-test')
     end
 
     assert_raise(ActiveRecord::RecordNotFound) do

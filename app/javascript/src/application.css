@@ -78,13 +78,13 @@ input[type=submit]:hover {
   @apply my-16 py-10 text-gray-300 text-center;
 }
 
-.poll-state-draft           { @apply text-apollo-teal-500 bg-apollo-teal-100 border border-apollo-teal-100 shadow-lg; }
+.poll-state-drafted           { @apply text-apollo-teal-500 bg-apollo-teal-100 border border-apollo-teal-100 shadow-lg; }
 .poll-state-published       { @apply text-apollo-violet-500 bg-apollo-violet-100 border border-apollo-violet-100 shadow-lg; }
 .poll-state-started         { @apply text-apollo-green-500 bg-apollo-green-100 border border-apollo-green-100 shadow-lg; }
 .poll-state-closed          { @apply text-apollo-pink-500 bg-apollo-pink-100 border border-apollo-pink-100 shadow-lg; }
 .poll-state-archived        { @apply text-orange-600 bg-orange-100 border border-orange-100 shadow-lg; }
 
-.text-poll-state-draft      { @apply text-apollo-teal-500; }
+.text-poll-state-drafted      { @apply text-apollo-teal-500; }
 .text-poll-state-published  { @apply text-apollo-violet-500; }
 .text-poll-state-started    { @apply text-apollo-green-500; }
 .text-poll-state-closed     { @apply text-apollo-pink-500; }

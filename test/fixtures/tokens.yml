@@ -1,6 +1,6 @@
 best_actress_token_1:
   value: 'BEST-ACTRESS-TOKEN-1'
-  poll: best_actress_draft
+  poll: best_actress_drafted
 
 best_actor_token_1:
   value: 'BEST-ACTOR-TOKEN-1'
