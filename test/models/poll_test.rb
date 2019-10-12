@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class PollTest < ActiveSupport::TestCase
-  test 'generates custom_id' do
-    new_poll = Poll.create(title: 'Apollo', user: users(:julia_roberts))
-
-    assert_match(/[[:alnum:]]{12}/, new_poll.custom_id)
+  test 'initializes columns' do
+    poll = Poll.new(title: 'Apollo', user: users(:julia_roberts))
+    assert_match(/[[:alnum:]]{12}/, poll.custom_id)
+    assert_equal 'UTC', poll.time_zone, 'Default time zone should be UTC'
   end
 
   test '#to_param' do

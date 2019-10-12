@@ -35,6 +35,10 @@ class PollPolicy < ApplicationPolicy
     admin? && (record.published? || record.started?)
   end
 
+  def update_schedule?
+    record.closed_at.nil? || record.closed_at&.future?
+  end
+
   class Scope < Scope
     def resolve
       if user.present?

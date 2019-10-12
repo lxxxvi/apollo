@@ -1,10 +1,15 @@
+DEFAULTS: &DEFAULTS
+  time_zone: 'UTC'
+
 best_actress_drafted:
+  <<: *DEFAULTS
   title: 'Best actress'
   custom_id: 'best-actress-poll'
   user: julia_roberts
   description: 'Who is she?'
 
 best_actor_published:
+  <<: *DEFAULTS
   title: 'Best actor'
   custom_id: 'best-actor-poll'
   user: julia_roberts
@@ -12,6 +17,7 @@ best_actor_published:
   published_at: 2000-01-01 01:01:01
 
 best_singer_started:
+  <<: *DEFAULTS
   title: 'Best singer'
   custom_id: 'best-singer-poll'
   user: julia_roberts
@@ -20,6 +26,7 @@ best_singer_started:
   started_at: 2000-01-01 01:01:02
 
 best_movie_closed:
+  <<: *DEFAULTS
   title: 'Best movie'
   custom_id: 'best-movie-poll'
   user: julia_roberts
@@ -29,6 +36,7 @@ best_movie_closed:
   closed_at: 2000-01-01 01:01:03
 
 best_song_archived:
+  <<: *DEFAULTS
   title: 'Best song'
   custom_id: 'best-song-archived'
   user: julia_roberts
@@ -39,6 +47,7 @@ best_song_archived:
   archived_at: 2000-01-01 01:01:04
 
 best_book_deleted:
+  <<: *DEFAULTS
   title: 'Best book'
   custom_id: 'best-book-deleted'
   user: julia_roberts

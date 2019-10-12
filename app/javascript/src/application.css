@@ -22,7 +22,7 @@ a:hover {
 }
 
 label {
-  @apply text-gray-500 text-sm;
+  @apply text-gray-500 text-sm block;
 }
 input[type=text],
 input[type=number],

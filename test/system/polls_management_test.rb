@@ -107,7 +107,7 @@ class PollsManagementTest < ApplicationSystemTestCase
       assert_inputs_disabled
     end
 
-    assert_no_difference -> { submit_buttons.count } do
+    assert_difference -> { submit_buttons.count }, -1, 'Update schedule button should disappear' do
       click_on 'Close'
       assert_inputs_disabled
     end
@@ -196,6 +196,29 @@ class PollsManagementTest < ApplicationSystemTestCase
       assert_selector 'h2', text: 'Delete poll'
       assert_text 'This poll can no longer be delete since it has been started.'
       assert_text 'You may archive the poll after it is closed.'
+    end
+  end
+
+  test 'admin sets closed at for a published poll' do
+    sign_in_as(:julia_roberts)
+
+    reference_date = DateTime.new(2019, 1, 1, 1, 1, 1)
+
+    travel_to reference_date do
+      visit admin_poll_path(published_poll)
+
+      select '(GMT+10:00) Sydney', from: 'Time zone'
+
+      select '2020', from: 'admin_poll[closed_at(1i)]'
+      select 'February', from: 'admin_poll[closed_at(2i)]'
+      select '29', from: 'admin_poll[closed_at(3i)]'
+
+      select '02', from: 'admin_poll[closed_at(4i)]'
+      select '03', from: 'admin_poll[closed_at(5i)]'
+
+      click_on 'Update Poll'
+
+      assert_text 'Poll has been updated'
     end
   end
 

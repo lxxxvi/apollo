@@ -46,11 +46,34 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
 
     assert_changes -> { published_poll.reload.updated_at } do
       patch admin_poll_path(published_poll), params: {
-        poll: {
+        admin_poll: {
           title: 'Best Actress',
           description: 'Another description'
         }
       }
+    end
+    follow_redirect!
+    assert_response :success
+  end
+
+  test 'admin updates schedule for unstarted poll' do
+    sign_in_as(:julia_roberts)
+
+    assert_changes -> { published_poll.closed_at }, to: DateTime.new(2019, 2, 3, 4, 5, 0, '+11').utc do
+      assert_changes -> { published_poll.time_zone }, to: 'Sydney' do
+        patch admin_poll_path(published_poll), params: {
+          poll_schedule: 'Update schedule',
+          admin_poll: {
+            time_zone: 'Sydney',
+            'closed_at(1i)': '2019',
+            'closed_at(2i)': '2',
+            'closed_at(3i)': '3',
+            'closed_at(4i)': '4',
+            'closed_at(5i)': '5'
+          }
+        }
+        published_poll.reload
+      end
     end
     follow_redirect!
     assert_response :success

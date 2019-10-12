@@ -5,6 +5,7 @@ class CreatePolls < ActiveRecord::Migration[5.2]
       t.string :title, null: false
       t.text   :description, null: true
       t.references :user, foreign_key: true, index: true
+      t.string :time_zone, null: true
       t.datetime :published_at, null: true
       t.datetime :started_at, null: true
       t.datetime :closed_at, null: true
