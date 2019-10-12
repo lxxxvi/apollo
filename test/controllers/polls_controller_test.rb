@@ -19,14 +19,14 @@ class PollsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test '#get show published, started, closed, archived' do
-    [published_poll, started_poll, closed_poll].each do |poll|
+    [published_poll, started_poll, closed_poll, archived_poll].each do |poll|
       get poll_path(poll)
       assert_response :success
     end
   end
 
   test 'not #get show drafted, archived, deleted' do
-    [drafted_poll, archived_poll, deleted_poll].each do |poll|
+    [drafted_poll, deleted_poll].each do |poll|
       assert_raises(ActiveRecord::RecordNotFound) { get poll_path(poll) }
     end
   end

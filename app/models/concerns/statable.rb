@@ -15,6 +15,7 @@ module Statable
   # rubocop:disable Metrics/BlockLength
   included do
     scope :not_drafted, -> { where.not(published_at: nil) }
+    scope :not_archived, -> { where(archived_at: nil) }
     scope :not_deleted, -> { where(deleted_at: nil) }
 
     validate :verified_user, unless: :drafted?

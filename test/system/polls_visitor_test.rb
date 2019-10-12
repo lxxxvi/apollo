@@ -17,7 +17,6 @@ class PollsVisitorTest < ApplicationSystemTestCase
   end
 
   test 'guest can visit an archived poll' do
-    skip
     sign_out
 
     visit poll_path(@archived_poll)

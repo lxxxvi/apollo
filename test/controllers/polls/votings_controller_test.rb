@@ -113,9 +113,9 @@ class Polls::VotingsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
 
-    assert_raise(ActiveRecord::RecordNotFound) do
-      get poll_vote_path(polls(:best_song_archived), token_value: 'BEST-SONG-TOKEN-1')
-    end
+    get poll_vote_path(polls(:best_song_archived), token_value: 'BEST-SONG-TOKEN-1')
+    follow_redirect!
+    assert_response :success
   end
 
   test 'guest cannot post #create for an unstarted poll, with valid token' do

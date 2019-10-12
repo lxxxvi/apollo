@@ -13,12 +13,7 @@ class Poll < ApplicationRecord
   has_many :tokens, dependent: :destroy
 
   scope :ordered, -> { order(created_at: :desc) }
-  scope :listed, -> { timestamp_between(:published_at, :archived_at).not_deleted.not_drafted }
-  scope :timestamp_between, ->(from_column, until_column, timestamp = Time.zone.now) {
-    where(":timestamp BETWEEN COALESCE(#{from_column}, '1000-01-01')
-                          AND COALESCE(#{until_column}, '9999-12-31')",
-          timestamp: timestamp)
-  }
+  scope :listed, -> { not_deleted.not_drafted }
   scope :of_user, ->(user) { where(user: user) }
 
   def to_param
