@@ -2,10 +2,10 @@ class Poll < ApplicationRecord
   include Statable
   LISTED_STATES = %i[published started closed archived].freeze
 
-  before_validation :create_custom_id
+  after_initialize :create_custom_id
+  after_initialize :initialize_time_zone
 
-  validates :title, presence: true
-  validates :custom_id, presence: true
+  validates :title, :time_zone, presence: true
 
   belongs_to :user
 
@@ -24,5 +24,9 @@ class Poll < ApplicationRecord
 
   def create_custom_id
     self.custom_id ||= SecureRandom.alphanumeric(12)
+  end
+
+  def initialize_time_zone
+    self.time_zone ||= Rails.configuration.default_time_zone.name
   end
 end

@@ -17,5 +17,7 @@ module Apollo
     # the framework and any gems in your application.
 
     config.autoload_paths << Rails.root.join('lib', 'error')
+
+    config.default_time_zone = ActiveSupport::TimeZone.new('UTC')
   end
 end

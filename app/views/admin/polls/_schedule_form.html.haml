@@ -1,0 +1,11 @@
+= simple_form_for form do |f|
+  .flex.mb-5
+    .w-full
+      = f.input :time_zone
+
+  .flex.mb-5
+    .w-full
+      = f.input :closed_at, as: :datetime, label: 'Poll closes at'
+  - if policy(form.poll).update_schedule?
+    .flex
+      = f.submit 'Update schedule', name: form.form_name
