@@ -56,6 +56,6 @@ class Admin::PollsController < ApplicationController
   end
 
   def poll_schedule_params
-    params.require(:admin_poll).permit(:time_zone, :closed_at)
+    params.require(:admin_poll).permit(:time_zone, :started_at, :closed_at)
   end
 end

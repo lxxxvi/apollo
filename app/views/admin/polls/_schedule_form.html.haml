@@ -5,6 +5,10 @@
 
   .flex.mb-5
     .w-full
+      = f.input :started_at, as: :datetime, label: 'Poll starts at'
+
+  .flex.mb-5
+    .w-full
       = f.input :closed_at, as: :datetime, label: 'Poll closes at'
   - if policy(form.poll).update_schedule?
     .flex
