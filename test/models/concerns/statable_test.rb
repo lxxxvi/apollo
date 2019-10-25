@@ -98,6 +98,19 @@ class StatableTest < ActiveSupport::TestCase
     assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:started) }
   end
 
+  test 'state is started if now between started_at and closed_at' do
+    started_poll.update(started_at: DateTime.new(2020, 1, 1),
+                        closed_at: DateTime.new(2020, 3, 1))
+
+    travel_to DateTime.new(2019, 12, 31, 23, 59, 59) do
+      assert_equal :published, started_poll.state
+    end
+
+    travel_to DateTime.new(2020, 2, 1) do
+      assert_equal :started, started_poll.state
+    end
+  end
+
   # close
 
   test 'state, state check for close!' do
@@ -115,6 +128,18 @@ class StatableTest < ActiveSupport::TestCase
     assert_raise(InvalidStateTransition) { published_poll.transit_to!(:closed) }
     assert_raise(InvalidStateTransition) { archived_poll.transit_to!(:closed) }
     assert_raise(InvalidStateTransition) { deleted_poll.transit_to!(:closed) }
+  end
+
+  test 'state is closed if now is after closed_at' do
+    closed_poll.update(closed_at: DateTime.new(2020, 3, 1))
+
+    travel_to DateTime.new(2020, 2, 29, 23, 59, 59) do
+      assert_equal :started, closed_poll.state
+    end
+
+    travel_to DateTime.new(2020, 3, 1, 0, 0, 1) do
+      assert_equal :closed, closed_poll.state
+    end
   end
 
   # archive
