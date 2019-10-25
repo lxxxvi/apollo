@@ -32,5 +32,14 @@ module ActiveSupport
       cls = self.class.to_s.gsub(/Test/, '')
       cls.constantize.new(user, record).public_send(action)
     end
+
+    # e.g. to_date_time_params(:foo, 2010, 2, 3)
+    # => { 'foo(1i)': '2010', 'foo(2i)': '2', 'foo(3i)': '3'}
+    def to_date_time_params(attribute_name, *date_time_fragments)
+      (1..6).map { |n| "#{attribute_name}(#{n}i)" }
+            .zip(date_time_fragments.map(&:to_s))
+            .keep_if { |_k, v| v.present? }
+            .to_h
+    end
   end
 end

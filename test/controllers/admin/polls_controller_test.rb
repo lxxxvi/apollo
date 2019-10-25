@@ -59,22 +59,25 @@ class Admin::PollsControllerTest < ActionDispatch::IntegrationTest
   test 'admin updates schedule for unstarted poll' do
     sign_in_as(:julia_roberts)
 
-    assert_changes -> { published_poll.closed_at }, to: DateTime.new(2019, 2, 3, 4, 5, 0, '+11').utc do
-      assert_changes -> { published_poll.time_zone }, to: 'Sydney' do
-        patch admin_poll_path(published_poll), params: {
-          poll_schedule: 'Update schedule',
-          admin_poll: {
-            time_zone: 'Sydney',
-            'closed_at(1i)': '2019',
-            'closed_at(2i)': '2',
-            'closed_at(3i)': '3',
-            'closed_at(4i)': '4',
-            'closed_at(5i)': '5'
-          }
-        }
-        published_poll.reload
-      end
-    end
+    started_at_params = to_date_time_params(:started_at, 2018, 12, 11, 10, 9, 0)
+    closed_at_params = to_date_time_params(:closed_at, 2019, 2, 3, 4, 5, 0)
+
+    params = { time_zone: 'Sydney' }.merge(started_at_params, closed_at_params)
+
+    assert_not_equal 'Sydney', published_poll.time_zone
+    assert_not_equal DateTime.new(2018, 12, 11, 10, 9, 0, '+11').utc, published_poll.started_at
+    assert_not_equal DateTime.new(2019, 2, 3, 4, 5, 0, '+11').utc, published_poll.closed_at
+
+    patch admin_poll_path(published_poll), params: {
+      poll_schedule: 'Update schedule',
+      admin_poll: params
+    }
+    published_poll.reload
+
+    assert_equal 'Sydney', published_poll.time_zone
+    assert_equal DateTime.new(2018, 12, 11, 10, 9, 0, '+11').utc, published_poll.started_at
+    assert_equal DateTime.new(2019, 2, 3, 4, 5, 0, '+11').utc, published_poll.closed_at
+
     follow_redirect!
     assert_response :success
   end

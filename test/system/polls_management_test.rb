@@ -199,7 +199,7 @@ class PollsManagementTest < ApplicationSystemTestCase
     end
   end
 
-  test 'admin sets closed at for a published poll' do
+  test 'admin sets schedules for a published poll' do
     sign_in_as(:julia_roberts)
 
     reference_date = DateTime.new(2019, 1, 1, 1, 1, 1)
@@ -209,10 +209,17 @@ class PollsManagementTest < ApplicationSystemTestCase
 
       select '(GMT+10:00) Sydney', from: 'Time zone'
 
+      # started at
+      select '2020', from: 'admin_poll[started_at(1i)]'
+      select 'February', from: 'admin_poll[started_at(2i)]'
+      select '27', from: 'admin_poll[started_at(3i)]'
+      select '04', from: 'admin_poll[started_at(4i)]'
+      select '00', from: 'admin_poll[started_at(5i)]'
+
+      # closed at
       select '2020', from: 'admin_poll[closed_at(1i)]'
       select 'February', from: 'admin_poll[closed_at(2i)]'
       select '29', from: 'admin_poll[closed_at(3i)]'
-
       select '02', from: 'admin_poll[closed_at(4i)]'
       select '03', from: 'admin_poll[closed_at(5i)]'
 
