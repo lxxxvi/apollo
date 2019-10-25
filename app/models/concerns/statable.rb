@@ -59,15 +59,15 @@ module Statable
     end
 
     def started?
-      return false if closed? || archived?
+      return false if archived?
 
-      started_at.present?
+      started_at&.past? && !closed?
     end
 
     def closed?
       return false if archived?
 
-      closed_at.present?
+      closed_at&.past?
     end
 
     def archived?
