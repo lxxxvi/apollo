@@ -1,4 +1,6 @@
 class Nominee < ApplicationRecord
+  has_one_attached :image
+
   before_validation :create_custom_id
 
   validates :name, presence: true

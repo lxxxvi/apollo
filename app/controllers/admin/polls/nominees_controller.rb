@@ -52,7 +52,7 @@ class Admin::Polls::NomineesController < ApplicationController
   private
 
   def nominee_params
-    params.require(:nominee).permit(:name, :description)
+    params.require(:nominee).permit(:name, :description, :image)
   end
 
   def set_poll

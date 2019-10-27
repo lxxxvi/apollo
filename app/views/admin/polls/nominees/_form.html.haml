@@ -3,6 +3,8 @@
     = f.input :name, required: true
   .my-4
     = f.input :description, as: :text, required: false, hint: '(Optional)'
+  .my-4
+    = f.input :image, as: :file
   .my-8
     = f.button :submit, class: 'apollo-pink-button'
     = link_to 'Cancel', admin_poll_nominees_path(nominee.poll), class: 'shy-link ml-2'
