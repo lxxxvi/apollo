@@ -27,3 +27,4 @@ coverage
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+/storage
