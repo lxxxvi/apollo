@@ -91,4 +91,8 @@ input[type=submit]:hover {
 .text-poll-state-archived   { @apply text-orange-600; }
 .text-poll-state-deleted    { @apply text-gray-500; }
 
+.placeholder-image {
+  width: 100%;
+}
+
 @tailwind utilities;

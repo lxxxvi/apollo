@@ -6,4 +6,8 @@ module ApplicationHelper
   def emphasize(text)
     content_tag(:strong, text)
   end
+
+  def background_image_property(base64)
+    "background-image: url('data:image/svg+xml;{base64}');"
+  end
 end

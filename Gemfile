@@ -8,6 +8,7 @@ ruby '2.6.5'
 gem 'bootsnap', require: false
 gem 'haml-rails'
 gem 'jbuilder'
+gem 'mosaiq'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 gem 'pg'
