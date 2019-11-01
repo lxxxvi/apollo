@@ -1,85 +1,82 @@
-DEFAULTS: &DEFAULTS
-  image_placeholder: '<%= Base64.encode64(Mosaiq::Image.new(width: 3, height: 3, colors: %w[#79b1c0 #9d66ba #88cea6 #e03997 #ffffff]).svg.raw).tr("\n", "") %>'
-
 best_actress_julia_roberts:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: "best-actreess-julia"
   poll: best_actress_drafted
   name: "Julia Roberts"
   description: 'Pretty woman'
 
 best_actress_meryl_streep:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: "best-actress-meryl-streep"
   poll: best_actress_drafted
   name: "Meryl Streep"
   description: "What is she wearing?"
 
 best_actor_bill_murray:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: "best-actor-nominee-bill"
   poll: best_actor_published
   name: "Bill Murray"
   description: "Bill kills it"
 
 best_actor_edward_norton:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: "best-actor-nominee-edward"
   poll: best_actor_published
   name: "Edward Norton"
   description: "Edi is the best"
 
 best_actor_bryan_cranston:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: "best-actor-nominee-bryan"
   poll: best_actor_published
   name: "Bryan Cranston"
   description: "You don't mess with Walter White"
 
 best_singer_barbra_streisand:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: 'best-singer-barbra-streisand'
   poll: best_singer_started
   name: 'Barbra Streisand'
   description: 'Barbra Streisand!'
 
 best_singer_adele:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: 'best-singer-adele'
   poll: best_singer_started
   name: 'Adele'
   description: 'Rolling in the deep'
 
 best_movie_lebowski:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: 'best-movie-lebowski'
   poll: best_movie_closed
   name: 'The Big Lebowski'
   description: 'Duuude'
 
 best_movie_fargo:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: 'best-movie-fargo'
   poll: best_movie_closed
   name: 'Fargo'
   description: 'Jeeez!'
 
 best_song_beatles_yesterday:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: 'best-song-beatles-yesterday'
   poll: best_song_archived
   name: 'Beatles - Yesterday'
   description: 'All my troubles seemed so far away'
 
 best_song_rolling_stones_satisfaction:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: 'best-song-rolling-stones-satisfaction'
   poll: best_song_archived
   name: "The Rolling Stones - (I Can't Get No) Satisfaction"
   description: 'No words'
 
 best_book_harry_potter:
-  <<: *DEFAULTS
+  image_placeholder: '<%= ImagePlaceholder.base64 %>'
   custom_id: 'best-book-harry-potter'
   poll: best_book_deleted
   name: "Harry Potter and the Philosopher's Stone"

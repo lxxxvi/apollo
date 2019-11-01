@@ -1,4 +1,5 @@
 class Nominee < ApplicationRecord
+  after_initialize :initialize_image_placeholder
   before_validation :create_custom_id
 
   validates :name, presence: true
@@ -16,6 +17,10 @@ class Nominee < ApplicationRecord
   end
 
   private
+
+  def initialize_image_placeholder
+    self.image_placeholder ||= ImagePlaceholder.base64
+  end
 
   def create_custom_id
     self.custom_id ||= SecureRandom.alphanumeric(12)

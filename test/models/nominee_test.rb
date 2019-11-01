@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class NomineeTest < ActiveSupport::TestCase
+  test 'initializes an image placeholder' do
+    assert_not_nil Nominee.new.image_placeholder
+  end
+
   test 'creates a custom id' do
     poll = polls(:best_actor_published)
     nominee = Nominee.create!(poll: poll,

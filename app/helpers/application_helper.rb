@@ -8,6 +8,6 @@ module ApplicationHelper
   end
 
   def background_image_property(base64)
-    "background-image: url('data:image/svg+xml;{base64}');"
+    "background-image: url('data:image/svg+xml;base64,#{base64}');"
   end
 end
