@@ -13,11 +13,11 @@
         .w-full.mt-5
           %ul.nominees
             - @poll.nominees.ordered_by_name.each do |nominee|
-              %li.nominee.card
-                .mb-10.px-2
+              %li.nominee.card.my-10
+                .px-2
                   .flex.-mx-2
                     .text-gray-500.pr-2{ class: 'w-1/3' }
-                      .placeholder-image{ style: background_image_property(nominee.placeholder_image) }
+                      .image-placeholder{ style: background_image_property(nominee.image_placeholder) }
                     .pl-2{ class: 'w-2/3' }
                       .flex.flex-wrap
                         .w-full
