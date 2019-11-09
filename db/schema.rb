@@ -20,8 +20,9 @@ ActiveRecord::Schema.define(version: 2019_08_25_121817) do
     t.bigint "poll_id", null: false
     t.string "name", null: false
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "image_placeholder", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["custom_id"], name: "ak_nominees_custom_id", unique: true
     t.index ["poll_id"], name: "index_nominees_on_poll_id"
   end
