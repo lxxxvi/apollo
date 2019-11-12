@@ -1,6 +1,8 @@
 require 'application_system_test_case'
 
 class RequestTokenTest < ApplicationSystemTestCase
+  include ActionMailer::TestHelper
+
   test 'user requests a new authentication token' do
     visit root_path
 
